@@ -1,4 +1,3 @@
-const pasukContainer = document.getElementById("pasukContainer");
 const wordDialog = document.getElementById("wordDialog");
 const closeWordDialogButton = document.getElementById("closeDialog");
 
@@ -9,7 +8,7 @@ const toggleNeae = document.getElementById("toggleNeae");
 const openNeaeLegend = document.getElementById("openNeaeLegend");
 const neaeLegendDialog = document.getElementById("neaeLegendDialog");
 const closeNeaeLegend = document.getElementById("closeNeaeLegend");
-const translationBlock = document.querySelector(".translation");
+const translationBlocks = [...document.querySelectorAll(".translation")];
 
 const wordTitle = document.getElementById("wordTitle");
 const wordHeroHebrew = document.getElementById("wordHeroHebrew");
@@ -18,6 +17,8 @@ const wordMeaningMain = document.getElementById("wordMeaningMain");
 const wordMeaningAlt = document.getElementById("wordMeaningAlt");
 const wordSimpleText = document.getElementById("wordSimpleText");
 const wordSimpleNote = document.getElementById("wordSimpleNote");
+const easyExplainBtn = document.getElementById("easyExplainBtn");
+const easyExplainText = document.getElementById("easyExplainText");
 const rootWithNikkud = document.getElementById("rootWithNikkud");
 const rootWithoutNikkud = document.getElementById("rootWithoutNikkud");
 const rootLetters = document.getElementById("rootLetters");
@@ -48,6 +49,47 @@ const rashiLiteralCard = document.getElementById("rashiLiteralCard");
 const supportProfiles = document.getElementById("supportProfiles");
 const supportTitle = document.getElementById("supportTitle");
 const supportList = document.getElementById("supportList");
+const toggleLivePanel = document.getElementById("toggleLivePanel");
+const livePanel = document.getElementById("livePanel");
+const liveInput = document.getElementById("liveInput");
+const saveLiveNote = document.getElementById("saveLiveNote");
+const copyLiveNotes = document.getElementById("copyLiveNotes");
+const clearLiveNotes = document.getElementById("clearLiveNotes");
+const liveNotesList = document.getElementById("liveNotesList");
+const liveContext = document.getElementById("liveContext");
+const timelineSteps = document.getElementById("timelineSteps");
+const timelineTitle = document.getElementById("timelineTitle");
+const timelineWhen = document.getElementById("timelineWhen");
+const timelineText = document.getElementById("timelineText");
+const timelinePasuk = document.getElementById("timelinePasuk");
+const timelineRashi = document.getElementById("timelineRashi");
+const timelineLinks = document.getElementById("timelineLinks");
+const studyRoute = document.getElementById("studyRoute");
+const quizSelector = document.getElementById("quizSelector");
+const quizTitle = document.getElementById("quizTitle");
+const quizProgress = document.getElementById("quizProgress");
+const quizQuestion = document.getElementById("quizQuestion");
+const quizOptions = document.getElementById("quizOptions");
+const quizFeedback = document.getElementById("quizFeedback");
+const quizNext = document.getElementById("quizNext");
+const quizRestart = document.getElementById("quizRestart");
+const quizScore = document.getElementById("quizScore");
+const gameStats = document.getElementById("gameStats");
+const challengeList = document.getElementById("challengeList");
+const avatarPreview = document.getElementById("avatarPreview");
+const levelText = document.getElementById("levelText");
+const xpFill = document.getElementById("xpFill");
+const avatarPicker = document.getElementById("avatarPicker");
+const coachBubble = document.getElementById("coachBubble");
+const coachFace = document.getElementById("coachFace");
+const dailyMissionLabel = document.getElementById("dailyMissionLabel");
+const dailyMissionFill = document.getElementById("dailyMissionFill");
+const progressBadges = document.getElementById("progressBadges");
+const progressSummary = document.getElementById("progressSummary");
+const progressRows = document.getElementById("progressRows");
+const progressWeak = document.getElementById("progressWeak");
+const screenTabs = [...document.querySelectorAll(".screen-tab")];
+const appScreens = [...document.querySelectorAll(".app-screen")];
 
 const TEAMIM_REGEX = /[\u0591-\u05AF]/g;
 const NIKKUD_REGEX = /[\u05B0-\u05BC\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7]/g;
@@ -98,13 +140,13 @@ const wordData = {
     heroSpanish: "Y escuchó",
     meaningMain: '<strong>וַיִּשְׁמַע</strong> significa: <strong>"y escuchó"</strong>.',
     meaningAlt: 'También se puede traducir como: <strong>"oyó"</strong>.',
-    simpleText: "Nos dice que Yitró recibió una noticia importante.",
-    simpleNote: "Es una acción que ya pasó.",
+    simpleText: "Cuenta que Yitró escuchó una noticia importante.",
+    simpleNote: "Es una acción puntual que ya pasó.",
     rootWithNikkud: "שָׁמַע",
     rootWithoutNikkud: "שמע",
     rootLetters: "ש־מ־ע",
-    rootIdeaA: "La raíz ש־מ־ע se relaciona con oír, escuchar y entender.",
-    rootIdeaB: "Muchas palabras del tema 'escuchar' salen de esta raíz.",
+    rootIdeaA: "La raíz ש־מ־ע se relaciona con escuchar.",
+    rootIdeaB: "Aquí aparece en forma narrativa bíblica.",
     buildLine1: '<strong>Base verbal (3ª sing. masc.):</strong> <span class="hebrew-word" dir="rtl">יִשְׁמַע</span> = "él escuchará".',
     buildLine2: '<strong>Elemento añadido:</strong> <span class="hebrew-word" dir="rtl">וַ</span> = "y" narrativo.',
     buildLine3: '<strong>Forma final del pasuk:</strong> <span class="hebrew-word" dir="rtl">וַיִּשְׁמַע</span> = "y escuchó".',
@@ -125,6 +167,54 @@ const wordData = {
       { subject: "Nosotros/as", he: "אֲנַחְנוּ שׁוֹמְעִים / שׁוֹמְעוֹת", es: "Nosotros escuchamos / Nosotras escuchamos" },
       { subject: "Vosotros/as", he: "אַתֶּם שׁוֹמְעִים / אַתֶּן שׁוֹמְעוֹת", es: "Vosotros escucháis / Vosotras escucháis" },
       { subject: "Ellos/as", he: "הֵם שׁוֹמְעִים / הֵן שׁוֹמְעוֹת", es: "Ellos escuchan / Ellas escuchan" },
+    ],
+  },
+  vayikach: {
+    ...baseWord,
+    title: "וַיִּקַּח (Vayikáḥ)",
+    heroHebrew: "וַיִּקַּח",
+    heroSpanish: "Y tomó",
+    meaningMain: '<strong>וַיִּקַּח</strong> significa: <strong>"y tomó"</strong>.',
+    meaningAlt: 'También se puede traducir como: <strong>"cogió"</strong>.',
+    simpleText: "Cuenta que Yitró tomó a Tziporá.",
+    simpleNote: "Es una acción puntual que ya pasó.",
+    rootWithNikkud: "לָקַח",
+    rootWithoutNikkud: "לקח",
+    rootLetters: "ל־ק־ח",
+    rootIdeaA: "La raíz ל־ק־ח se relaciona con tomar/recibir.",
+    rootIdeaB: "Aquí aparece en forma narrativa bíblica.",
+    buildLine1: '<strong>Base verbal (3ª sing. masc.):</strong> <span class="hebrew-word" dir="rtl">יִקַּח</span> = "él tomará".',
+    buildLine2: '<strong>Elemento añadido:</strong> <span class="hebrew-word" dir="rtl">וַ</span> = "y" narrativo.',
+    buildLine3: '<strong>Forma final del pasuk:</strong> <span class="hebrew-word" dir="rtl">וַיִּקַּח</span> = "y tomó".',
+    personInfo: "Conjugación en el pasuk: 3ª persona singular masculina (él).",
+    tensePast: '<strong>Pasado (3ª sing. masc.):</strong> <span class="hebrew-word" dir="rtl">לָקַח</span> - él tomó.',
+    tensePresent: '<strong>Presente (3ª sing. masc.):</strong> <span class="hebrew-word" dir="rtl">לוֹקֵחַ</span> - él toma.',
+    tenseFuture: '<strong>Futuro (3ª sing. masc.):</strong> <span class="hebrew-word" dir="rtl">יִקַּח</span> - él tomará.',
+    conjugationRows: [
+      { label: "Yo", person: "1ª sing.", pronoun: "yo", formHtml: '<span class="hebrew-word" dir="rtl">לָקַחְתִּי</span>' },
+      { label: "Tú", person: "2ª sing.", pronoun: "tu", formHtml: '<span class="hebrew-word" dir="rtl">לָקַחְתָּ</span>' },
+      { label: "Tú", person: "2ª sing.", pronoun: "tu", formHtml: '<span class="hebrew-word" dir="rtl">לָקַחַתְּ</span>' },
+      { label: "Él", person: "3ª sing.", pronoun: "el", formHtml: '<span class="hebrew-word" dir="rtl">לָקַח</span>' },
+      { label: "Ella", person: "3ª sing.", pronoun: "el", formHtml: '<span class="hebrew-word" dir="rtl">לָקְחָה</span>' },
+      { label: "Nosotros", person: "1ª plural", pronoun: "nosotros", formHtml: '<span class="hebrew-word" dir="rtl">לָקַחְנוּ</span>' },
+      { label: "Nosotras", person: "1ª plural", pronoun: "nosotros", formHtml: '<span class="hebrew-word" dir="rtl">לָקַחְנוּ</span>' },
+      { label: "Vosotros", person: "2ª plural", pronoun: "vosotros", formHtml: '<span class="hebrew-word" dir="rtl">לְקַחְתֶּם</span>' },
+      { label: "Vosotras", person: "2ª plural", pronoun: "vosotros", formHtml: '<span class="hebrew-word" dir="rtl">לְקַחְתֶּן</span>' },
+      { label: "Ellos", person: "3ª plural", pronoun: "ellos", formHtml: '<span class="hebrew-word" dir="rtl">לָקְחוּ</span>' },
+      { label: "Ellas", person: "3ª plural", pronoun: "ellos", formHtml: '<span class="hebrew-word" dir="rtl">לָקְחוּ</span>' },
+    ],
+    examples: [
+      '<span class="hebrew-word" dir="rtl">וַיִּקַּח</span> -> "y tomó" (forma narrativa).',
+      '<span class="hebrew-word" dir="rtl">יִקַּח</span> -> "él tomará" (forma futura).',
+      'Raíz fija: <span class="hebrew-word token root-mark" dir="rtl">ל־ק־ח</span>. Lo que cambia son prefijos/sufijos.',
+    ],
+    bilingualPractice: [
+      { subject: "Yo", he: "אֲנִי לוֹקֵחַ / לוֹקַחַת", es: "Yo tomo" },
+      { subject: "Tú", he: "אַתָּה לוֹקֵחַ / אַתְּ לוֹקַחַת", es: "Tú tomas" },
+      { subject: "Él / Ella", he: "הוּא לוֹקֵחַ / הִיא לוֹקַחַת", es: "Él toma / Ella toma" },
+      { subject: "Nosotros/as", he: "אֲנַחְנוּ לוֹקְחִים / לוֹקְחוֹת", es: "Nosotros tomamos / Nosotras tomamos" },
+      { subject: "Vosotros/as", he: "אַתֶּם לוֹקְחִים / אַתֶּן לוֹקְחוֹת", es: "Vosotros tomáis / Vosotras tomáis" },
+      { subject: "Ellos/as", he: "הֵם לוֹקְחִים / הֵן לוֹקְחוֹת", es: "Ellos toman / Ellas toman" },
     ],
   },
   yitro: {
@@ -465,28 +555,505 @@ const wordData = {
     ],
     bilingualPractice: [{ subject: "Lectura", he: "מִמִּצְרָיִם", es: "de Egipto" }],
   },
+  tzipora: {
+    ...baseWord,
+    title: "צִפֹּרָה (Tziporá)",
+    heroHebrew: "צִפֹּרָה",
+    heroSpanish: "Tziporá",
+    meaningMain: "<strong>צִפֹּרָה</strong> = Tziporá (nombre propio).",
+    meaningAlt: "Es la esposa de Moshé en este pasuk.",
+    rootWithNikkud: "צִפֹּרָה",
+    rootWithoutNikkud: "צפרה",
+    rootLetters: "צ־פ־ר",
+    rootIdeaA: "Nombre propio femenino.",
+    rootIdeaB: "Aparece como objeto de la acción 'tomó'.",
+    buildLine1: "Tipo: nombre propio.",
+    buildLine2: "No se conjuga como verbo.",
+    buildLine3: "Se estudia por función en la frase.",
+    personInfo: "Clase en el pasuk: nombre propio.",
+    tensePast: '<strong>Forma principal:</strong> <span class="hebrew-word" dir="rtl">צִפֹּרָה</span>.',
+    tensePresent: "<strong>Función:</strong> personaje mencionado.",
+    tenseFuture: "<strong>Lectura guiada:</strong> esposa de Moshé.",
+    conjugationRows: [
+      { label: "Nombre", person: "Propio", pronoun: "el", formHtml: '<span class="hebrew-word" dir="rtl">צִפֹּרָה</span>' },
+      { label: "Relación", person: "Contexto", pronoun: "nosotros", formHtml: '<span class="hebrew-word" dir="rtl">אֵשֶׁת מֹשֶׁה</span>' },
+    ],
+    examples: ['<span class="hebrew-word" dir="rtl">אֶת־צִפֹּרָה</span> -> objeto directo de "tomó".'],
+    bilingualPractice: [{ subject: "Lectura", he: "אֶת־צִפֹּרָה", es: "a Tziporá" }],
+  },
+  eshet: {
+    ...baseWord,
+    title: "אֵשֶׁת - esposa de",
+    heroHebrew: "אֵשֶׁת",
+    heroSpanish: "Esposa de",
+    meaningMain: "<strong>אֵשֶׁת</strong> = esposa de.",
+    meaningAlt: "Forma constructa de אִשָּׁה (mujer/esposa).",
+    rootWithNikkud: "אִשָּׁה / אֵשֶׁת",
+    rootWithoutNikkud: "אשה / אשת",
+    rootLetters: "א־ש־ה",
+    rootIdeaA: "Sustantivo relacional.",
+    rootIdeaB: "Conecta con el nombre siguiente.",
+    buildLine1: "Tipo: nombre en estado constructo.",
+    buildLine2: "No verbal.",
+    buildLine3: "Une 'esposa' con 'Moshé'.",
+    personInfo: "Clase en el pasuk: sustantivo relacional.",
+    tensePast: '<strong>Forma principal:</strong> <span class="hebrew-word" dir="rtl">אֵשֶׁת</span>.',
+    tensePresent: "<strong>Función:</strong> expresa relación matrimonial.",
+    tenseFuture: "<strong>Lectura guiada:</strong> complemento nominal.",
+    conjugationRows: [
+      { label: "Base", person: "Nombre", pronoun: "yo", formHtml: '<span class="hebrew-word" dir="rtl">אִשָּׁה</span>' },
+      { label: "Constructo", person: "Uso", pronoun: "tu", formHtml: '<span class="hebrew-word" dir="rtl">אֵשֶׁת</span>' },
+      { label: "Frase", person: "Contexto", pronoun: "nosotros", formHtml: '<span class="hebrew-word" dir="rtl">אֵשֶׁת מֹשֶׁה</span>' },
+    ],
+    examples: ['<span class="hebrew-word" dir="rtl">אֵשֶׁת מֹשֶׁה</span> -> "esposa de Moshé".'],
+    bilingualPractice: [{ subject: "Lectura", he: "אֵשֶׁת מֹשֶׁה", es: "esposa de Moshé" }],
+  },
+  achar: {
+    ...baseWord,
+    title: "אַחַר - después de",
+    heroHebrew: "אַחַר",
+    heroSpanish: "Después de",
+    meaningMain: "<strong>אַחַר</strong> = después de.",
+    meaningAlt: "Introduce secuencia temporal.",
+    rootWithNikkud: "אַחַר",
+    rootWithoutNikkud: "אחר",
+    rootLetters: "א־ח־ר",
+    rootIdeaA: "Partícula/preposición temporal.",
+    rootIdeaB: "Abre la frase explicada por Rashi.",
+    buildLine1: "Tipo: preposición temporal.",
+    buildLine2: "No verbal.",
+    buildLine3: "Conecta con שִׁלּוּחֶיהָ.",
+    personInfo: "Clase en el pasuk: nexo temporal.",
+    tensePast: '<strong>Forma principal:</strong> <span class="hebrew-word" dir="rtl">אַחַר</span>.',
+    tensePresent: "<strong>Función:</strong> marca orden temporal.",
+    tenseFuture: "<strong>Lectura guiada:</strong> clave para entender el Rashi.",
+    conjugationRows: [
+      { label: "Partícula", person: "Temporal", pronoun: "vosotros", formHtml: '<span class="hebrew-word" dir="rtl">אַחַר</span>' },
+      { label: "Frase", person: "Contexto", pronoun: "nosotros", formHtml: '<span class="hebrew-word" dir="rtl">אַחַר שִׁלּוּחֶיהָ</span>' },
+    ],
+    examples: ['<span class="hebrew-word" dir="rtl">אַחַר שִׁלּוּחֶיהָ</span> -> "después de su envío".'],
+    bilingualPractice: [{ subject: "Lectura", he: "אַחַר שִׁלּוּחֶיהָ", es: "después de su envío" }],
+  },
+  shilucheha: {
+    ...baseWord,
+    title: "שִׁלּוּחֶיהָ - su envío",
+    heroHebrew: "שִׁלּוּחֶיהָ",
+    heroSpanish: "Su envío",
+    meaningMain: "<strong>שִׁלּוּחֶיהָ</strong> = su envío/despido.",
+    meaningAlt: "Rashi explica este detalle históricamente.",
+    rootWithNikkud: "שִׁלּוּחַ + הָ",
+    rootWithoutNikkud: "שלוח + ה",
+    rootLetters: "ש־ל־ח",
+    rootIdeaA: "Deriva de la raíz enviar (ש־ל־ח).",
+    rootIdeaB: "Con sufijo posesivo femenino singular.",
+    buildLine1: "Base nominal: שִׁלּוּחַ (envío).",
+    buildLine2: "Sufijo: הָ = de ella/suya.",
+    buildLine3: "Conjunto: שִׁלּוּחֶיהָ.",
+    personInfo: "Clase en el pasuk: sustantivo con sufijo posesivo.",
+    tensePast: '<strong>Forma principal:</strong> <span class="hebrew-word" dir="rtl">שִׁלּוּחֶיהָ</span>.',
+    tensePresent: "<strong>Función:</strong> punto central del comentario de Rashi.",
+    tenseFuture: "<strong>Lectura guiada:</strong> explica una acción previa.",
+    conjugationRows: [
+      { label: "Nombre base", person: "Estructura", pronoun: "yo", formHtml: '<span class="hebrew-word" dir="rtl">שִׁלּוּחַ</span>' },
+      { label: "Sufijo", person: "Estructura", pronoun: "tu", formHtml: '<span class="hebrew-word" dir="rtl">הָ</span>' },
+      { label: "Conjunto", person: "Frase", pronoun: "nosotros", formHtml: '<span class="hebrew-word" dir="rtl">שִׁלּוּחֶיהָ</span>' },
+    ],
+    examples: ['<span class="hebrew-word" dir="rtl">אַחַר שִׁלּוּחֶיהָ</span> -> frase analizada por Rashi.'],
+    bilingualPractice: [{ subject: "Lectura", he: "שִׁלּוּחֶיהָ", es: "su envío / su despedida" }],
+  },
+  veet: {
+    ...baseWord,
+    title: "וְאֵת - y (marcador de objeto)",
+    heroHebrew: "וְאֵת",
+    heroSpanish: "Y (marcador gramatical)",
+    meaningMain: "<strong>וְאֵת</strong> = y + marcador de objeto directo.",
+    meaningAlt: "וְ = y, אֵת = partícula gramatical.",
+    rootWithNikkud: "וְ + אֵת",
+    rootWithoutNikkud: "ו + את",
+    rootLetters: "—",
+    rootIdeaA: "Conector + partícula.",
+    rootIdeaB: "No se traduce palabra por palabra siempre.",
+    buildLine1: "Tipo: conector y partícula.",
+    buildLine2: "No verbal.",
+    buildLine3: "Introduce el objeto que sigue.",
+    personInfo: "Clase: partícula gramatical.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">וְאֵת</span>.',
+    tensePresent: "<strong>Función:</strong> conectar y marcar objeto directo.",
+    tenseFuture: "<strong>Lectura guiada:</strong> prepara 'sus dos hijos'.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "וְאֵת שְׁנֵי בָנֶיהָ", es: "y a sus dos hijos" }],
+  },
+  shnei: {
+    ...baseWord,
+    title: "שְׁנֵי - dos de",
+    heroHebrew: "שְׁנֵי",
+    heroSpanish: "Dos de",
+    meaningMain: "<strong>שְׁנֵי</strong> = dos de (forma constructa).",
+    meaningAlt: "Se usa delante de un sustantivo plural.",
+    rootWithNikkud: "שְׁנַיִם / שְׁנֵי",
+    rootWithoutNikkud: "שנים / שני",
+    rootLetters: "ש־נ",
+    rootIdeaA: "Número dos en forma de unión.",
+    rootIdeaB: "Aquí se une con בָנֶיהָ.",
+    buildLine1: "Tipo: número.",
+    buildLine2: "Forma constructa: שְׁנֵי.",
+    buildLine3: "Frase: שְׁנֵי בָנֶיהָ.",
+    personInfo: "Clase: numeral.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">שְׁנֵי</span>.',
+    tensePresent: "<strong>Función:</strong> contar: dos.",
+    tenseFuture: "<strong>Lectura guiada:</strong> introduce cantidad.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "שְׁנֵי בָנֶיהָ", es: "sus dos hijos" }],
+  },
+  baneha: {
+    ...baseWord,
+    title: "בָנֶיהָ - sus hijos",
+    heroHebrew: "בָנֶיהָ",
+    heroSpanish: "Sus hijos",
+    meaningMain: "<strong>בָנֶיהָ</strong> = sus hijos (de ella).",
+    meaningAlt: "Base: בָּנִים + sufijo posesivo הָ.",
+    rootWithNikkud: "בֵּן / בָּנִים + הָ",
+    rootWithoutNikkud: "בן / בנים + ה",
+    rootLetters: "ב־נ",
+    rootIdeaA: "Sustantivo + sufijo posesivo femenino.",
+    rootIdeaB: "Se refiere a los hijos de Tziporá.",
+    buildLine1: "Base nominal: בָּנִים (hijos).",
+    buildLine2: "Sufijo: הָ = de ella.",
+    buildLine3: "Resultado: בָנֶיהָ.",
+    personInfo: "Clase: sustantivo con posesivo.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">בָנֶיהָ</span>.',
+    tensePresent: "<strong>Función:</strong> indicar pertenencia.",
+    tenseFuture: "<strong>Lectura guiada:</strong> ¿hijos de quién? de ella.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "בָנֶיהָ", es: "sus hijos" }],
+  },
+  "asher-rel": {
+    ...baseWord,
+    title: "אֲשֶׁר - que / el cual",
+    heroHebrew: "אֲשֶׁר",
+    heroSpanish: "Que / el cual",
+    meaningMain: "<strong>אֲשֶׁר</strong> = que / el cual.",
+    meaningAlt: "Palabra que une dos partes de la frase.",
+    rootWithNikkud: "אֲשֶׁר",
+    rootWithoutNikkud: "אשר",
+    rootLetters: "א־ש־ר",
+    rootIdeaA: "Conector relativo.",
+    rootIdeaB: "Introduce una explicación.",
+    buildLine1: "Tipo: partícula relativa.",
+    buildLine2: "No verbal.",
+    buildLine3: "Conecta con el nombre del hijo.",
+    personInfo: "Clase: conector gramatical.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">אֲשֶׁר</span>.',
+    tensePresent: "<strong>Función:</strong> unir ideas.",
+    tenseFuture: "<strong>Lectura guiada:</strong> equivalente a 'que'.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "אֲשֶׁר שֵׁם הָאֶחָד", es: "del cual el nombre de uno" }],
+  },
+  "shem-haechad": {
+    ...baseWord,
+    title: "שֵׁם הָאֶחָד - el nombre de uno",
+    heroHebrew: "שֵׁם הָאֶחָד",
+    heroSpanish: "El nombre de uno",
+    meaningMain: "<strong>שֵׁם הָאֶחָד</strong> = el nombre de uno.",
+    meaningAlt: "Introduce el nombre de uno de los hijos.",
+    rootWithNikkud: "שֵׁם / אֶחָד",
+    rootWithoutNikkud: "שם / אחד",
+    rootLetters: "ש־מ / א־ח־ד",
+    rootIdeaA: "Sustantivo + número.",
+    rootIdeaB: "Señala al primer hijo.",
+    buildLine1: "Tipo: grupo nominal.",
+    buildLine2: "No verbal.",
+    buildLine3: "Prepara el nombre גֵּרְשֹׁם.",
+    personInfo: "Clase: frase nominal.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">שֵׁם הָאֶחָד</span>.',
+    tensePresent: "<strong>Función:</strong> presentar identidad.",
+    tenseFuture: "<strong>Lectura guiada:</strong> el nombre de uno de ellos.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "שֵׁם הָאֶחָד גֵּרְשֹׁם", es: "el nombre de uno era Gershom" }],
+  },
+  gershom: {
+    ...baseWord,
+    title: "גֵּרְשֹׁם - Gershom",
+    heroHebrew: "גֵּרְשֹׁם",
+    heroSpanish: "Gershom",
+    meaningMain: "<strong>גֵּרְשֹׁם</strong> es el nombre de uno de los hijos de Moshé.",
+    meaningAlt: "Se relaciona con גֵּר (extranjero).",
+    rootWithNikkud: "גֵּר",
+    rootWithoutNikkud: "גר",
+    rootLetters: "ג־ר",
+    rootIdeaA: "La idea principal es 'extranjero'.",
+    rootIdeaB: "El nombre recuerda una experiencia personal de Moshé.",
+    buildLine1: "Tipo: nombre propio.",
+    buildLine2: "Conecta con la frase: 'fui extranjero'.",
+    buildLine3: "El nombre tiene significado narrativo.",
+    personInfo: "Clase: nombre propio con explicación en el texto.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">גֵּרְשֹׁם</span>.',
+    tensePresent: "<strong>Función:</strong> nombrar al hijo.",
+    tenseFuture: "<strong>Lectura guiada:</strong> nombre + motivo.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Nombre", he: "גֵּרְשֹׁם", es: "Gershom" }],
+  },
+  "ki-amar": {
+    ...baseWord,
+    title: "כִּי אָמַר - porque dijo",
+    heroHebrew: "כִּי אָמַר",
+    heroSpanish: "Porque dijo",
+    meaningMain: "<strong>כִּי אָמַר</strong> = porque dijo.",
+    meaningAlt: "Explica el motivo del nombre Gershom.",
+    rootWithNikkud: "כִּי + אָמַר",
+    rootWithoutNikkud: "כי + אמר",
+    rootLetters: "א־מ־ר",
+    rootIdeaA: "Conector causal + verbo decir.",
+    rootIdeaB: "Introduce cita o explicación.",
+    buildLine1: "כִּי = porque.",
+    buildLine2: "אָמַר = dijo (pasado, 3ª masc.).",
+    buildLine3: "Juntas: porque dijo.",
+    personInfo: "Conjugación verbal: אָמַר = 3ª singular masculina.",
+    tensePast: '<strong>Pasado:</strong> <span class="hebrew-word" dir="rtl">אָמַר</span> - él dijo.',
+    tensePresent: '<strong>Presente:</strong> <span class="hebrew-word" dir="rtl">אוֹמֵר</span> - él dice.',
+    tenseFuture: '<strong>Futuro:</strong> <span class="hebrew-word" dir="rtl">יֹאמַר</span> - él dirá.',
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "כִּי אָמַר", es: "porque dijo" }],
+  },
+  "ger-hayiti": {
+    ...baseWord,
+    title: "גֵּר הָיִיתִי - fui extranjero",
+    heroHebrew: "גֵּר הָיִיתִי",
+    heroSpanish: "Fui extranjero",
+    meaningMain: "<strong>גֵּר הָיִיתִי</strong> = fui extranjero.",
+    meaningAlt: "Describe cómo se sentía Moshé en tierra ajena.",
+    rootWithNikkud: "גֵּר + הָיִיתִי",
+    rootWithoutNikkud: "גר + הייתי",
+    rootLetters: "ג־ר / ה־י־ה",
+    rootIdeaA: "גֵּר = extranjero.",
+    rootIdeaB: "הָיִיתִי = yo fui (pasado).",
+    buildLine1: "Nombre: גֵּר (extranjero).",
+    buildLine2: "Verbo: הָיִיתִי (yo fui).",
+    buildLine3: "Frase completa: fui extranjero.",
+    personInfo: "Conjugación: הָיִיתִי = 1ª persona singular (yo).",
+    tensePast: '<strong>Pasado:</strong> <span class="hebrew-word" dir="rtl">הָיִיתִי</span> - yo fui.',
+    tensePresent: '<strong>Presente:</strong> <span class="hebrew-word" dir="rtl">אֲנִי</span> + estado actual.',
+    tenseFuture: '<strong>Futuro:</strong> <span class="hebrew-word" dir="rtl">אֶהְיֶה</span> - yo seré/estaré.',
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "גֵּר הָיִיתִי", es: "fui extranjero" }],
+  },
+  beeretz: {
+    ...baseWord,
+    title: "בְּאֶרֶץ - en tierra",
+    heroHebrew: "בְּאֶרֶץ",
+    heroSpanish: "En tierra",
+    meaningMain: "<strong>בְּאֶרֶץ</strong> = en tierra.",
+    meaningAlt: "בְּ = en, אֶרֶץ = tierra/país.",
+    rootWithNikkud: "בְּ + אֶרֶץ",
+    rootWithoutNikkud: "ב + ארץ",
+    rootLetters: "א־ר־ץ",
+    rootIdeaA: "Preposición + sustantivo.",
+    rootIdeaB: "Indica lugar.",
+    buildLine1: "בְּ = en.",
+    buildLine2: "אֶרֶץ = tierra/país.",
+    buildLine3: "Juntas: en tierra.",
+    personInfo: "Clase: complemento de lugar.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">בְּאֶרֶץ</span>.',
+    tensePresent: "<strong>Función:</strong> indicar ubicación.",
+    tenseFuture: "<strong>Lectura guiada:</strong> lugar donde ocurrió.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "בְּאֶרֶץ נׇכְרִיָּה", es: "en tierra extraña" }],
+  },
+  nochriyah: {
+    ...baseWord,
+    title: "נׇכְרִיָּה - extraña / extranjera",
+    heroHebrew: "נׇכְרִיָּה",
+    heroSpanish: "Extraña / extranjera",
+    meaningMain: "<strong>נׇכְרִיָּה</strong> = extraña, extranjera.",
+    meaningAlt: "Describe una tierra que no es la propia.",
+    rootWithNikkud: "נׇכְרִיָּה",
+    rootWithoutNikkud: "נכריה",
+    rootLetters: "נ־כ־ר",
+    rootIdeaA: "Idea de ajeno/foráneo.",
+    rootIdeaB: "Completa la frase de Gershom.",
+    buildLine1: "Tipo: adjetivo.",
+    buildLine2: "Califica a אֶרֶץ (tierra).",
+    buildLine3: "Frase: tierra extranjera.",
+    personInfo: "Clase: adjetivo calificativo.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">נׇכְרִיָּה</span>.',
+    tensePresent: "<strong>Función:</strong> describir el lugar.",
+    tenseFuture: "<strong>Lectura guiada:</strong> tierra ajena/no propia.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "נׇכְרִיָּה", es: "extranjera / extraña" }],
+  },
 };
 
 const rashiData = {
-  r1: { title: "וישמע יתרו", hebrew: "מַה שְּׁמוּעָה שָׁמַע וּבָא? קְרִיעַת יַם סוּף וּמִלְחֶמֶת עֲמָלֵק.", idea: "Rashi pregunta qué noticia movió a Yitró: dos eventos enormes.", simple: "Yitró vino porque escuchó milagros muy grandes: el mar y Amalek.", lemmas: ["vaishma", "yitro"] },
-  r2: { title: "יתרו", hebrew: "שֶׁבַע שֵׁמוֹת נִקְרְאוּ לוֹ... הוֹסִיפוֹ לוֹ אוֹת אַחַת.", idea: "Yitró tuvo varios nombres con significados distintos.", simple: "Cada nombre cuenta algo de su camino espiritual.", lemmas: ["yitro"] },
-  r3: { title: "חתן משה", hebrew: "כָּאן הָיָה יִתְרוֹ מִתְכַּבֵּד בְּמֹשֶׁה...", idea: "La Torá muestra honor mutuo entre Moshé y Yitró.", simple: "Aquí Yitró recibe honor por ser suegro de Moshé.", lemmas: ["choten", "moshe"] },
-  r4: { title: "למשה ולישראל", hebrew: "שָׁקוּל מֹשֶׁה כְּנֶגֶד כָּל יִשְׂרָאֵל.", idea: "Moshé tiene un peso espiritual grande para el pueblo.", simple: "Rashi destaca la importancia del liderazgo de Moshé.", lemmas: ["lemoshe", "uleyisrael"] },
-  r5: { title: "את כל אשר עשה", hebrew: "לָהֶם בִּירִידַת הַמָּן וּבַבְּאֵר וּבַעֲמָלֵק.", idea: "No fue un solo milagro; fueron muchos actos de ayuda.", simple: "Hubo maná, agua y protección en la guerra.", lemmas: ["kol-asher", "asah"] },
-  r6: { title: "כי הוציא ה׳", hebrew: "זוֹ גְּדוֹלָה עַל כֻּלָּם.", idea: "La salida de Egipto es la más grande de todas.", simple: "Rashi la presenta como base de todo lo demás.", lemmas: ["ki-hotzi", "et-yisrael"] },
+  r0: {
+    title: "וישמע יתרו",
+    hebrew: "מַה שְּׁמוּעָה שָׁמַע וּבָא? קְרִיעַת יַם סוּף וּמִלְחֶמֶת עֲמָלֵק.",
+    idea: "Rashi pregunta qué noticia movió a Yitró a venir.",
+    simple: "Yitró vino porque escuchó dos cosas enormes: el mar y Amalek.",
+    lemmas: ["vaishma", "yitro"],
+  },
+  r2: {
+    title: "יתרו",
+    hebrew: "שֶׁבַע שֵׁמוֹת נִקְרְאוּ לוֹ: רְעוּאֵל, יֶתֶר, יִתְרוֹ, חוֹבָב, חֶבֶר, קֵינִי, פּוּטִיאֵל.",
+    idea: "Rashi enseña que los nombres muestran etapas del camino de Yitró.",
+    simple: "Cada nombre de Yitró enseña algo distinto sobre él.",
+    lemmas: ["yitro"],
+  },
+  r3: {
+    title: "חתן משה",
+    hebrew: "כָּאן הָיָה יִתְרוֹ מִתְכַּבֵּד בְּמֹשֶׁה.",
+    idea: "La Torá muestra honor mutuo entre Yitró y Moshé.",
+    simple: "Aquí Yitró recibe honor por su relación con Moshé.",
+    lemmas: ["choten", "moshe"],
+  },
+  r4: {
+    title: "למשה ולישראל",
+    hebrew: "שָׁקוּל מֹשֶׁה כְּנֶגֶד כָּל יִשְׂרָאֵל.",
+    idea: "Rashi destaca el peso espiritual de Moshé.",
+    simple: "Moshé tiene un lugar central para todo Israel.",
+    lemmas: ["lemoshe", "uleyisrael"],
+  },
+  r5: {
+    title: "את כל אשר עשה",
+    hebrew: "לָהֶם בִּירִידַת הַמָּן וּבַבְּאֵר וּבַעֲמָלֵק.",
+    idea: "Rashi recuerda varios actos de ayuda de Dios.",
+    simple: "No fue un solo milagro: hubo maná, agua y protección.",
+    lemmas: ["kol-asher", "asah"],
+  },
+  r6: {
+    title: "כי הוציא ה׳",
+    hebrew: "זוֹ גְּדוֹלָה עַל כֻּלָּם.",
+    idea: "La salida de Egipto se presenta como la mayor.",
+    simple: "Rashi dice que sacar a Israel de Egipto fue lo más grande.",
+    lemmas: ["ki-hotzi", "et-yisrael", "mimitzrayim"],
+  },
+  r1: {
+    title: "אַחַר שִׁלּוּחֶיהָ",
+    hebrew:
+      "כְּשֶׁאָמַר לוֹ הַקָּבָּ\"ה בְּמִדְיָן לֵךְ שֻׁב מִצְרָיִם וַיִּקַּח מֹשֶׁה אֶת אִשְׁתּוֹ וְאֶת בָּנָיו וְגוֹ' וְיָצָא אַהֲרֹן לִקְרָאתוֹ וַיִּפְגְּשֵׁהוּ בְּהַר הָאֱלֹהִים אָמַר לוֹ מִי הֵם הַלָּלוּ אָמַר לוֹ זוֹ הִיא אִשְׁתִּי שֶׁנָּשָׂאתִי בְּמִדְיָן וְאֵלּוּ בָנַי אָמַר לוֹ וְהֵיכָן אַתָּה מוֹלִיכָן אָמַר לוֹ לְמִצְרַיִם אָמַר לוֹ עַל הָרִאשׁוֹנִים אָנוּ מִצְטַעֲרִים וְאַתָּה בָא לְהוֹסִיף עֲלֵיהֶם אָמַר לָהּ לְכִי לְבֵית אָבִיךְ נָטְלָה שְׁנֵי בָנֶיהָ וְהָלְכָה לָהּ",
+    idea:
+      "Rashi explica que Moshé había llevado a su familia hacia Egipto, pero Aharón le indicó que el pueblo ya sufría y mejor que regresaran; por eso Tziporá fue enviada de vuelta.",
+    simple:
+      "En palabras simples: primero Moshé llevó a su esposa e hijos; después los devolvió a casa de su padre. Por eso el pasuk dice 'después de haberla enviado'.",
+    lemmas: ["achar", "shilucheha", "vayikach", "tzipora", "eshet"],
+  },
 };
 
 const literalGlossary = {
-  "מַה": { literal: "¿qué?", note: "Palabra de pregunta." },
-  "שְּׁמוּעָה": { literal: "noticia / lo oído", note: "Algo que se escuchó." },
-  "שָׁמַע": { literal: "escuchó", note: "Verbo en pasado, él escuchó." },
-  "וּבָא": { literal: "y vino", note: "Conector וּ = y, luego בא = vino." },
-  "קְרִיעַת": { literal: "apertura de", note: "En Rashi: apertura del mar." },
-  "יַם": { literal: "mar", note: "Aquí: mar de Suf." },
-  "סוּף": { literal: "Suf (junco)", note: "Nombre del Mar de Suf." },
-  "וּמִלְחֶמֶת": { literal: "y guerra de", note: "Conector וּ + מלחמת." },
-  "עֲמָלֵק": { literal: "Amalek", note: "Pueblo enemigo de Israel." },
+  "כְּשֶׁאָמַר": { literal: "cuando dijo", note: "Introduce el momento de la historia." },
+  "לוֹ": { literal: "a él", note: "Se repite: indica a quién hablan." },
+  "הַקָּבָּ\"ה": { literal: "el Santo, bendito sea", note: "Forma abreviada reverente para Dios." },
+  "בְּמִדְיָן": { literal: "en Midyán", note: "Lugar donde ocurre esta parte." },
+  "לֵךְ": { literal: "ve", note: "Orden en singular masculino." },
+  "שֻׁב": { literal: "vuelve", note: "Otra orden: regresar." },
+  "מִצְרָיִם": { literal: "a Egipto", note: "Destino mencionado en el relato." },
+  "וַיִּקַּח": { literal: "y tomó", note: "Acción narrativa en pasado." },
+  "מֹשֶׁה": { literal: "Moshé", note: "Personaje principal aquí." },
+  "אֶת": { literal: "marca de objeto directo", note: "Partícula gramatical del hebreo bíblico." },
+  "אִשְׁתּוֹ": { literal: "su esposa", note: "Esposa de Moshé en este contexto." },
+  "וְאֶת": { literal: "y (marca de objeto directo)", note: "Conector + partícula." },
+  "בָּנָיו": { literal: "sus hijos", note: "Los hijos de Moshé." },
+  "וְגוֹ'": { literal: "etcétera", note: "Abreviatura de continuación del versículo." },
+  "וְיָצָא": { literal: "y salió", note: "Nueva acción narrativa." },
+  "אַהֲרֹן": { literal: "Aharón", note: "Hermano de Moshé." },
+  "לִקְרָאתוֹ": { literal: "a su encuentro", note: "Fue a encontrarse con él." },
+  "וַיִּפְגְּשֵׁהוּ": { literal: "y se encontró con él", note: "Encuentro entre Aharón y Moshé." },
+  "בְּהַר": { literal: "en el monte", note: "Indica lugar." },
+  "הָאֱלֹהִים": { literal: "de Dios", note: "Expresión: el monte de Dios." },
+  "מִי": { literal: "quiénes", note: "Pregunta." },
+  "הֵם": { literal: "ellos", note: "Pronombre plural." },
+  "הַלָּלוּ": { literal: "estos", note: "Señala personas cercanas." },
+  "זוֹ": { literal: "esta", note: "Pronombre femenino singular." },
+  "הִיא": { literal: "ella es", note: "Pronombre de 3ª persona femenina." },
+  "אִשְׁתִּי": { literal: "mi esposa", note: "Respuesta de Moshé." },
+  "שֶׁנָּשָׂאתִי": { literal: "que tomé/me casé", note: "Acción pasada de Moshé." },
+  "וְאֵלּוּ": { literal: "y estos", note: "Presenta a los hijos." },
+  "בָנַי": { literal: "mis hijos", note: "Primera persona singular con sufijo." },
+  "וְהֵיכָן": { literal: "y a dónde", note: "Pregunta de dirección." },
+  "אַתָּה": { literal: "tú", note: "Segunda persona masculina singular." },
+  "מוֹלִיכָן": { literal: "los llevas", note: "Verbo con sufijo de objeto plural." },
+  "לְמִצְרַיִם": { literal: "a Egipto", note: "Destino del que hablan." },
+  "עַל": { literal: "sobre", note: "Aquí: respecto de." },
+  "הָרִאשׁוֹנִים": { literal: "los primeros", note: "Los que ya están sufriendo." },
+  "אָנוּ": { literal: "nosotros", note: "Primera persona plural." },
+  "מִצְטַעֲרִים": { literal: "sufrimos", note: "Dolor/padecimiento en presente." },
+  "בָא": { literal: "vienes", note: "Acción dirigida a 2ª persona." },
+  "לְהוֹסִיף": { literal: "a añadir", note: "Sumar algo más." },
+  "עֲלֵיהֶם": { literal: "sobre ellos", note: "Añadir carga a otros." },
+  "לָהּ": { literal: "a ella", note: "Referencia a Tziporá." },
+  "לְכִי": { literal: "ve", note: "Imperativo femenino singular." },
+  "לְבֵית": { literal: "a casa de", note: "Inicio de sintagma posesivo." },
+  "אָבִיךְ": { literal: "tu padre", note: "2ª persona femenina singular." },
+  "נָטְלָה": { literal: "tomó", note: "Pasado femenino singular." },
+  "שְׁנֵי": { literal: "dos de", note: "Forma constructa de número." },
+  "בָנֶיהָ": { literal: "sus hijos", note: "Sufijo femenino singular: de ella." },
+  "וְהָלְכָה": { literal: "y se fue", note: "Acción final de Tziporá." },
+  "שמות": { literal: "Éxodo", note: "Nombre del libro de la Torá (Sefer Shemot)." },
+  "שופטים": { literal: "Jueces", note: "Nombre del libro bíblico Shoftim." },
+  "מכילתא": { literal: "Mekhilta", note: "Midrash halájico clásico sobre Shemot." },
+  "ד'": { literal: "4", note: "Referencia al capítulo (guímel/abreviatura de número)." },
+  "אמר": { literal: "dijo", note: "Verbo en pasado, 3ª singular." },
+  "בירידת": { literal: "en la bajada de", note: "Introduce el descenso del maná." },
+  "במשה": { literal: "con/en Moshé", note: "Preposición ב + Moshé." },
+  "גדולה": { literal: "grande", note: "Importancia destacada." },
+  "היה": { literal: "fue/era", note: "Verbo ser/estar en pasado." },
+  "המן": { literal: "el maná", note: "Alimento dado en el desierto." },
+  "ואתה": { literal: "y tú", note: "Conector + pronombre." },
+  "ובא": { literal: "y vino", note: "Conector + verbo venir." },
+  "ובבאר": { literal: "y en el pozo", note: "Conector + preposición + pozo." },
+  "ובעמלק": { literal: "y con Amalek", note: "Conector + referencia a Amalek." },
+  "ומלחמת": { literal: "y guerra de", note: "Conector + sustantivo constructo." },
+  "חבר": { literal: "Jéver", note: "Uno de los nombres listados por Rashi." },
+  "חובב": { literal: "Jovav", note: "Nombre de Yitró en Rashi." },
+  "ים": { literal: "mar", note: "En contexto: mar de Suf." },
+  "ישראל": { literal: "Israel", note: "Nombre del pueblo." },
+  "יתר": { literal: "Yéter", note: "Uno de los nombres de Yitró." },
+  "יתרו": { literal: "Yitró", note: "Nombre principal del personaje." },
+  "כאן": { literal: "aquí", note: "Indica este punto del texto." },
+  "כל": { literal: "todo", note: "Cuantificador total." },
+  "כלם": { literal: "todos", note: "Plural: todos ellos." },
+  "כנגד": { literal: "frente a / equivalente a", note: "Comparación de peso." },
+  "להם": { literal: "a ellos", note: "Preposición + pronombre plural." },
+  "לו": { literal: "a él", note: "Preposición + pronombre singular." },
+  "מה": { literal: "qué", note: "Palabra interrogativa." },
+  "מתכבד": { literal: "se honra / se enaltece", note: "Forma reflexiva en presente." },
+  "נקראו": { literal: "fueron llamados", note: "Pasivo plural en pasado." },
+  "סוף": { literal: "Suf", note: "Nombre propio del mar." },
+  "עמלק": { literal: "Amalek", note: "Pueblo enemigo de Israel." },
+  "פוטיאל": { literal: "Putiel", note: "Uno de los nombres listados." },
+  "קיני": { literal: "Kení", note: "Uno de los nombres listados." },
+  "קריעת": { literal: "apertura de", note: "Como en apertura del mar." },
+  "רעואל": { literal: "Reuel", note: "Uno de los nombres listados." },
+  "שבע": { literal: "siete", note: "Número siete." },
+  "שמועה": { literal: "noticia / rumor oído", note: "Algo que se escuchó." },
+  "שמע": { literal: "escuchó", note: "Verbo en pasado." },
+  "שקול": { literal: "equivale / pesa como", note: "Comparación de valor." },
 };
+
+function toLearningPair(data) {
+  if (!data) {
+    return {
+      literal: "Traducción literal pendiente",
+      nonLiteral: "Idea pendiente: la añadimos en la siguiente capa.",
+    };
+  }
+  return {
+    literal: data.literal || "Traducción literal pendiente",
+    nonLiteral: data.nonLiteral || data.note || "Idea no literal pendiente.",
+  };
+}
+
+function normalizeHebrewToken(token) {
+  return token
+    .replace(TEAMIM_REGEX, "")
+    .replace(NIKKUD_REGEX, "")
+    .replace(/[?.!,:;"'״׳]/g, "")
+    .trim();
+}
+
+const normalizedLiteralGlossary = {};
+Object.entries(literalGlossary).forEach(([key, value]) => {
+  normalizedLiteralGlossary[normalizeHebrewToken(key)] = value;
+});
 
 const supportStrategies = {
   dislexia: { title: "Dislexia", tips: ["Usar lectura en eco: adulto lee una frase, niño repite.", "Reducir cantidad: estudiar 3-4 palabras por bloque.", "Marcar color fijo: verbo en verde, nombre en azul.", "Permitir respuesta oral antes de escribir."] },
@@ -496,10 +1063,152 @@ const supportStrategies = {
   memoria: { title: "Memoria de trabajo", tips: ["Regla 1-1-1: una palabra, una idea, un ejemplo.", "Repaso acumulativo: nueva + anterior.", "Tarjetas de recuperación activa.", "Pedir explicación con sus propias palabras."] },
 };
 
-const words = [...pasukContainer.querySelectorAll(".word")];
-const clickableWords = [...pasukContainer.querySelectorAll(".clickable[data-lemma]")];
+const words = [...document.querySelectorAll(".pasuk .word")];
+const clickableWords = [...document.querySelectorAll(".pasuk .clickable[data-lemma]")];
 const rashiButtons = [...document.querySelectorAll(".rashi-item")];
 const lemmaToRashiId = {};
+let activeStudyContext = "General";
+const LIVE_NOTES_KEY = "torah_live_notes_v1";
+const QUIZ_PROGRESS_KEY = "torah_quiz_progress_v1";
+const GAME_STATS_KEY = "torah_game_stats_v1";
+const DAILY_MISSION_KEY = "torah_daily_mission_v1";
+let liveNotes = [];
+let currentLemma = "vaishma";
+const timelineData = [
+  {
+    id: "t1",
+    short: "Moshé huye",
+    when: "Mucho antes (Shemot 2)",
+    title: "1) Moshé se escapa y llega a Midyán",
+    text: "Moshé tiene que huir de Egipto. Llega a Midyán y allí conoce a Yitró.",
+    pasuk: "Todavía no es 18:1–2. Esto es para entender la historia.",
+    rashi: "Esto ayuda a entender por qué Yitró aparece después.",
+    rashiIds: [],
+  },
+  {
+    id: "t2",
+    short: "Se casa",
+    when: "Después en Midyán",
+    title: "2) Moshé se casa con Tziporá",
+    text: "Tziporá es hija de Yitró. Desde aquí, Yitró es el suegro de Moshé.",
+    pasuk: "Ahora se entiende mejor la frase חֹתֵן מֹשֶׁה (suegro de Moshé).",
+    rashi: "Conecta con Rashi sobre יִתְרוֹ y חֹתֵן מֹשֶׁה.",
+    rashiIds: ["r2", "r3"],
+  },
+  {
+    id: "t3",
+    short: "Misión",
+    when: "Luego (Shemot 3–4)",
+    title: "3) Dios manda a Moshé volver a Egipto",
+    text: "Dios le dice a Moshé: vuelve a Egipto para ayudar a Israel.",
+    pasuk: "Esto prepara lo que Yitró va a oír en 18:1.",
+    rashi: "Es parte del fondo del Rashi de 18:2.",
+    rashiIds: ["r1"],
+  },
+  {
+    id: "t4",
+    short: "Separación",
+    when: "En el camino (Rashi 18:2)",
+    title: "4) Tziporá vuelve con Yitró (según Rashi)",
+    text: "Rashi explica que Tziporá y los niños vuelven a casa de Yitró por un tiempo.",
+    pasuk: "Por eso en 18:2 dice: אַחַר שִׁלּוּחֶיהָ (después de enviarla).",
+    rashi: "Este es el Rashi más importante para el segundo pasuk.",
+    rashiIds: ["r1"],
+  },
+  {
+    id: "t5",
+    short: "Yitró escucha",
+    when: "Ahora sí: Shemot 18:1",
+    title: "5) Pasuk 1: Yitró escucha noticias grandes",
+    text: "Yitró oye que Dios sacó a Israel de Egipto. También oye sobre milagros.",
+    pasuk: "וַיִּשְׁמַע יִתְרוֹ ... כִּי הוֹצִיא ה׳ אֶת־יִשְׂרָאֵל",
+    rashi: "Rashi dice qué oyó: mar de Suf y guerra con Amalek.",
+    rashiIds: ["r0", "r5", "r6"],
+  },
+  {
+    id: "t6",
+    short: "Yitró trae familia",
+    when: "Shemot 18:2",
+    title: "6) Pasuk 2: Yitró trae a Tziporá",
+    text: "Yitró lleva a Tziporá (esposa de Moshé) para reunirse otra vez.",
+    pasuk: "וַיִּקַּח יִתְרוֹ ... אֶת־צִפֹּרָה ... אַחַר שִׁלּוּחֶיהָ",
+    rashi: "Rashi explica por qué primero se separaron y luego se juntan.",
+    rashiIds: ["r1"],
+  },
+];
+
+const studyRouteSteps = [
+  "1. Lee el pasuk plano",
+  "2. Pulsa palabras importantes",
+  "3. Mira raíz y letras añadidas",
+  "4. Lee Rashi corto",
+  "5. Haz test rápido",
+];
+
+const quizBanks = {
+  p1: {
+    title: "Quiz Pasuk 1",
+    questions: [
+      { q: "¿Qué significa וַיִּשְׁמַע?", options: ["Y escuchó", "Y tomó", "Y volvió"], answer: 0, explain: "וַיִּשְׁמַע = y escuchó." },
+      { q: "¿Qué raíz tiene וַיִּשְׁמַע?", options: ["ש־מ־ע", "ל־ק־ח", "א־מ־ר"], answer: 0, explain: "La raíz de escuchar es ש־מ־ע." },
+      { q: "En pasuk 1, ¿qué oyó Yitró según Rashi?", options: ["Solo una cosa", "Mar de Suf y Amalek", "Nada importante"], answer: 1, explain: "Rashi cita dos eventos grandes." },
+      { q: "כִּי־הוֹצִיא significa...", options: ["porque sacó", "porque tomó", "porque volvió"], answer: 0, explain: "כִּי = porque, הוֹצִיא = sacó." },
+      { q: "¿Quién sacó a Israel de Egipto?", options: ["Yitró", "Moshé", "ה׳"], answer: 2, explain: "El pasuk dice יְהֹוָה." },
+    ],
+  },
+  p2: {
+    title: "Quiz Pasuk 2",
+    questions: [
+      { q: "וַיִּקַּח significa...", options: ["y escuchó", "y tomó", "y dijo"], answer: 1, explain: "וַיִּקַּח = y tomó." },
+      { q: "¿A quién tomó Yitró?", options: ["Aharón", "Tziporá", "Gershom"], answer: 1, explain: "Tomó a Tziporá, esposa de Moshé." },
+      { q: "אַחַר שִׁלּוּחֶיהָ habla de...", options: ["una fiesta", "después de enviarla", "una guerra"], answer: 1, explain: "Rashi explica esa separación temporal." },
+      { q: "חֹתֵן מֹשֶׁה significa...", options: ["hijo de Moshé", "suegro de Moshé", "hermano de Moshé"], answer: 1, explain: "חֹתֵן = suegro." },
+      { q: "¿Este pasuk tiene foco en Rashi?", options: ["Sí, en אַחַר שִׁלּוּחֶיהָ", "No hay Rashi", "Solo en יְהֹוָה"], answer: 0, explain: "Rashi se concentra en esa frase." },
+    ],
+  },
+  p3: {
+    title: "Quiz Pasuk 3",
+    questions: [
+      { q: "¿Cuántos hijos menciona?", options: ["Uno", "Dos", "Tres"], answer: 1, explain: "שְׁנֵי = dos." },
+      { q: "¿Cómo se llama uno de los hijos?", options: ["Gershom", "Eliezer", "Aharón"], answer: 0, explain: "El pasuk dice גֵּרְשֹׁם." },
+      { q: "גֵּר הָיִיתִי significa...", options: ["soy rey", "fui extranjero", "fui pastor"], answer: 1, explain: "Moshé dice que fue extranjero." },
+      { q: "בְּאֶרֶץ נׇכְרִיָּה significa...", options: ["en tierra santa", "en tierra extraña", "en la montaña"], answer: 1, explain: "נׇכְרִיָּה = extraña/extranjera." },
+      { q: "¿Este pasuk tiene Rashi cargado aquí?", options: ["Sí", "No"], answer: 1, explain: "Ahora mismo este pasuk está sin Rashi." },
+    ],
+  },
+};
+quizBanks.all = {
+  title: "Quiz Acumulativo (1+2+3)",
+  questions: [...quizBanks.p1.questions, ...quizBanks.p2.questions, ...quizBanks.p3.questions],
+};
+
+let quizState = {
+  bank: "p1",
+  index: 0,
+  score: 0,
+  answered: false,
+  attempts: {},
+};
+let gameState = {
+  avatar: "🦁",
+  points: 0,
+  stars: 0,
+  streak: 0,
+  bestStreak: 0,
+  correctTotal: 0,
+  wrongTotal: 0,
+  challenges: {
+    streak3: false,
+    score80: false,
+    allDone: false,
+  },
+};
+let dailyMission = {
+  date: new Date().toISOString().slice(0, 10),
+  correctToday: 0,
+  target: 5,
+};
+const avatarOptions = ["🦁", "🦊", "🐯", "🐼", "🐬", "🦄"];
 
 words.forEach((word) => {
   word.dataset.original = word.textContent;
@@ -600,13 +1309,15 @@ function clearWordHighlights() {
 function highlightLemmas(lemmas) {
   clearWordHighlights();
   lemmas.forEach((lemma) => {
-    const target = pasukContainer.querySelector(`[data-lemma="${lemma}"]`);
-    if (target) target.classList.add("linked-highlight");
+    document.querySelectorAll(`.pasuk [data-lemma="${lemma}"]`).forEach((target) => {
+      target.classList.add("linked-highlight");
+    });
   });
 }
 
 function setWordContent(lemma) {
   const item = wordData[lemma] || baseWord;
+  currentLemma = lemma;
   wordTitle.textContent = "Estudio de palabra";
   wordHeroHebrew.textContent = item.heroHebrew || "—";
   wordHeroSpanish.textContent = item.heroSpanish || "Traducción";
@@ -630,6 +1341,15 @@ function setWordContent(lemma) {
   renderConjugationRows(item.conjugationRows || []);
   renderExamples(item.examples || []);
   renderBilingualPractice(item.bilingualPractice || []);
+  if (easyExplainText) {
+    easyExplainText.hidden = true;
+    easyExplainText.textContent = "";
+  }
+}
+
+function getEasyExplain(lemma) {
+  const item = wordData[lemma] || baseWord;
+  return `En súper fácil: ${item.heroSpanish || "esta palabra"} quiere decir ${item.meaningAlt?.replace(/<[^>]+>/g, "") || "algo importante"} y nos ayuda a entender la historia.`;
 }
 
 function setActiveTab(tabId) {
@@ -659,7 +1379,7 @@ function setRashi(rashiId) {
 
   const tokens = item.hebrew.split(/\s+/).map((token) => token.trim()).filter(Boolean);
   tokens.forEach((token) => {
-    const clean = token.replace(/[?.!,:;"'״׳]/g, "");
+    const clean = normalizeHebrewToken(token);
     const btn = document.createElement("button");
     btn.className = "rashi-word-btn";
     btn.textContent = token;
@@ -668,9 +1388,10 @@ function setRashi(rashiId) {
     btn.addEventListener("click", () => {
       rashiHebrewText.querySelectorAll(".rashi-word-btn").forEach((w) => w.classList.remove("active"));
       btn.classList.add("active");
-      const data = literalGlossary[clean] || { literal: "Traducción literal pendiente", note: "La añadimos en la siguiente capa." };
-      rashiLiteralFront.innerHTML = `<strong>${clean}</strong> = ${data.literal}`;
-      rashiLiteralBack.textContent = data.note;
+      const raw = literalGlossary[clean] || normalizedLiteralGlossary[clean] || null;
+      const data = toLearningPair(raw);
+      rashiLiteralFront.innerHTML = `<strong>${clean}</strong> · <strong>Literal:</strong> ${data.literal}`;
+      rashiLiteralBack.textContent = `No literal (idea): ${data.nonLiteral}`;
       rashiLiteralCard.classList.remove("flipped");
     });
     rashiHebrewText.appendChild(btn);
@@ -692,10 +1413,99 @@ function setRashi(rashiId) {
 
 function openWordDialog(lemma, openRashiDirect = false) {
   setWordContent(lemma);
-  const mappedRashi = lemmaToRashiId[lemma] || "r1";
+  const mappedRashi = lemmaToRashiId[lemma] || "r0";
   setRashi(mappedRashi);
   setActiveTab(openRashiDirect ? "tab-rashi" : "tab-translation");
   if (!wordDialog.open) wordDialog.showModal();
+}
+
+function setLiveContextFromButton(button) {
+  const lemma = button?.dataset?.lemma || "general";
+  const word = wordData[lemma];
+  const block = button?.closest(".pasuk-block");
+  const pasukTitle = block?.querySelector("h3")?.textContent?.trim() || "General";
+  const wordTitleText = word?.heroHebrew || button?.textContent?.trim() || "palabra";
+  activeStudyContext = `${pasukTitle} · ${wordTitleText}`;
+  if (liveContext) liveContext.textContent = activeStudyContext;
+}
+
+function escapeHtml(text) {
+  return text.replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;",
+  }[ch]));
+}
+
+function saveLiveNotes() {
+  localStorage.setItem(LIVE_NOTES_KEY, JSON.stringify(liveNotes));
+}
+
+function loadLiveNotes() {
+  try {
+    const raw = localStorage.getItem(LIVE_NOTES_KEY);
+    liveNotes = raw ? JSON.parse(raw) : [];
+  } catch {
+    liveNotes = [];
+  }
+}
+
+function renderLiveNotes() {
+  if (!liveNotesList) return;
+  liveNotesList.innerHTML = "";
+  if (!liveNotes.length) {
+    liveNotesList.innerHTML = '<p class="live-empty">No hay correcciones guardadas todavía.</p>';
+    return;
+  }
+  liveNotes
+    .slice()
+    .reverse()
+    .forEach((note) => {
+      const item = document.createElement("article");
+      item.className = "live-note-item";
+      item.innerHTML = `
+        <p class="live-note-meta"><strong>${escapeHtml(note.context)}</strong> · ${escapeHtml(note.time)}</p>
+        <p class="live-note-text">${escapeHtml(note.text)}</p>
+      `;
+      liveNotesList.appendChild(item);
+    });
+}
+
+function addLiveNote() {
+  const text = (liveInput?.value || "").trim();
+  if (!text) return;
+  const now = new Date();
+  liveNotes.push({
+    context: activeStudyContext,
+    text,
+    time: now.toLocaleString("es-ES"),
+  });
+  saveLiveNotes();
+  renderLiveNotes();
+  liveInput.value = "";
+}
+
+function buildNotesForClipboard() {
+  if (!liveNotes.length) return "No hay correcciones guardadas.";
+  return liveNotes
+    .map((n, i) => `${i + 1}. [${n.time}] ${n.context}\n- ${n.text}`)
+    .join("\n\n");
+}
+
+async function copyNotesToClipboard() {
+  const text = buildNotesForClipboard();
+  try {
+    await navigator.clipboard.writeText(text);
+    copyLiveNotes.textContent = "Copiado";
+    setTimeout(() => {
+      copyLiveNotes.textContent = "Copiar para Codex";
+    }, 1200);
+  } catch {
+    copyLiveNotes.textContent = "Copia manual";
+    if (liveInput) liveInput.value = text;
+  }
 }
 
 function renderSupportProfile(profileKey) {
@@ -711,6 +1521,389 @@ function renderSupportProfile(profileKey) {
   supportProfiles.querySelectorAll(".chip-btn").forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.profile === profileKey);
   });
+}
+
+function renderTimelineStep(stepId) {
+  const step = timelineData.find((s) => s.id === stepId) || timelineData[0];
+  timelineTitle.textContent = step.title;
+  timelineWhen.textContent = step.when;
+  timelineText.textContent = step.text;
+  timelinePasuk.innerHTML = `<strong>Conexión con pasuk:</strong> ${step.pasuk}`;
+  timelineRashi.innerHTML = `<strong>Conexión con Rashi:</strong> ${step.rashi}`;
+  if (timelineLinks) {
+    timelineLinks.innerHTML = "";
+    if (step.rashiIds && step.rashiIds.length) {
+      step.rashiIds.forEach((id) => {
+        const r = rashiData[id];
+        if (!r) return;
+        const btn = document.createElement("button");
+        btn.className = "chip-btn";
+        btn.textContent = `Abrir Rashi: ${r.title}`;
+        btn.addEventListener("click", () => {
+          setRashi(id);
+          if (!wordDialog.open) wordDialog.showModal();
+          setActiveTab("tab-rashi");
+          activeStudyContext = `Rashi · ${r.title}`;
+          if (liveContext) liveContext.textContent = activeStudyContext;
+        });
+        timelineLinks.appendChild(btn);
+      });
+    } else {
+      const note = document.createElement("p");
+      note.className = "live-empty";
+      note.textContent = "En este paso solo estamos viendo contexto general.";
+      timelineLinks.appendChild(note);
+    }
+  }
+  timelineSteps.querySelectorAll(".timeline-step").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.stepId === step.id);
+  });
+}
+
+function initTimeline() {
+  if (!timelineSteps) return;
+  timelineData.forEach((step, index) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "timeline-step";
+    btn.dataset.stepId = step.id;
+    btn.innerHTML = `${index + 1}. ${step.short}<small>${step.when}</small>`;
+    btn.addEventListener("click", () => renderTimelineStep(step.id));
+    timelineSteps.appendChild(btn);
+  });
+  renderTimelineStep("t1");
+}
+
+function saveQuizProgress() {
+  localStorage.setItem(QUIZ_PROGRESS_KEY, JSON.stringify(quizState.attempts));
+}
+
+function saveGameStats() {
+  localStorage.setItem(GAME_STATS_KEY, JSON.stringify(gameState));
+}
+
+function saveDailyMission() {
+  localStorage.setItem(DAILY_MISSION_KEY, JSON.stringify(dailyMission));
+}
+
+function loadQuizProgress() {
+  try {
+    const raw = localStorage.getItem(QUIZ_PROGRESS_KEY);
+    quizState.attempts = raw ? JSON.parse(raw) : {};
+  } catch {
+    quizState.attempts = {};
+  }
+}
+
+function loadGameStats() {
+  try {
+    const raw = localStorage.getItem(GAME_STATS_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    gameState = {
+      ...gameState,
+      ...parsed,
+      challenges: { ...gameState.challenges, ...(parsed.challenges || {}) },
+    };
+  } catch {
+    // keep defaults
+  }
+}
+
+function loadDailyMission() {
+  try {
+    const raw = localStorage.getItem(DAILY_MISSION_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const today = new Date().toISOString().slice(0, 10);
+    if (parsed.date !== today) {
+      dailyMission = { date: today, correctToday: 0, target: 5 };
+      saveDailyMission();
+      return;
+    }
+    dailyMission = { ...dailyMission, ...parsed };
+  } catch {
+    // keep defaults
+  }
+}
+
+function setCoachMessage(msg, mood = "neutral") {
+  if (coachBubble) coachBubble.textContent = msg;
+  if (coachFace) {
+    const faces = { neutral: "🦉", happy: "😺", wow: "🤩", oops: "🫶", fire: "🔥" };
+    coachFace.textContent = faces[mood] || "🦉";
+  }
+  document.body.classList.remove("kids-correct", "kids-wrong", "kids-streak");
+  if (mood === "happy") document.body.classList.add("kids-correct");
+  if (mood === "oops") document.body.classList.add("kids-wrong");
+  if (mood === "fire") document.body.classList.add("kids-streak");
+  setTimeout(() => document.body.classList.remove("kids-correct", "kids-wrong", "kids-streak"), 500);
+}
+
+function renderDailyMission() {
+  if (!dailyMissionLabel || !dailyMissionFill) return;
+  const done = Math.min(dailyMission.correctToday, dailyMission.target);
+  dailyMissionLabel.textContent = `Misión diaria: ${done}/${dailyMission.target}`;
+  dailyMissionFill.style.width = `${Math.round((done / dailyMission.target) * 100)}%`;
+}
+
+function updateChallenges(lastPercent = null) {
+  if (gameState.streak >= 3) gameState.challenges.streak3 = true;
+  if (lastPercent !== null && lastPercent >= 80) gameState.challenges.score80 = true;
+  const done = ["p1", "p2", "p3"].every((k) => (quizState.attempts[k]?.best || 0) >= 60);
+  if (done) gameState.challenges.allDone = true;
+}
+
+function renderGameStats() {
+  if (!gameStats || !challengeList) return;
+  gameStats.innerHTML = "";
+  const badges = [
+    `⭐ Estrellas: ${gameState.stars}`,
+    `🪙 Puntos: ${gameState.points}`,
+    `🔥 Racha: ${gameState.streak}`,
+    `🏆 Mejor racha: ${gameState.bestStreak}`,
+  ];
+  badges.forEach((txt) => {
+    const b = document.createElement("span");
+    b.className = "chip-btn";
+    b.textContent = txt;
+    gameStats.appendChild(b);
+  });
+
+  const level = Math.floor(gameState.points / 100) + 1;
+  const xpInLevel = gameState.points % 100;
+  if (avatarPreview) avatarPreview.textContent = gameState.avatar || "🦁";
+  if (levelText) levelText.textContent = `Nivel ${level}`;
+  if (xpFill) xpFill.style.width = `${xpInLevel}%`;
+
+  challengeList.innerHTML = "";
+  const items = [
+    { key: "streak3", label: "Reto 1: 3 respuestas seguidas correctas" },
+    { key: "score80", label: "Reto 2: sacar 80% o más en un quiz" },
+    { key: "allDone", label: "Reto 3: completar Pasuk 1, 2 y 3 (mínimo 60%)" },
+  ];
+  items.forEach((it) => {
+    const row = document.createElement("div");
+    row.className = "rashi-item";
+    row.textContent = `${gameState.challenges[it.key] ? "✅" : "⬜"} ${it.label}`;
+    challengeList.appendChild(row);
+  });
+}
+
+function initAvatarPicker() {
+  if (!avatarPicker) return;
+  avatarPicker.innerHTML = "";
+  avatarOptions.forEach((av) => {
+    const btn = document.createElement("button");
+    btn.className = "chip-btn";
+    btn.textContent = av;
+    btn.addEventListener("click", () => {
+      gameState.avatar = av;
+      saveGameStats();
+      renderGameStats();
+    });
+    avatarPicker.appendChild(btn);
+  });
+}
+
+function switchScreen(screenId) {
+  appScreens.forEach((screen) => {
+    screen.hidden = screen.id !== screenId;
+  });
+  screenTabs.forEach((tab) => {
+    tab.classList.toggle("active", tab.dataset.screen === screenId);
+  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function initScreenNav() {
+  if (!screenTabs.length || !appScreens.length) return;
+  screenTabs.forEach((tab) => {
+    tab.addEventListener("click", () => switchScreen(tab.dataset.screen));
+  });
+  switchScreen("screen-pasuk");
+}
+
+function renderStudyRoute() {
+  if (!studyRoute) return;
+  studyRoute.innerHTML = "";
+  studyRouteSteps.forEach((label) => {
+    const item = document.createElement("div");
+    item.className = "timeline-step active";
+    item.textContent = label;
+    studyRoute.appendChild(item);
+  });
+}
+
+function getCurrentBank() {
+  return quizBanks[quizState.bank] || quizBanks.p1;
+}
+
+function renderQuizScore() {
+  const bank = getCurrentBank();
+  const total = bank.questions.length;
+  const percent = total ? Math.round((quizState.score / total) * 100) : 0;
+  const best = quizState.attempts[quizState.bank]?.best || 0;
+  quizScore.textContent = `Puntuación: ${quizState.score}/${total} (${percent}%). Mejor marca: ${best}%`;
+}
+
+function renderQuizQuestion() {
+  const bank = getCurrentBank();
+  const q = bank.questions[quizState.index];
+  if (!q) {
+    quizQuestion.textContent = "¡Quiz terminado!";
+    quizOptions.innerHTML = "";
+    quizFeedback.hidden = false;
+    const total = bank.questions.length;
+    const percent = total ? Math.round((quizState.score / total) * 100) : 0;
+    const prev = quizState.attempts[quizState.bank]?.best || 0;
+    const prevData = quizState.attempts[quizState.bank] || { best: 0, last: 0, attempts: 0 };
+    quizState.attempts[quizState.bank] = {
+      best: Math.max(prevData.best || 0, percent),
+      last: percent,
+      attempts: (prevData.attempts || 0) + 1,
+    };
+    if (percent >= 80) gameState.stars += 1;
+    gameState.points += Math.max(5, Math.round(percent / 5));
+    updateChallenges(percent);
+    saveQuizProgress();
+    saveGameStats();
+    saveDailyMission();
+    renderProgressPanel();
+    renderGameStats();
+    renderDailyMission();
+    if (percent >= 80) setCoachMessage("¡Excelente resultado de quiz!", "wow");
+    else if (percent >= 60) setCoachMessage("Buen trabajo. Vamos al siguiente reto.", "happy");
+    else setCoachMessage("Vamos a repasar y mejorar esa nota.", "neutral");
+    quizFeedback.textContent = `Resultado final: ${percent}%. Repite para mejorar lo que fallaste.`;
+    renderQuizScore();
+    return;
+  }
+  quizTitle.textContent = bank.title;
+  quizProgress.textContent = `Pregunta ${quizState.index + 1} de ${bank.questions.length}`;
+  quizQuestion.textContent = q.q;
+  quizOptions.innerHTML = "";
+  quizFeedback.hidden = true;
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "rashi-item quiz-option";
+    btn.textContent = opt;
+    btn.disabled = quizState.answered;
+    btn.addEventListener("click", () => {
+      if (quizState.answered) return;
+      quizState.answered = true;
+      const ok = idx === q.answer;
+      if (ok) {
+        quizState.score += 1;
+        gameState.points += 10;
+        gameState.streak += 1;
+        gameState.correctTotal += 1;
+        dailyMission.correctToday += 1;
+        if (gameState.streak % 5 === 0) {
+          gameState.stars += 1;
+          gameState.points += 20;
+          setCoachMessage("¡Racha épica! Ganaste estrella bonus.", "fire");
+        } else {
+          setCoachMessage("¡Bien! Sigue así.", "happy");
+        }
+      } else {
+        gameState.points = Math.max(0, gameState.points - 2);
+        gameState.streak = 0;
+        gameState.wrongTotal += 1;
+        setCoachMessage("No pasa nada. Inténtalo otra vez.", "oops");
+      }
+      gameState.bestStreak = Math.max(gameState.bestStreak, gameState.streak);
+      updateChallenges();
+      saveGameStats();
+      saveDailyMission();
+      renderGameStats();
+      renderDailyMission();
+      [...quizOptions.children].forEach((child, cidx) => {
+        child.classList.toggle("good", cidx === q.answer);
+        if (cidx === idx && !ok) child.classList.add("bad");
+        child.disabled = true;
+      });
+      quizFeedback.hidden = false;
+      quizFeedback.textContent = `${ok ? "✅ Correcto." : "❌ Incorrecto."} ${q.explain}`;
+      renderQuizScore();
+    });
+    quizOptions.appendChild(btn);
+  });
+  renderQuizScore();
+}
+
+function selectQuizBank(bankKey) {
+  quizState.bank = bankKey;
+  quizState.index = 0;
+  quizState.score = 0;
+  quizState.answered = false;
+  quizSelector.querySelectorAll(".chip-btn").forEach((b) => {
+    b.classList.toggle("active", b.dataset.bank === bankKey);
+  });
+  renderQuizQuestion();
+}
+
+function initQuiz() {
+  if (!quizSelector) return;
+  loadQuizProgress();
+  loadGameStats();
+  loadDailyMission();
+  const banks = [
+    ["p1", "Pasuk 1"],
+    ["p2", "Pasuk 2"],
+    ["p3", "Pasuk 3"],
+    ["all", "Acumulativo"],
+  ];
+  banks.forEach(([key, label]) => {
+    const btn = document.createElement("button");
+    btn.className = "chip-btn";
+    btn.dataset.bank = key;
+    btn.textContent = label;
+    btn.addEventListener("click", () => selectQuizBank(key));
+    quizSelector.appendChild(btn);
+  });
+  selectQuizBank("p1");
+  renderProgressPanel();
+  renderGameStats();
+  renderDailyMission();
+}
+
+function renderProgressPanel() {
+  if (!progressRows || !progressSummary || !progressBadges || !progressWeak) return;
+  const banks = ["p1", "p2", "p3", "all"];
+  const labels = { p1: "Pasuk 1", p2: "Pasuk 2", p3: "Pasuk 3", all: "Acumulativo" };
+  progressRows.innerHTML = "";
+  progressBadges.innerHTML = "";
+  let completed = 0;
+  let totalAttempts = 0;
+  let weak = [];
+  banks.forEach((k) => {
+    const d = quizState.attempts[k];
+    if (!d) return;
+    completed += 1;
+    totalAttempts += d.attempts || 0;
+    if ((d.last || 0) < 70) weak.push(labels[k]);
+    const row = document.createElement("div");
+    row.className = "rashi-item";
+    row.textContent = `${labels[k]} · Última: ${d.last || 0}% · Mejor: ${d.best || 0}% · Intentos: ${d.attempts || 0}`;
+    progressRows.appendChild(row);
+  });
+
+  const badgeA = document.createElement("span");
+  badgeA.className = "chip-btn";
+  badgeA.textContent = `Quizzes hechos: ${completed}/4`;
+  progressBadges.appendChild(badgeA);
+  const badgeB = document.createElement("span");
+  badgeB.className = "chip-btn";
+  badgeB.textContent = `Intentos totales: ${totalAttempts}`;
+  progressBadges.appendChild(badgeB);
+
+  progressSummary.textContent = completed
+    ? `Muy bien. Ya completaste ${completed} bloque(s). Sigue subiendo tu mejor marca.`
+    : "Aún no hay resultados. Empieza por Pasuk 1.";
+  progressWeak.textContent = weak.length
+    ? `Repasar ahora: ${weak.join(", ")}.`
+    : "¡Excelente! No hay bloques débiles ahora mismo.";
 }
 
 function initSupportProfiles() {
@@ -731,12 +1924,16 @@ clickableWords.forEach((button) => {
   button.addEventListener("click", () => {
     const lemma = button.dataset.lemma;
     const hasRashi = Boolean(lemmaToRashiId[lemma]);
+    setLiveContextFromButton(button);
+    setCoachMessage("Muy bien. Ahora mira traducción, raíz y ejemplo.", "neutral");
     openWordDialog(lemma, hasRashi);
   });
 });
 
 rashiButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    activeStudyContext = `Rashi · ${button.textContent.trim()}`;
+    if (liveContext) liveContext.textContent = activeStudyContext;
     setRashi(button.dataset.rashiId);
     setActiveTab("tab-rashi");
   });
@@ -771,7 +1968,9 @@ wordDialog.addEventListener("click", (event) => {
 toggleNikkud.addEventListener("change", renderPasuk);
 toggleTeamim.addEventListener("change", renderPasuk);
 toggleTranslation.addEventListener("change", () => {
-  translationBlock.hidden = !toggleTranslation.checked;
+  translationBlocks.forEach((block) => {
+    block.hidden = !toggleTranslation.checked;
+  });
 });
 toggleNeae.addEventListener("change", () => {
   document.body.classList.toggle("neae-mode", toggleNeae.checked);
@@ -785,5 +1984,60 @@ neaeLegendDialog.addEventListener("click", (event) => {
   if (outside) neaeLegendDialog.close();
 });
 
+if (toggleLivePanel) {
+  toggleLivePanel.addEventListener("click", () => {
+    const isHidden = livePanel.hasAttribute("hidden");
+    if (isHidden) {
+      livePanel.removeAttribute("hidden");
+      toggleLivePanel.textContent = "−";
+    } else {
+      livePanel.setAttribute("hidden", "");
+      toggleLivePanel.textContent = "+";
+    }
+  });
+}
+if (saveLiveNote) saveLiveNote.addEventListener("click", addLiveNote);
+if (copyLiveNotes) copyLiveNotes.addEventListener("click", copyNotesToClipboard);
+if (clearLiveNotes) {
+  clearLiveNotes.addEventListener("click", () => {
+    liveNotes = [];
+    saveLiveNotes();
+    renderLiveNotes();
+  });
+}
+if (liveInput) {
+  liveInput.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") addLiveNote();
+  });
+}
+if (easyExplainBtn) {
+  easyExplainBtn.addEventListener("click", () => {
+    easyExplainText.hidden = false;
+    easyExplainText.textContent = getEasyExplain(currentLemma);
+  });
+}
+if (quizNext) {
+  quizNext.addEventListener("click", () => {
+    const bank = getCurrentBank();
+    if (quizState.index >= bank.questions.length) return;
+    if (!quizState.answered) return;
+    quizState.index += 1;
+    quizState.answered = false;
+    renderQuizQuestion();
+  });
+}
+if (quizRestart) {
+  quizRestart.addEventListener("click", () => selectQuizBank(quizState.bank));
+}
+
 initSupportProfiles();
+initTimeline();
+renderStudyRoute();
+initQuiz();
+initAvatarPicker();
+initScreenNav();
 renderPasuk();
+loadLiveNotes();
+renderLiveNotes();
+renderProgressPanel();
+renderGameStats();

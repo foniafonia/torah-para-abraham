@@ -7,58 +7,116 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <aside class="kids-coach" aria-live="polite">
+      <div id="coachFace" class="coach-face">🦉</div>
+      <p id="coachBubble" class="coach-bubble">Vamos paso a paso. Toca una palabra para empezar.</p>
+      <div class="coach-mini">
+        <span id="dailyMissionLabel">Misión diaria: 0/5</span>
+        <div class="xp-track"><div id="dailyMissionFill" class="xp-fill"></div></div>
+      </div>
+    </aside>
     <main class="page">
       <header class="hero">
         <p class="tag">Proyecto piloto</p>
         <h1>Perashá Interactiva para Niños</h1>
         <p class="subtitle">
-          Primera prueba con <strong>שמות י״ח:א׳</strong> (Perashat Yitró). Toca una palabra
+          Primera prueba con <strong>שמות י״ח:א׳–ג׳</strong> (Perashat Yitró). Toca una palabra
           para aprender su significado y su forma verbal.
         </p>
       </header>
 
+      <nav class="screen-nav" aria-label="Navegación principal sin scroll">
+        <button class="screen-tab active" data-screen="screen-pasuk">Pasukim</button>
+        <button class="screen-tab" data-screen="screen-controls">Control</button>
+        <button class="screen-tab" data-screen="screen-story">Historia</button>
+        <button class="screen-tab" data-screen="screen-route">Ruta</button>
+        <button class="screen-tab" data-screen="screen-quiz">Quiz</button>
+        <button class="screen-tab" data-screen="screen-progress">Progreso</button>
+      </nav>
+
       <section class="layout">
-        <article class="card pasuk-card">
+        <article class="card pasuk-card app-screen" id="screen-pasuk">
           <div class="card-head">
-            <h2>פסוק: שמות י״ח:א׳</h2>
+            <h2>פסוקים: שמות י״ח:א׳–ג׳</h2>
             <span class="badge">Demo 1</span>
           </div>
 
-          <div id="pasukContainer" class="pasuk with-nikkud with-teamim" dir="rtl" lang="he">
-            <button
-              class="word clickable"
-              data-word-id="vaishma"
-              data-lemma="vaishma"
-              aria-label="Abrir detalle de וַיִּשְׁמַע"
-            >
-              וַיִּשְׁמַ֞ע
-            </button>
-            <button class="word clickable" data-lemma="yitro">יִתְר֨וֹ</button>
-            <button class="word clickable" data-lemma="kohen">כֹהֵ֤ן</button>
-            <button class="word clickable" data-lemma="midyan">מִדְיָן֙</button>
-            <button class="word clickable" data-lemma="choten">חֹתֵ֣ן</button>
-            <button class="word clickable" data-lemma="moshe">מֹשֶׁ֔ה</button>
-            <button class="word clickable" data-lemma="et-marker">אֵת֩</button>
-            <button class="word clickable" data-lemma="kol-asher">כָּל־אֲשֶׁ֨ר</button>
-            <button class="word clickable" data-lemma="asah">עָשָׂ֤ה</button>
-            <button class="word clickable" data-lemma="elohim">אֱלֹהִים֙</button>
-            <button class="word clickable" data-lemma="lemoshe">לְמֹשֶׁ֔ה</button>
-            <button class="word clickable" data-lemma="uleyisrael">וּלְיִשְׂרָאֵ֖ל</button>
-            <button class="word clickable" data-lemma="amo">עַמּ֑וֹ</button>
-            <button class="word clickable" data-lemma="ki-hotzi">כִּֽי־הוֹצִ֧יא</button>
-            <button class="word clickable" data-lemma="adonai">יְהֹוָ֛ה</button>
-            <button class="word clickable" data-lemma="et-yisrael">אֶת־יִשְׂרָאֵ֖ל</button>
-            <button class="word clickable" data-lemma="mimitzrayim">מִמִּצְרָֽיִם׃</button>
+          <div class="pasuk-block">
+            <h3>שמות י״ח:א׳</h3>
+            <p class="pasuk-plain" dir="rtl" lang="he">
+              וַיִּשְׁמַ֞ע יִתְר֨וֹ כֹהֵ֤ן מִדְיָן֙ חֹתֵ֣ן מֹשֶׁ֔ה אֵת֩ כׇּל־אֲשֶׁ֨ר עָשָׂ֤ה אֱלֹהִים֙ לְמֹשֶׁ֔ה וּלְיִשְׂרָאֵ֖ל עַמּ֑וֹ כִּֽי־הוֹצִ֧יא יְהֹוָ֛ה אֶת־יִשְׂרָאֵ֖ל מִמִּצְרָֽיִם׃
+            </p>
+            <div class="pasuk with-nikkud with-teamim" dir="rtl" lang="he">
+              <button class="word clickable" data-lemma="vaishma">וַיִּשְׁמַ֞ע</button>
+              <button class="word clickable" data-lemma="yitro">יִתְר֨וֹ</button>
+              <button class="word clickable" data-lemma="kohen">כֹהֵ֤ן</button>
+              <button class="word clickable" data-lemma="midyan">מִדְיָן֙</button>
+              <button class="word clickable" data-lemma="choten">חֹתֵ֣ן</button>
+              <button class="word clickable" data-lemma="moshe">מֹשֶׁ֔ה</button>
+              <button class="word clickable" data-lemma="et-marker">אֵת֩</button>
+              <button class="word clickable" data-lemma="kol-asher">כׇּל־אֲשֶׁ֨ר</button>
+              <button class="word clickable" data-lemma="asah">עָשָׂ֤ה</button>
+              <button class="word clickable" data-lemma="elohim">אֱלֹהִים֙</button>
+              <button class="word clickable" data-lemma="lemoshe">לְמֹשֶׁ֔ה</button>
+              <button class="word clickable" data-lemma="uleyisrael">וּלְיִשְׂרָאֵ֖ל</button>
+              <button class="word clickable" data-lemma="amo">עַמּ֑וֹ</button>
+              <button class="word clickable" data-lemma="ki-hotzi">כִּֽי־הוֹצִ֧יא</button>
+              <button class="word clickable" data-lemma="adonai">יְהֹוָ֛ה</button>
+              <button class="word clickable" data-lemma="et-yisrael">אֶת־יִשְׂרָאֵ֖ל</button>
+              <button class="word clickable" data-lemma="mimitzrayim">מִמִּצְרָֽיִם׃</button>
+            </div>
+            <p class="translation">
+              <strong>Traducción simple:</strong> Yitró, suegro de Moshé, oyó todo lo que Dios había hecho por Moshé y por Israel su pueblo: que el Eterno sacó a Israel de Egipto.
+            </p>
           </div>
 
-          <p class="translation">
-            <strong>Traducción simple:</strong> Yitró, suegro de Moshé, oyó todo lo que Dios
-            había hecho por Moshé y por Israel su pueblo: que el Eterno sacó a Israel de Egipto.
-          </p>
+          <div class="pasuk-block">
+            <h3>שמות י״ח:ב׳</h3>
+            <p class="pasuk-plain" dir="rtl" lang="he">
+              וַיִּקַּ֗ח יִתְרוֹ֙ חֹתֵ֣ן מֹשֶׁ֔ה אֶת־צִפֹּרָ֖ה אֵ֣שֶׁת מֹשֶׁ֑ה אַחַ֖ר שִׁלּוּחֶֽיהָ׃
+            </p>
+            <div class="pasuk with-nikkud with-teamim" dir="rtl" lang="he">
+              <button class="word clickable" data-lemma="vayikach">וַיִּקַּ֗ח</button>
+              <button class="word clickable" data-lemma="yitro">יִתְר֨וֹ</button>
+              <button class="word clickable" data-lemma="choten">חֹתֵ֣ן</button>
+              <button class="word clickable" data-lemma="moshe">מֹשֶׁ֔ה</button>
+              <button class="word clickable" data-lemma="et-marker">אֶת־</button>
+              <button class="word clickable" data-lemma="tzipora">צִפֹּרָ֖ה</button>
+              <button class="word clickable" data-lemma="eshet">אֵ֣שֶׁת</button>
+              <button class="word clickable" data-lemma="moshe">מֹשֶׁ֑ה</button>
+              <button class="word clickable" data-lemma="achar">אַחַ֖ר</button>
+              <button class="word clickable" data-lemma="shilucheha">שִׁלּוּחֶֽיהָ׃</button>
+            </div>
+            <p class="translation">
+              <strong>Traducción simple:</strong> Yitró, suegro de Moshé, tomó a Tziporá, esposa de Moshé, después de haberla enviado (de regreso).
+            </p>
+          </div>
+
+          <div class="pasuk-block">
+            <h3>שמות י״ח:ג׳</h3>
+            <p class="pasuk-plain" dir="rtl" lang="he">
+              וְאֵ֖ת שְׁנֵ֣י בָנֶ֑יהָ אֲשֶׁ֨ר שֵׁ֤ם הָֽאֶחָד֙ גֵּֽרְשֹׁ֔ם כִּ֣י אָמַ֔ר גֵּ֣ר הָיִ֔יתִי בְּאֶ֖רֶץ נׇכְרִיָּֽה׃
+            </p>
+            <div class="pasuk with-nikkud with-teamim" dir="rtl" lang="he">
+              <button class="word clickable" data-lemma="veet">וְאֵ֖ת</button>
+              <button class="word clickable" data-lemma="shnei">שְׁנֵ֣י</button>
+              <button class="word clickable" data-lemma="baneha">בָנֶ֑יהָ</button>
+              <button class="word clickable" data-lemma="asher-rel">אֲשֶׁ֨ר</button>
+              <button class="word clickable" data-lemma="shem-haechad">שֵׁ֤ם הָֽאֶחָד֙</button>
+              <button class="word clickable" data-lemma="gershom">גֵּֽרְשֹׁ֔ם</button>
+              <button class="word clickable" data-lemma="ki-amar">כִּ֣י אָמַ֔ר</button>
+              <button class="word clickable" data-lemma="ger-hayiti">גֵּ֣ר הָיִ֔יתִי</button>
+              <button class="word clickable" data-lemma="beeretz">בְּאֶ֖רֶץ</button>
+              <button class="word clickable" data-lemma="nochriyah">נׇכְרִיָּֽה׃</button>
+            </div>
+            <p class="translation">
+              <strong>Traducción simple:</strong> Y (también trajo) a sus dos hijos, de los cuales el nombre de uno era Gershom, porque dijo: “Fui extranjero en tierra extraña”.
+            </p>
+          </div>
 
         </article>
 
-        <aside class="card controls">
+        <aside class="card controls app-screen" id="screen-controls" hidden>
           <h3>Panel de control</h3>
           <p>Elige qué mostrar en el texto:</p>
 
@@ -92,7 +150,101 @@
               <li>Seguimiento de progreso del alumno</li>
             </ul>
           </div>
+
+          <div class="live-corrections">
+            <div class="live-head">
+              <h4>Correcciones en Vivo</h4>
+              <button id="toggleLivePanel" type="button" class="legend-btn" aria-label="Abrir panel de correcciones">+</button>
+            </div>
+            <div id="livePanel" class="live-panel" hidden>
+              <p class="live-help">Escribe una corrección y se guarda aquí con contexto automático.</p>
+              <p class="live-context">
+                Contexto: <strong id="liveContext">General</strong>
+              </p>
+              <textarea id="liveInput" rows="4" placeholder="Ejemplo: En וַיִּשְׁמַע, cambiar explicación de conjugación..."></textarea>
+              <div class="live-actions">
+                <button id="saveLiveNote" type="button">Guardar corrección</button>
+                <button id="copyLiveNotes" type="button">Copiar para Codex</button>
+                <button id="clearLiveNotes" type="button">Limpiar</button>
+              </div>
+              <div id="liveNotesList" class="live-notes-list"></div>
+            </div>
+          </div>
         </aside>
+      </section>
+
+      <section class="card story-card app-screen" id="screen-story" hidden>
+        <div class="card-head">
+          <h2>Línea De Tiempo (Para Entender 18:1–2)</h2>
+          <span class="badge">Historia clara</span>
+        </div>
+        <p class="subtitle">
+          Pulsa cada paso en orden. Así se ve qué pasó antes y qué pasa en estos dos pesukim.
+        </p>
+        <div id="timelineSteps" class="timeline-steps"></div>
+        <article class="timeline-detail">
+          <h3 id="timelineTitle">Paso 1</h3>
+          <p id="timelineWhen" class="timeline-when"></p>
+          <p id="timelineText"></p>
+          <p id="timelinePasuk"></p>
+          <p id="timelineRashi"></p>
+          <div id="timelineLinks" class="chip-row"></div>
+        </article>
+      </section>
+
+      <section class="card study-route-card app-screen" id="screen-route" hidden>
+        <div class="card-head">
+          <h2>Ruta De Estudio (5 Pasos)</h2>
+          <span class="badge">Guía niño 10 años</span>
+        </div>
+        <div id="studyRoute" class="timeline-steps"></div>
+      </section>
+
+      <section class="card quiz-card app-screen" id="screen-quiz" hidden>
+        <div class="card-head">
+          <h2>Exámenes Tipo Test</h2>
+          <span class="badge">Acumulable</span>
+        </div>
+        <div id="quizSelector" class="chip-row"></div>
+        <article class="timeline-detail">
+          <h3 id="quizTitle">Quiz</h3>
+          <p id="quizProgress" class="timeline-when"></p>
+          <p id="quizQuestion"></p>
+          <div id="quizOptions" class="rashi-list"></div>
+          <p id="quizFeedback" class="kid-note" hidden></p>
+          <div class="live-actions">
+            <button id="quizNext" type="button">Siguiente</button>
+            <button id="quizRestart" type="button">Reiniciar Quiz</button>
+          </div>
+          <p id="quizScore"></p>
+        </article>
+      </section>
+
+      <section class="card progress-card app-screen" id="screen-progress" hidden>
+        <div class="card-head">
+          <h2>Mi Progresión</h2>
+          <span class="badge">Seguimiento</span>
+        </div>
+        <div id="gameStats" class="chip-row"></div>
+        <div class="mini-table">
+          <h4>Mi Avatar y Nivel</h4>
+          <div class="chip-row">
+            <span id="avatarPreview" class="chip-btn">🦁</span>
+            <span id="levelText" class="chip-btn">Nivel 1</span>
+          </div>
+          <div class="xp-track"><div id="xpFill" class="xp-fill"></div></div>
+          <div id="avatarPicker" class="chip-row"></div>
+        </div>
+        <div id="progressBadges" class="chip-row"></div>
+        <div class="timeline-detail">
+          <p id="progressSummary"></p>
+          <div id="progressRows" class="rashi-list"></div>
+          <p id="progressWeak" class="kid-note"></p>
+        </div>
+        <div class="mini-table">
+          <h4>Retos Del Día</h4>
+          <div id="challengeList" class="rashi-list"></div>
+        </div>
       </section>
     </main>
 
@@ -132,6 +284,8 @@
             </div>
           </div>
           <button class="flip-btn" data-flip>Girar tarjeta</button>
+          <button id="easyExplainBtn" class="flip-btn secondary-btn" type="button">Explícamelo fácil</button>
+          <p id="easyExplainText" class="kid-note" hidden></p>
         </section>
 
         <section id="tab-root" class="tab-panel">
@@ -217,12 +371,13 @@
             <aside class="rashi-index">
               <h4>Indice Rashi</h4>
               <div class="rashi-list">
-                <button class="rashi-item" data-rashi-id="r1">וישמע יתרו</button>
+                <button class="rashi-item" data-rashi-id="r0">וישמע יתרו</button>
                 <button class="rashi-item" data-rashi-id="r2">יתרו</button>
                 <button class="rashi-item" data-rashi-id="r3">חתן משה</button>
                 <button class="rashi-item" data-rashi-id="r4">למשה ולישראל</button>
                 <button class="rashi-item" data-rashi-id="r5">את כל אשר עשה</button>
                 <button class="rashi-item" data-rashi-id="r6">כי הוציא ה׳</button>
+                <button class="rashi-item" data-rashi-id="r1">אַחַר שִׁלּוּחֶיהָ</button>
               </div>
             </aside>
           </div>

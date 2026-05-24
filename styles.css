@@ -55,8 +55,44 @@ body {
 
 .layout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
+}
+
+.screen-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.55rem;
+  margin: 0.6rem 0 1rem;
+  border: 2px solid #cfe2bf;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(3px);
+}
+
+.screen-tab {
+  border: 2px solid #b7d4a2;
+  background: #f5ffea;
+  color: #1f5a35;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.screen-tab.active {
+  background: linear-gradient(180deg, #6ddf6d 0%, #56c45c 100%);
+  color: #12381f;
+  border-color: #4cb856;
+}
+
+.app-screen[hidden] {
+  display: none !important;
 }
 
 .card {

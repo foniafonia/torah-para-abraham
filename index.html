@@ -25,8 +25,17 @@
         </p>
       </header>
 
+      <nav class="screen-nav" aria-label="Navegación principal sin scroll">
+        <button class="screen-tab active" data-screen="screen-pasuk">Pasukim</button>
+        <button class="screen-tab" data-screen="screen-controls">Control</button>
+        <button class="screen-tab" data-screen="screen-story">Historia</button>
+        <button class="screen-tab" data-screen="screen-route">Ruta</button>
+        <button class="screen-tab" data-screen="screen-quiz">Quiz</button>
+        <button class="screen-tab" data-screen="screen-progress">Progreso</button>
+      </nav>
+
       <section class="layout">
-        <article class="card pasuk-card">
+        <article class="card pasuk-card app-screen" id="screen-pasuk">
           <div class="card-head">
             <h2>פסוקים: שמות י״ח:א׳–ג׳</h2>
             <span class="badge">Demo 1</span>
@@ -107,7 +116,7 @@
 
         </article>
 
-        <aside class="card controls">
+        <aside class="card controls app-screen" id="screen-controls" hidden>
           <h3>Panel de control</h3>
           <p>Elige qué mostrar en el texto:</p>
 
@@ -164,7 +173,7 @@
         </aside>
       </section>
 
-      <section class="card story-card">
+      <section class="card story-card app-screen" id="screen-story" hidden>
         <div class="card-head">
           <h2>Línea De Tiempo (Para Entender 18:1–2)</h2>
           <span class="badge">Historia clara</span>
@@ -183,7 +192,7 @@
         </article>
       </section>
 
-      <section class="card study-route-card">
+      <section class="card study-route-card app-screen" id="screen-route" hidden>
         <div class="card-head">
           <h2>Ruta De Estudio (5 Pasos)</h2>
           <span class="badge">Guía niño 10 años</span>
@@ -191,7 +200,7 @@
         <div id="studyRoute" class="timeline-steps"></div>
       </section>
 
-      <section class="card quiz-card">
+      <section class="card quiz-card app-screen" id="screen-quiz" hidden>
         <div class="card-head">
           <h2>Exámenes Tipo Test</h2>
           <span class="badge">Acumulable</span>
@@ -211,7 +220,7 @@
         </article>
       </section>
 
-      <section class="card progress-card">
+      <section class="card progress-card app-screen" id="screen-progress" hidden>
         <div class="card-head">
           <h2>Mi Progresión</h2>
           <span class="badge">Seguimiento</span>

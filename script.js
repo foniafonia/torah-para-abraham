@@ -88,6 +88,8 @@ const progressBadges = document.getElementById("progressBadges");
 const progressSummary = document.getElementById("progressSummary");
 const progressRows = document.getElementById("progressRows");
 const progressWeak = document.getElementById("progressWeak");
+const screenTabs = [...document.querySelectorAll(".screen-tab")];
+const appScreens = [...document.querySelectorAll(".app-screen")];
 
 const TEAMIM_REGEX = /[\u0591-\u05AF]/g;
 const NIKKUD_REGEX = /[\u05B0-\u05BC\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7]/g;
@@ -1704,6 +1706,24 @@ function initAvatarPicker() {
   });
 }
 
+function switchScreen(screenId) {
+  appScreens.forEach((screen) => {
+    screen.hidden = screen.id !== screenId;
+  });
+  screenTabs.forEach((tab) => {
+    tab.classList.toggle("active", tab.dataset.screen === screenId);
+  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function initScreenNav() {
+  if (!screenTabs.length || !appScreens.length) return;
+  screenTabs.forEach((tab) => {
+    tab.addEventListener("click", () => switchScreen(tab.dataset.screen));
+  });
+  switchScreen("screen-pasuk");
+}
+
 function renderStudyRoute() {
   if (!studyRoute) return;
   studyRoute.innerHTML = "";
@@ -2015,6 +2035,7 @@ initTimeline();
 renderStudyRoute();
 initQuiz();
 initAvatarPicker();
+initScreenNav();
 renderPasuk();
 loadLiveNotes();
 renderLiveNotes();

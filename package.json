@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "qa": "node qa/audit.js"
+    "qa": "node qa/audit.js",
+    "qa:design": "node qa/design-agent.js"
   }
 }

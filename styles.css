@@ -1109,6 +1109,188 @@ body {
   }
 }
 
+/* KidsFull Pro Theme v2 (visual refinement) */
+:root {
+  --k-surface: #ffffff;
+  --k-border: #d7f0c8;
+  --k-depth: #cbe8ba;
+  --k-accent-1: #58cc02;
+  --k-accent-2: #1cb0f6;
+  --k-accent-3: #ffb020;
+  --k-accent-4: #ff6ea8;
+  --k-text-main: #23343a;
+}
+
+.hero {
+  padding: 0.5rem 0.2rem 0.8rem;
+}
+
+.hero .subtitle {
+  border: 2px dashed #d5eec6;
+  background: linear-gradient(180deg, #fffefa, #f7fff1);
+  border-radius: 16px;
+  padding: 0.6rem 0.8rem;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(88, 204, 2, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.pasuk-card::after,
+.quiz-card::after,
+.progress-card::after {
+  content: "";
+  position: absolute;
+  left: -40px;
+  bottom: -40px;
+  width: 140px;
+  height: 140px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(28, 176, 246, 0.14), transparent 70%);
+  pointer-events: none;
+}
+
+.pasuk-block {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.pasuk-block:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 0 #e2f2d8;
+}
+
+.card-head h2 {
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+}
+
+.controls h3,
+.controls h4,
+.story-card h2,
+.quiz-card h2,
+.progress-card h2 {
+  letter-spacing: 0.2px;
+}
+
+.toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--k-accent-1);
+}
+
+.live-actions button:active,
+.flip-btn:active,
+.chip-btn:active,
+.rashi-item:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #d6e9ca;
+}
+
+.word-hero-he {
+  text-shadow: 0 2px 0 #d9efcb;
+}
+
+.word-hero-es {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border: 2px solid #bfe7a9;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ecffd8, #d9f8c0);
+}
+
+.tab-nav {
+  padding-bottom: 0.2rem;
+  border-bottom: 2px dashed #d9ebcd;
+}
+
+.rashi-main h4,
+.mini-table h4,
+.timeline-detail h3 {
+  color: #2e4d31;
+  font-weight: 900;
+}
+
+.rashi-index .rashi-item {
+  background: linear-gradient(180deg, #fff, #f6ffed);
+}
+
+.quiz-card .timeline-detail {
+  border-color: #bfe8f8;
+  background: linear-gradient(180deg, #fafdff, #eef9ff);
+}
+
+#quizQuestion {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: #21404a;
+}
+
+#quizProgress {
+  color: #187f9c;
+}
+
+#quizScore {
+  font-weight: 900;
+  color: #315040;
+}
+
+#progressRows .rashi-item {
+  border-color: #cde7bf;
+  background: linear-gradient(180deg, #fff, #f5ffef);
+}
+
+#gameStats .chip-btn {
+  background: linear-gradient(180deg, #fff9de, #fff0b8);
+  border-color: #f3d56f;
+  box-shadow: 0 3px 0 #eccf6d;
+}
+
+#avatarPicker .chip-btn {
+  font-size: 1.1rem;
+  min-width: 46px;
+  text-align: center;
+}
+
+.kids-coach {
+  border-color: #bfe6a8;
+}
+
+.coach-bubble {
+  font-size: 0.95rem;
+}
+
+.coach-mini .xp-track {
+  margin-top: 0.15rem;
+}
+
+@media (max-width: 880px) {
+  .hero .subtitle {
+    font-size: 0.95rem;
+  }
+  .chip-btn,
+  .rashi-item,
+  .live-actions button,
+  .flip-btn,
+  .tab-btn {
+    min-height: 44px;
+  }
+  .controls {
+    order: -1;
+  }
+}
+
 /* KidsFull layer */
 .kids-coach {
   position: fixed;

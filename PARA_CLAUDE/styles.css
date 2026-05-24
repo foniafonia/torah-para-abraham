@@ -1,0 +1,607 @@
+:root {
+  --bg-a: #f7f4ea;
+  --bg-b: #e9f0da;
+  --ink: #202124;
+  --card: #fffdf8;
+  --accent: #2f6b3f;
+  --accent-soft: #dbeccf;
+  --focus: #ffb300;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 20% 10%, #fff3cc, transparent 45%),
+    linear-gradient(120deg, var(--bg-a), var(--bg-b));
+  min-height: 100vh;
+}
+
+.page {
+  width: min(1080px, 92vw);
+  margin: 2rem auto 4rem;
+}
+
+.hero h1 {
+  margin: 0.4rem 0;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.tag {
+  display: inline-block;
+  margin: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.subtitle {
+  max-width: 70ch;
+  line-height: 1.5;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 2px solid #d7e0c8;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 12px 28px -22px #000;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.badge {
+  background: var(--accent-soft);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.pasuk {
+  margin-top: 1rem;
+  font-size: clamp(1.45rem, 2.8vw, 2rem);
+  line-height: 2;
+  font-family: "SBL Hebrew", "Noto Sans Hebrew", "Ezra SIL", "Times New Roman", serif;
+}
+
+.word {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  padding: 0 0.08rem;
+}
+
+.clickable {
+  cursor: pointer;
+  border-radius: 6px;
+  color: #0f4e23;
+  font-weight: 700;
+}
+
+.clickable:hover,
+.clickable:focus-visible {
+  outline: 2px solid var(--focus);
+  background: #fff4cf;
+}
+
+.word.has-rashi {
+  position: relative;
+}
+
+.word.has-rashi::after {
+  content: "•";
+  color: #d35400;
+  font-size: 0.9em;
+  vertical-align: super;
+  margin-inline-start: 0.12rem;
+}
+
+.translation {
+  margin-top: 1rem;
+  padding: 0.85rem;
+  background: #f9f5e8;
+  border-left: 4px solid #d4bf78;
+  border-radius: 8px;
+}
+
+.rashi-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.rashi-item {
+  border: 1px solid #c9cfb9;
+  background: #f8fbf4;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.word.linked-highlight {
+  background: #fff1c7;
+  border-radius: 6px;
+}
+
+.toggle {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.6rem 0;
+}
+
+.legend-btn {
+  border: 1px solid #97ae86;
+  background: #eef6e7;
+  color: #215d33;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.roadmap {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed #c8c8c8;
+}
+
+.roadmap ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1rem;
+}
+
+.word-dialog {
+  width: min(900px, 94vw);
+  border: none;
+  border-radius: 14px;
+  padding: 0;
+}
+
+.word-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.word-dialog article {
+  padding: 1rem;
+  min-height: min(86vh, 920px);
+  display: flex;
+  flex-direction: column;
+}
+
+.word-hero {
+  min-height: 44vh;
+  border: 1px solid #d2ddc3;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f6fbef 0%, #f0f7e6 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.word-hero-he {
+  margin: 0;
+  font-size: clamp(2.8rem, 10vw, 7rem);
+  line-height: 1.1;
+  font-family: "SBL Hebrew", "Noto Sans Hebrew", "Ezra SIL", "Times New Roman", serif;
+}
+
+.word-hero-es {
+  margin: 0.4rem 0 0;
+  font-size: clamp(1.2rem, 3vw, 1.9rem);
+  font-weight: 800;
+  color: #1f6a35;
+}
+
+.tab-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+
+.legend-dialog {
+  width: min(560px, 92vw);
+  border: none;
+  border-radius: 14px;
+}
+
+.legend-dialog article {
+  padding: 1rem;
+}
+
+.tab-btn {
+  border: 1px solid #b8c6ac;
+  background: #f4f8ef;
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #d9ecd0;
+  border-color: #7ba06d;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.flip-card {
+  perspective: 1200px;
+  min-height: 170px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  min-height: 170px;
+  transform-style: preserve-3d;
+  transition: transform 0.55s ease;
+}
+
+.flip-card.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #cdd8c5;
+  border-radius: 12px;
+  padding: 0.8rem;
+  backface-visibility: hidden;
+  background: #fffdf8;
+}
+
+.flip-face h4 {
+  margin-top: 0;
+}
+
+.flip-face.back {
+  transform: rotateY(180deg);
+  background: #eef6ff;
+}
+
+.flip-btn {
+  margin-top: 0.65rem;
+  border: 0;
+  background: #205f33;
+  color: white;
+  border-radius: 8px;
+  padding: 0.45rem 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dialog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close {
+  border: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  background: transparent;
+  cursor: pointer;
+}
+
+.kid-note {
+  background: #e8f3ff;
+  padding: 0.75rem;
+  border-radius: 10px;
+}
+
+.mini-table {
+  margin-top: 0.8rem;
+  background: #fff7e1;
+  border: 1px solid #e5d6a5;
+  border-radius: 10px;
+  padding: 0.7rem;
+}
+
+.mini-table h4 {
+  margin: 0 0 0.4rem;
+}
+
+.conj-rows {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.conj-row {
+  background: #fffdf3;
+  border: 1px solid #e8ddb3;
+  border-radius: 8px;
+  padding: 0.45rem 0.55rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  direction: ltr;
+}
+
+.conj-row .label {
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 120px;
+  text-align: left;
+}
+
+.conj-row .hebrew-inline {
+  flex: 1;
+  direction: rtl;
+  unicode-bidi: isolate-override;
+}
+
+.form-hebrew {
+  direction: rtl;
+  unicode-bidi: isolate-override;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.person-chip {
+  display: inline-block;
+  border: 1px solid #b8c6ac;
+  background: #f1f8e9;
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #2a6136;
+  flex-shrink: 0;
+}
+
+.person-info {
+  margin: 0 0 0.45rem;
+  background: #edf7ff;
+  border: 1px solid #bfd9ee;
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
+  font-weight: 700;
+}
+
+.bilingual-rows {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.bilingual-item {
+  border: 1px solid #d9ddb8;
+  border-radius: 10px;
+  background: #fffef7;
+  padding: 0.5rem 0.6rem;
+}
+
+.bilingual-subject {
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+
+.bilingual-he,
+.bilingual-es {
+  margin: 0.12rem 0;
+}
+
+.bilingual-he {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: "SBL Hebrew", "Noto Sans Hebrew", "Ezra SIL", "Times New Roman", serif;
+}
+
+.pronoun-chip {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid transparent;
+}
+
+.pron-yo {
+  background: #e3f2fd;
+  border-color: #90caf9;
+  color: #0d47a1;
+}
+
+.pron-tu {
+  background: #f3e5f5;
+  border-color: #ce93d8;
+  color: #4a148c;
+}
+
+.pron-el {
+  background: #e8f5e9;
+  border-color: #a5d6a7;
+  color: #1b5e20;
+}
+
+.pron-nosotros {
+  background: #fff3e0;
+  border-color: #ffcc80;
+  color: #e65100;
+}
+
+.pron-vosotros {
+  background: #e0f7fa;
+  border-color: #80deea;
+  color: #006064;
+}
+
+.pron-ellos {
+  background: #fce4ec;
+  border-color: #f48fb1;
+  color: #880e4f;
+}
+
+.gram-legend {
+  margin-top: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.token {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 0.05rem 0.28rem;
+  font-weight: 700;
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: "SBL Hebrew", "Noto Sans Hebrew", "Ezra SIL", "Times New Roman", serif;
+}
+
+.root-mark {
+  background: #d6ecff;
+  color: #114f80;
+}
+
+.add-mark {
+  background: #ffe1c7;
+  color: #8e4a11;
+}
+
+.build-examples {
+  margin-top: 0.65rem;
+  border-top: 1px dashed #d8cfa8;
+  padding-top: 0.55rem;
+}
+
+.build-examples p {
+  margin: 0.28rem 0;
+}
+
+.hebrew-inline {
+  direction: rtl;
+  unicode-bidi: isolate-override;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 0.18rem;
+  align-items: baseline;
+  font-family: "SBL Hebrew", "Noto Sans Hebrew", "Ezra SIL", "Times New Roman", serif;
+}
+
+.hebrew-word {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: "SBL Hebrew", "Noto Sans Hebrew", "Ezra SIL", "Times New Roman", serif;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.chip-btn {
+  border: 1px solid #9eb18f;
+  background: #ecf6e6;
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rashi-tree {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.9rem;
+}
+
+.rashi-main {
+  background: #fffef8;
+  border: 1px solid #e1dbc8;
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+
+.rashi-index {
+  background: #f7fbf1;
+  border: 1px solid #d2dfc7;
+  border-radius: 10px;
+  padding: 0.7rem;
+}
+
+.rashi-item.active {
+  background: #d9ecd0;
+  border-color: #7ba06d;
+}
+
+.rashi-hebrew-text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
+}
+
+.rashi-hebrew-plain {
+  margin: 0 0 0.55rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  background: #f4f5ef;
+  border: 1px solid #d8dccd;
+  font-family: "SBL Hebrew", "Noto Sans Hebrew", "Ezra SIL", "Times New Roman", serif;
+  font-size: 1.15rem;
+}
+
+.rashi-word-btn {
+  border: 1px solid #d8decc;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+  font-family: "SBL Hebrew", "Noto Sans Hebrew", "Ezra SIL", "Times New Roman", serif;
+  font-size: 1.15rem;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+.rashi-word-btn:hover,
+.rashi-word-btn.active {
+  background: #fff1c7;
+  border-color: #c8b783;
+}
+
+.hide-nikkud .word,
+.hide-teamim .word {
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 880px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .rashi-tree {
+    grid-template-columns: 1fr;
+  }
+}

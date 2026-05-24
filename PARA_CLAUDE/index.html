@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perashá Interactiva | Yitró</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <p class="tag">Proyecto piloto</p>
+        <h1>Perashá Interactiva para Niños</h1>
+        <p class="subtitle">
+          Primera prueba con <strong>שמות י״ח:א׳</strong> (Perashat Yitró). Toca una palabra
+          para aprender su significado y su forma verbal.
+        </p>
+      </header>
+
+      <section class="layout">
+        <article class="card pasuk-card">
+          <div class="card-head">
+            <h2>פסוק: שמות י״ח:א׳</h2>
+            <span class="badge">Demo 1</span>
+          </div>
+
+          <div id="pasukContainer" class="pasuk with-nikkud with-teamim" dir="rtl" lang="he">
+            <button
+              class="word clickable"
+              data-word-id="vaishma"
+              data-lemma="vaishma"
+              aria-label="Abrir detalle de וַיִּשְׁמַע"
+            >
+              וַיִּשְׁמַ֞ע
+            </button>
+            <button class="word clickable" data-lemma="yitro">יִתְר֨וֹ</button>
+            <button class="word clickable" data-lemma="kohen">כֹהֵ֤ן</button>
+            <button class="word clickable" data-lemma="midyan">מִדְיָן֙</button>
+            <button class="word clickable" data-lemma="choten">חֹתֵ֣ן</button>
+            <button class="word clickable" data-lemma="moshe">מֹשֶׁ֔ה</button>
+            <button class="word clickable" data-lemma="et-marker">אֵת֩</button>
+            <button class="word clickable" data-lemma="kol-asher">כָּל־אֲשֶׁ֨ר</button>
+            <button class="word clickable" data-lemma="asah">עָשָׂ֤ה</button>
+            <button class="word clickable" data-lemma="elohim">אֱלֹהִים֙</button>
+            <button class="word clickable" data-lemma="lemoshe">לְמֹשֶׁ֔ה</button>
+            <button class="word clickable" data-lemma="uleyisrael">וּלְיִשְׂרָאֵ֖ל</button>
+            <button class="word clickable" data-lemma="amo">עַמּ֑וֹ</button>
+            <button class="word clickable" data-lemma="ki-hotzi">כִּֽי־הוֹצִ֧יא</button>
+            <button class="word clickable" data-lemma="adonai">יְהֹוָ֛ה</button>
+            <button class="word clickable" data-lemma="et-yisrael">אֶת־יִשְׂרָאֵ֖ל</button>
+            <button class="word clickable" data-lemma="mimitzrayim">מִמִּצְרָֽיִם׃</button>
+          </div>
+
+          <p class="translation">
+            <strong>Traducción simple:</strong> Yitró, suegro de Moshé, oyó todo lo que Dios
+            había hecho por Moshé y por Israel su pueblo: que el Eterno sacó a Israel de Egipto.
+          </p>
+
+        </article>
+
+        <aside class="card controls">
+          <h3>Panel de control</h3>
+          <p>Elige qué mostrar en el texto:</p>
+
+          <label class="toggle">
+            <input id="toggleNikkud" type="checkbox" checked />
+            Mostrar vocales (nikud)
+          </label>
+
+          <label class="toggle">
+            <input id="toggleTeamim" type="checkbox" checked />
+            Mostrar taamim (cantillación)
+          </label>
+
+          <label class="toggle">
+            <input id="toggleTranslation" type="checkbox" checked />
+            Mostrar traducción debajo
+          </label>
+
+          <label class="toggle">
+            <input id="toggleNeae" type="checkbox" />
+            Modo apoyo NEAE (opcional)
+            <button id="openNeaeLegend" type="button" class="legend-btn" aria-label="Ver adaptaciones NEAE">i</button>
+          </label>
+
+          <div class="roadmap">
+            <h4>Próximas capas</h4>
+            <ul>
+              <li>Preguntas del pasuk (modo juego)</li>
+              <li>Comentario de Rashi por frase</li>
+              <li>Modo sin nikud para lectura guiada</li>
+              <li>Seguimiento de progreso del alumno</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <dialog id="wordDialog" class="word-dialog">
+      <article>
+        <header class="dialog-head">
+          <h3 id="wordTitle">Estudio de palabra</h3>
+          <button id="closeDialog" class="close" aria-label="Cerrar">×</button>
+        </header>
+
+        <section class="word-hero">
+          <p id="wordHeroHebrew" class="word-hero-he" dir="rtl" lang="he">וַיִּשְׁמַע</p>
+          <p id="wordHeroSpanish" class="word-hero-es">Y escuchó</p>
+        </section>
+
+        <nav class="tab-nav" aria-label="Secciones del análisis">
+          <button class="tab-btn active" data-tab="tab-translation">Traducción</button>
+          <button class="tab-btn" data-tab="tab-root">Raíz</button>
+          <button class="tab-btn" data-tab="tab-conjugation">Conjugación</button>
+          <button class="tab-btn" data-tab="tab-rashi">Rashi</button>
+          <button class="tab-btn" data-tab="tab-support">Apoyos</button>
+        </nav>
+
+        <section id="tab-translation" class="tab-panel active">
+          <div class="flip-card" data-card>
+            <div class="flip-inner">
+              <article class="flip-face front">
+                <h4>¿Qué significa?</h4>
+                <p id="wordMeaningMain"></p>
+                <p id="wordMeaningAlt"></p>
+              </article>
+              <article class="flip-face back">
+                <h4>Explicación simple</h4>
+                <p id="wordSimpleText"></p>
+                <p id="wordSimpleNote" class="kid-note"></p>
+              </article>
+            </div>
+          </div>
+          <button class="flip-btn" data-flip>Girar tarjeta</button>
+        </section>
+
+        <section id="tab-root" class="tab-panel">
+          <div class="flip-card" data-card>
+            <div class="flip-inner">
+              <article class="flip-face front">
+                <h4>Raíz de la palabra</h4>
+                <p><strong>Con vocales:</strong> <span id="rootWithNikkud">שָׁמַע</span></p>
+                <p><strong>Sin vocales:</strong> <span id="rootWithoutNikkud">שמע</span></p>
+                <p><strong>Letras raíz:</strong> <span id="rootLetters">ש־מ־ע</span></p>
+              </article>
+              <article class="flip-face back">
+                <h4>Idea de la raíz</h4>
+                <p id="rootIdeaA"></p>
+                <p id="rootIdeaB"></p>
+              </article>
+            </div>
+          </div>
+          <button class="flip-btn" data-flip>Girar tarjeta</button>
+        </section>
+
+        <section id="tab-conjugation" class="tab-panel">
+          <div class="flip-card" data-card>
+            <div class="flip-inner">
+              <article class="flip-face front">
+                <h4 id="conjugationTitle">Cómo se forma la palabra</h4>
+                <p id="personInfo" class="person-info"></p>
+                <p id="buildLine1"></p>
+                <p id="buildLine2"></p>
+                <p id="buildLine3"></p>
+              </article>
+              <article class="flip-face back">
+                <h4>Tiempos (forma simple)</h4>
+                <p id="tensePast"></p>
+                <p id="tensePresent"></p>
+                <p id="tenseFuture"></p>
+              </article>
+            </div>
+          </div>
+          <button class="flip-btn" data-flip>Girar tarjeta</button>
+
+          <div class="mini-table" id="conjugationTable">
+            <h4>Conjugación básica (verbo שָׁמַע)</h4>
+            <div id="conjugationRows" class="conj-rows"></div>
+            <div id="buildExamples" class="build-examples"></div>
+          </div>
+
+          <div class="mini-table" id="conjugationPractice">
+            <h4>Conjugación práctica (Hebreo + Español)</h4>
+            <p>Dos filas por forma: 1) hebreo, 2) español.</p>
+            <div id="bilingualRows" class="bilingual-rows"></div>
+          </div>
+        </section>
+
+        <section id="tab-rashi" class="tab-panel">
+          <div class="rashi-tree">
+            <div class="rashi-main">
+              <h4 id="rashiTitle">רש״י</h4>
+              <p id="rashiHebrewPlain" class="rashi-hebrew-plain" dir="rtl" lang="he"></p>
+              <div id="rashiHebrewText" class="rashi-hebrew-text" dir="rtl" lang="he"></div>
+              <p id="rashiIdea"></p>
+              <div class="mini-table">
+                <h4>Explicación simple</h4>
+                <p id="rashiSimple"></p>
+              </div>
+              <div class="mini-table">
+                <h4>Literal por palabra (Rashi)</h4>
+                <div class="flip-card" data-card id="rashiLiteralCard">
+                  <div class="flip-inner">
+                    <article class="flip-face front">
+                      <p id="rashiLiteralFront">Pulsa una palabra de Rashi para verla literal.</p>
+                    </article>
+                    <article class="flip-face back">
+                      <p id="rashiLiteralBack">Aquí verás una explicación corta de estudio.</p>
+                    </article>
+                  </div>
+                </div>
+                <button class="flip-btn" data-flip>Girar tarjeta</button>
+              </div>
+              <h4>Palabras conectadas</h4>
+              <div id="rashiLinkedWords" class="chip-row"></div>
+            </div>
+            <aside class="rashi-index">
+              <h4>Indice Rashi</h4>
+              <div class="rashi-list">
+                <button class="rashi-item" data-rashi-id="r1">וישמע יתרו</button>
+                <button class="rashi-item" data-rashi-id="r2">יתרו</button>
+                <button class="rashi-item" data-rashi-id="r3">חתן משה</button>
+                <button class="rashi-item" data-rashi-id="r4">למשה ולישראל</button>
+                <button class="rashi-item" data-rashi-id="r5">את כל אשר עשה</button>
+                <button class="rashi-item" data-rashi-id="r6">כי הוציא ה׳</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="tab-support" class="tab-panel">
+          <div class="mini-table">
+            <h4>Estrategias opcionales para aprender mejor</h4>
+            <p>Elige un perfil y aplica solo lo que ayude al niño.</p>
+            <div id="supportProfiles" class="chip-row"></div>
+          </div>
+          <div class="mini-table support-card">
+            <h4 id="supportTitle">Perfil</h4>
+            <ul id="supportList"></ul>
+          </div>
+        </section>
+      </article>
+    </dialog>
+
+    <dialog id="neaeLegendDialog" class="legend-dialog">
+      <article>
+        <header class="dialog-head">
+          <h3>Leyenda Modo NEAE</h3>
+          <button id="closeNeaeLegend" class="close" aria-label="Cerrar">×</button>
+        </header>
+        <p>Al activar este modo se aplican adaptaciones opcionales para apoyar el aprendizaje:</p>
+        <ul>
+          <li>Lectura más clara: espaciado visual ligeramente ampliado.</li>
+          <li>Pestaña de apoyos con estrategias por perfil (dislexia, TDAH, lenguaje, TEA, memoria).</li>
+          <li>Micro-objetivos de trabajo por palabra para reducir sobrecarga.</li>
+          <li>Sugerencias de ritmo, repetición y simplificación del lenguaje.</li>
+        </ul>
+      </article>
+    </dialog>
+
+    <script src="script.js?v=20260524-3"></script>
+  </body>
+</html>

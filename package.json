@@ -1,0 +1,8 @@
+{
+  "name": "torah-para-abraham",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "qa": "node qa/audit.js"
+  }
+}

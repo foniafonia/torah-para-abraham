@@ -1023,6 +1023,19 @@ const literalGlossary = {
   "שקול": { literal: "equivale / pesa como", note: "Comparación de valor." },
 };
 
+function toLearningPair(data) {
+  if (!data) {
+    return {
+      literal: "Traducción literal pendiente",
+      nonLiteral: "Idea pendiente: la añadimos en la siguiente capa.",
+    };
+  }
+  return {
+    literal: data.literal || "Traducción literal pendiente",
+    nonLiteral: data.nonLiteral || data.note || "Idea no literal pendiente.",
+  };
+}
+
 function normalizeHebrewToken(token) {
   return token
     .replace(TEAMIM_REGEX, "")
@@ -1363,9 +1376,10 @@ function setRashi(rashiId) {
     btn.addEventListener("click", () => {
       rashiHebrewText.querySelectorAll(".rashi-word-btn").forEach((w) => w.classList.remove("active"));
       btn.classList.add("active");
-      const data = literalGlossary[clean] || normalizedLiteralGlossary[clean] || { literal: "Traducción literal pendiente", note: "La añadimos en la siguiente capa." };
-      rashiLiteralFront.innerHTML = `<strong>${clean}</strong> = ${data.literal}`;
-      rashiLiteralBack.textContent = data.note;
+      const raw = literalGlossary[clean] || normalizedLiteralGlossary[clean] || null;
+      const data = toLearningPair(raw);
+      rashiLiteralFront.innerHTML = `<strong>${clean}</strong> · <strong>Literal:</strong> ${data.literal}`;
+      rashiLiteralBack.textContent = `No literal (idea): ${data.nonLiteral}`;
       rashiLiteralCard.classList.remove("flipped");
     });
     rashiHebrewText.appendChild(btn);

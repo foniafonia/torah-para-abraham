@@ -830,3 +830,281 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Duolingo-style playful override layer */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap");
+
+:root {
+  --duo-green: #58cc02;
+  --duo-green-dark: #46a302;
+  --duo-blue: #1cb0f6;
+  --duo-yellow: #ffd900;
+  --duo-pink: #ff6ea8;
+  --duo-purple: #ce82ff;
+  --duo-ink: #243233;
+  --duo-cream: #fffdf6;
+}
+
+body {
+  font-family: "Nunito", "Avenir Next", "Trebuchet MS", sans-serif;
+  color: var(--duo-ink);
+  background:
+    radial-gradient(circle at 8% 10%, #ffd6ea 0, transparent 28%),
+    radial-gradient(circle at 90% 14%, #d8f3ff 0, transparent 27%),
+    radial-gradient(circle at 72% 88%, #e2ffd7 0, transparent 26%),
+    radial-gradient(circle at 20% 82%, #fff3bf 0, transparent 25%),
+    linear-gradient(160deg, #f7fff2, #f2fbff 50%, #fffaf0);
+}
+
+.page {
+  width: min(1140px, 93vw);
+}
+
+.hero h1 {
+  font-weight: 900;
+  color: #19462a;
+  letter-spacing: 0.2px;
+}
+
+.tag {
+  background: linear-gradient(180deg, #88e94f, #5fcc0d);
+  color: #12350e;
+  border: 2px solid #4daa0a;
+  box-shadow: 0 4px 0 #3f9208;
+}
+
+.subtitle {
+  font-size: 1.02rem;
+}
+
+.card {
+  border: 3px solid #ddf0d0;
+  border-radius: 26px;
+  background: linear-gradient(180deg, #ffffff, var(--duo-cream));
+  box-shadow: 0 10px 0 #d8ebcd, 0 20px 34px -25px #5f9a5b;
+}
+
+.card-head h2 {
+  font-weight: 900;
+  color: #24542d;
+}
+
+.badge {
+  background: linear-gradient(180deg, #fff59b, #ffe16c);
+  border: 2px solid #f5c942;
+  color: #5d4800;
+  box-shadow: 0 3px 0 #e6ba32;
+  font-weight: 900;
+}
+
+.pasuk-block {
+  border: 2px solid #dbefcf;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fdfff9, #f8fff1);
+  box-shadow: inset 0 -2px 0 #eaf6de;
+}
+
+.pasuk-block h3 {
+  color: #1d6f4b;
+  font-weight: 900;
+}
+
+.pasuk-plain {
+  border: 2px solid #f0e8c9;
+  border-radius: 14px;
+  background: #fffdf4;
+}
+
+.translation {
+  border-left: 0;
+  border: 2px solid #f1dd8f;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff9de, #fff2c7);
+}
+
+.clickable {
+  color: #0f7b3a;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 0.08rem 0.3rem;
+  transition: transform 0.08s ease, background 0.12s ease;
+}
+
+.clickable:hover,
+.clickable:focus-visible {
+  transform: translateY(-1px);
+  background: #edffd8;
+  border-color: #bce89f;
+  outline: none;
+}
+
+.word.has-rashi::after {
+  color: #ff6c37;
+  font-size: 1.1em;
+}
+
+.toggle {
+  border: 2px solid #e0efd5;
+  border-radius: 14px;
+  padding: 0.4rem 0.55rem;
+  background: #fafff5;
+}
+
+.legend-btn {
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 2px solid #7bc665;
+  background: linear-gradient(180deg, #dcf9cb, #b7ee97);
+  color: #1f5b24;
+  font-weight: 900;
+}
+
+.roadmap,
+.live-corrections {
+  border-top: 2px dashed #d7e9ca;
+}
+
+.live-panel {
+  border: 2px solid #d4ebc2;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fbfff8, #f2ffe8);
+}
+
+.live-actions button,
+.chip-btn,
+.rashi-item,
+.tab-btn {
+  border: 2px solid #d0e8c0;
+  border-radius: 14px;
+  font-weight: 900;
+}
+
+.live-actions button,
+.chip-btn,
+.rashi-item {
+  background: linear-gradient(180deg, #ffffff, #f2ffe8);
+  box-shadow: 0 3px 0 #d8ebcd;
+}
+
+.tab-btn {
+  background: linear-gradient(180deg, #ffffff, #f4fff0);
+}
+
+.tab-btn.active {
+  border-color: #6cca30;
+  background: linear-gradient(180deg, #dfffca, #bef39a);
+  color: #255320;
+  box-shadow: 0 3px 0 #97d56d;
+}
+
+.word-dialog {
+  border-radius: 22px;
+  border: 3px solid #def1d1;
+}
+
+.word-hero {
+  border: 2px solid #cde8ba;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 14% 18%, #ffe8f2, transparent 28%),
+    radial-gradient(circle at 84% 14%, #dff4ff, transparent 26%),
+    linear-gradient(180deg, #f7ffe9 0%, #efffe0 100%);
+}
+
+.word-hero-es {
+  color: #1f7a31;
+  font-weight: 900;
+}
+
+.flip-face {
+  border: 2px solid #d9ebcf;
+  border-radius: 16px;
+}
+
+.flip-face.back {
+  background: linear-gradient(180deg, #e9f7ff, #dbf2ff);
+}
+
+.flip-btn {
+  background: linear-gradient(180deg, var(--duo-green), var(--duo-green-dark));
+  border: 2px solid #3f9502;
+  border-radius: 14px;
+  box-shadow: 0 4px 0 #3e9302;
+  font-weight: 900;
+}
+
+.secondary-btn {
+  background: linear-gradient(180deg, var(--duo-blue), #1099d7);
+  border-color: #0e89bf;
+  box-shadow: 0 4px 0 #0f83b4;
+}
+
+.mini-table,
+.rashi-main,
+.rashi-index,
+.timeline-detail {
+  border: 2px solid #e6ddb8;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fffdf2, #fff8dc);
+}
+
+.timeline-step {
+  border: 2px solid #d5ebc6;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff, #f2ffe7);
+  box-shadow: 0 4px 0 #d6ecc9;
+}
+
+.timeline-step.active {
+  border-color: #7fd443;
+  background: linear-gradient(180deg, #e5ffcf, #cdf9aa);
+  box-shadow: 0 4px 0 #9ddd71;
+}
+
+.rashi-word-btn {
+  border: 2px solid #dce5cf;
+  border-radius: 11px;
+  background: #fff;
+}
+
+.rashi-word-btn:hover,
+.rashi-word-btn.active {
+  border-color: #f2c765;
+  background: #fff2c8;
+}
+
+.quiz-option.good {
+  border-color: #78c553;
+  background: #e7ffd9;
+}
+
+.quiz-option.bad {
+  border-color: #f2a0a0;
+  background: #ffe0e0;
+}
+
+.xp-track {
+  border: 2px solid #b9de9c;
+  background: #edf8e4;
+  height: 16px;
+}
+
+.xp-fill {
+  background: linear-gradient(90deg, #67d712, #9cef55);
+}
+
+.kid-note {
+  border: 2px solid #bde0fb;
+  background: linear-gradient(180deg, #eff8ff, #e1f1ff);
+  border-radius: 14px;
+}
+
+@media (max-width: 880px) {
+  .card {
+    border-radius: 20px;
+    padding: 0.85rem;
+  }
+  .word-hero {
+    min-height: 34vh;
+  }
+}

@@ -80,6 +80,10 @@ const avatarPreview = document.getElementById("avatarPreview");
 const levelText = document.getElementById("levelText");
 const xpFill = document.getElementById("xpFill");
 const avatarPicker = document.getElementById("avatarPicker");
+const coachBubble = document.getElementById("coachBubble");
+const coachFace = document.getElementById("coachFace");
+const dailyMissionLabel = document.getElementById("dailyMissionLabel");
+const dailyMissionFill = document.getElementById("dailyMissionFill");
 const progressBadges = document.getElementById("progressBadges");
 const progressSummary = document.getElementById("progressSummary");
 const progressRows = document.getElementById("progressRows");
@@ -1065,6 +1069,7 @@ let activeStudyContext = "General";
 const LIVE_NOTES_KEY = "torah_live_notes_v1";
 const QUIZ_PROGRESS_KEY = "torah_quiz_progress_v1";
 const GAME_STATS_KEY = "torah_game_stats_v1";
+const DAILY_MISSION_KEY = "torah_daily_mission_v1";
 let liveNotes = [];
 let currentLemma = "vaishma";
 const timelineData = [
@@ -1195,6 +1200,11 @@ let gameState = {
     score80: false,
     allDone: false,
   },
+};
+let dailyMission = {
+  date: new Date().toISOString().slice(0, 10),
+  correctToday: 0,
+  target: 5,
 };
 const avatarOptions = ["🦁", "🦊", "🐯", "🐼", "🐬", "🦄"];
 
@@ -1570,6 +1580,10 @@ function saveGameStats() {
   localStorage.setItem(GAME_STATS_KEY, JSON.stringify(gameState));
 }
 
+function saveDailyMission() {
+  localStorage.setItem(DAILY_MISSION_KEY, JSON.stringify(dailyMission));
+}
+
 function loadQuizProgress() {
   try {
     const raw = localStorage.getItem(QUIZ_PROGRESS_KEY);
@@ -1592,6 +1606,43 @@ function loadGameStats() {
   } catch {
     // keep defaults
   }
+}
+
+function loadDailyMission() {
+  try {
+    const raw = localStorage.getItem(DAILY_MISSION_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const today = new Date().toISOString().slice(0, 10);
+    if (parsed.date !== today) {
+      dailyMission = { date: today, correctToday: 0, target: 5 };
+      saveDailyMission();
+      return;
+    }
+    dailyMission = { ...dailyMission, ...parsed };
+  } catch {
+    // keep defaults
+  }
+}
+
+function setCoachMessage(msg, mood = "neutral") {
+  if (coachBubble) coachBubble.textContent = msg;
+  if (coachFace) {
+    const faces = { neutral: "🦉", happy: "😺", wow: "🤩", oops: "🫶", fire: "🔥" };
+    coachFace.textContent = faces[mood] || "🦉";
+  }
+  document.body.classList.remove("kids-correct", "kids-wrong", "kids-streak");
+  if (mood === "happy") document.body.classList.add("kids-correct");
+  if (mood === "oops") document.body.classList.add("kids-wrong");
+  if (mood === "fire") document.body.classList.add("kids-streak");
+  setTimeout(() => document.body.classList.remove("kids-correct", "kids-wrong", "kids-streak"), 500);
+}
+
+function renderDailyMission() {
+  if (!dailyMissionLabel || !dailyMissionFill) return;
+  const done = Math.min(dailyMission.correctToday, dailyMission.target);
+  dailyMissionLabel.textContent = `Misión diaria: ${done}/${dailyMission.target}`;
+  dailyMissionFill.style.width = `${Math.round((done / dailyMission.target) * 100)}%`;
 }
 
 function updateChallenges(lastPercent = null) {
@@ -1697,8 +1748,13 @@ function renderQuizQuestion() {
     updateChallenges(percent);
     saveQuizProgress();
     saveGameStats();
+    saveDailyMission();
     renderProgressPanel();
     renderGameStats();
+    renderDailyMission();
+    if (percent >= 80) setCoachMessage("¡Excelente resultado de quiz!", "wow");
+    else if (percent >= 60) setCoachMessage("Buen trabajo. Vamos al siguiente reto.", "happy");
+    else setCoachMessage("Vamos a repasar y mejorar esa nota.", "neutral");
     quizFeedback.textContent = `Resultado final: ${percent}%. Repite para mejorar lo que fallaste.`;
     renderQuizScore();
     return;
@@ -1722,19 +1778,26 @@ function renderQuizQuestion() {
         gameState.points += 10;
         gameState.streak += 1;
         gameState.correctTotal += 1;
+        dailyMission.correctToday += 1;
         if (gameState.streak % 5 === 0) {
           gameState.stars += 1;
           gameState.points += 20;
+          setCoachMessage("¡Racha épica! Ganaste estrella bonus.", "fire");
+        } else {
+          setCoachMessage("¡Bien! Sigue así.", "happy");
         }
       } else {
         gameState.points = Math.max(0, gameState.points - 2);
         gameState.streak = 0;
         gameState.wrongTotal += 1;
+        setCoachMessage("No pasa nada. Inténtalo otra vez.", "oops");
       }
       gameState.bestStreak = Math.max(gameState.bestStreak, gameState.streak);
       updateChallenges();
       saveGameStats();
+      saveDailyMission();
       renderGameStats();
+      renderDailyMission();
       [...quizOptions.children].forEach((child, cidx) => {
         child.classList.toggle("good", cidx === q.answer);
         if (cidx === idx && !ok) child.classList.add("bad");
@@ -1764,6 +1827,7 @@ function initQuiz() {
   if (!quizSelector) return;
   loadQuizProgress();
   loadGameStats();
+  loadDailyMission();
   const banks = [
     ["p1", "Pasuk 1"],
     ["p2", "Pasuk 2"],
@@ -1781,6 +1845,7 @@ function initQuiz() {
   selectQuizBank("p1");
   renderProgressPanel();
   renderGameStats();
+  renderDailyMission();
 }
 
 function renderProgressPanel() {
@@ -1840,6 +1905,7 @@ clickableWords.forEach((button) => {
     const lemma = button.dataset.lemma;
     const hasRashi = Boolean(lemmaToRashiId[lemma]);
     setLiveContextFromButton(button);
+    setCoachMessage("Muy bien. Ahora mira traducción, raíz y ejemplo.", "neutral");
     openWordDialog(lemma, hasRashi);
   });
 });

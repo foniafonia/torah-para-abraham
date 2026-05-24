@@ -1108,3 +1108,87 @@ body {
     min-height: 34vh;
   }
 }
+
+/* KidsFull layer */
+.kids-coach {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 40;
+  width: min(300px, 88vw);
+  border: 3px solid #d2ebc6;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fffef8, #f3ffe8);
+  box-shadow: 0 8px 0 #d7edca, 0 16px 26px -18px #6c9c64;
+  padding: 0.65rem;
+}
+
+.coach-face {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 2px solid #bde3a8;
+  background: linear-gradient(180deg, #e9ffd6, #cbf3ab);
+  font-size: 1.8rem;
+  margin-bottom: 0.35rem;
+}
+
+.coach-bubble {
+  margin: 0 0 0.45rem;
+  font-weight: 800;
+  color: #2d4c31;
+}
+
+.coach-mini {
+  display: grid;
+  gap: 0.25rem;
+}
+
+#dailyMissionLabel {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+body.kids-correct .kids-coach {
+  animation: coachBounce 0.35s ease;
+}
+
+body.kids-wrong .kids-coach {
+  animation: coachShake 0.3s ease;
+}
+
+body.kids-streak .coach-face {
+  animation: coachPulse 0.5s ease;
+}
+
+@keyframes coachBounce {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes coachShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes coachPulse {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 880px) {
+  .kids-coach {
+    left: 8px;
+    right: 8px;
+    width: auto;
+    bottom: 8px;
+    padding: 0.5rem;
+  }
+}

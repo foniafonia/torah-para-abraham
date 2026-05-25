@@ -90,6 +90,13 @@ const progressRows = document.getElementById("progressRows");
 const progressWeak = document.getElementById("progressWeak");
 const screenTabs = [...document.querySelectorAll(".screen-tab")];
 const appScreens = [...document.querySelectorAll(".app-screen")];
+const bookToggle = document.getElementById("bookToggle");
+const bookReader = document.getElementById("bookReader");
+const bookPrev = document.getElementById("bookPrev");
+const bookNext = document.getElementById("bookNext");
+const bookPageLabel = document.getElementById("bookPageLabel");
+const bookIndexButtons = [...document.querySelectorAll(".book-index-btn")];
+const bookPages = [...document.querySelectorAll(".book-page")];
 
 const TEAMIM_REGEX = /[\u0591-\u05AF]/g;
 const NIKKUD_REGEX = /[\u05B0-\u05BC\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7]/g;
@@ -1208,6 +1215,7 @@ let dailyMission = {
   correctToday: 0,
   target: 5,
 };
+let currentBookPage = 0;
 const avatarOptions = ["🦁", "🦊", "🐯", "🐼", "🐬", "🦄"];
 
 words.forEach((word) => {
@@ -1724,6 +1732,42 @@ function initScreenNav() {
   switchScreen("screen-pasuk");
 }
 
+function setBookPage(pageIndex) {
+  if (!bookPages.length) return;
+  const safeIndex = Math.max(0, Math.min(pageIndex, bookPages.length - 1));
+  currentBookPage = safeIndex;
+  bookPages.forEach((page, index) => {
+    page.hidden = index !== safeIndex;
+  });
+  bookIndexButtons.forEach((btn) => {
+    btn.classList.toggle("active", Number(btn.dataset.page) === safeIndex);
+  });
+  if (bookPageLabel) bookPageLabel.textContent = `Página ${safeIndex + 1} de ${bookPages.length}`;
+  if (bookPrev) bookPrev.disabled = safeIndex === 0;
+  if (bookNext) bookNext.disabled = safeIndex === bookPages.length - 1;
+}
+
+function initBookReader() {
+  if (!bookToggle || !bookReader || !bookPages.length) return;
+  setBookPage(0);
+  bookToggle.addEventListener("click", () => {
+    const isHidden = bookReader.hidden;
+    bookReader.hidden = !isHidden;
+    bookToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+    bookToggle.classList.toggle("open", isHidden);
+    if (isHidden) setBookPage(currentBookPage);
+  });
+  if (bookPrev) {
+    bookPrev.addEventListener("click", () => setBookPage(currentBookPage - 1));
+  }
+  if (bookNext) {
+    bookNext.addEventListener("click", () => setBookPage(currentBookPage + 1));
+  }
+  bookIndexButtons.forEach((btn) => {
+    btn.addEventListener("click", () => setBookPage(Number(btn.dataset.page)));
+  });
+}
+
 function renderStudyRoute() {
   if (!studyRoute) return;
   studyRoute.innerHTML = "";
@@ -2036,6 +2080,7 @@ renderStudyRoute();
 initQuiz();
 initAvatarPicker();
 initScreenNav();
+initBookReader();
 renderPasuk();
 loadLiveNotes();
 renderLiveNotes();

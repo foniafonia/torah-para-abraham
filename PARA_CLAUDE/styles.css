@@ -95,6 +95,99 @@ body {
   display: none !important;
 }
 
+.book-shell {
+  margin-top: 0.7rem;
+}
+
+.book-cover {
+  width: 100%;
+  border: 2px solid #7f5b2f;
+  border-radius: 16px;
+  padding: 1rem;
+  text-align: left;
+  cursor: pointer;
+  background:
+    linear-gradient(135deg, #6b4522 0%, #8d5d31 45%, #5b3a1e 100%);
+  color: #fff7da;
+  box-shadow: 0 8px 0 #4f3018;
+}
+
+.book-cover.open {
+  box-shadow: 0 4px 0 #4f3018;
+  transform: translateY(2px);
+}
+
+.book-cover-title {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.book-cover-sub {
+  display: block;
+  margin-top: 0.35rem;
+  opacity: 0.95;
+  font-size: 0.95rem;
+}
+
+.book-reader {
+  margin-top: 0.8rem;
+  border: 2px solid #d5e4c8;
+  border-radius: 16px;
+  padding: 0.8rem;
+  background: linear-gradient(180deg, #fffef8, #f8fcee);
+}
+
+.book-nav {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.book-nav-btn {
+  border: 2px solid #a4c28e;
+  background: #ecf9df;
+  color: #214f35;
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.book-nav-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.book-index {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.book-index-btn {
+  border: 2px solid #b8d2a4;
+  background: #f4fee8;
+  color: #225536;
+  border-radius: 999px;
+  padding: 0.3rem 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.book-index-btn.active {
+  background: linear-gradient(180deg, #7be07a, #59c35f);
+  border-color: #4db355;
+  color: #12341e;
+}
+
+.book-page-label {
+  margin: 0.6rem 0 0.1rem;
+  font-weight: 800;
+  color: #355740;
+}
+
 .card {
   background: var(--card);
   border: 2px solid #d7e0c8;

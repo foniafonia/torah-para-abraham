@@ -99,6 +99,14 @@ body {
   margin-top: 0.7rem;
 }
 
+.book-kicker {
+  margin: 0 0 0.45rem;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #5f3e1f;
+}
+
 .book-cover {
   width: 100%;
   border: 2px solid #7f5b2f;
@@ -131,11 +139,35 @@ body {
 }
 
 .book-reader {
+  position: relative;
   margin-top: 0.8rem;
   border: 2px solid #d5e4c8;
   border-radius: 16px;
   padding: 0.8rem;
   background: linear-gradient(180deg, #fffef8, #f8fcee);
+}
+
+.book-reader::before,
+.book-reader::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  height: 10px;
+  border-radius: 0 0 10px 10px;
+  background: #e8f2dc;
+  z-index: -1;
+}
+
+.book-reader::before {
+  bottom: -8px;
+}
+
+.book-reader::after {
+  bottom: -15px;
+  left: 22px;
+  right: 22px;
+  background: #dbe8ce;
 }
 
 .book-nav {

@@ -1750,12 +1750,18 @@ function setBookPage(pageIndex) {
 function initBookReader() {
   if (!bookToggle || !bookReader || !bookPages.length) return;
   setBookPage(0);
+  const coverTitle = bookToggle.querySelector(".book-cover-title");
+  const syncCoverState = () => {
+    const isOpen = !bookReader.hidden;
+    bookToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    bookToggle.classList.toggle("open", isOpen);
+    if (coverTitle) coverTitle.textContent = isOpen ? "Cerrar libro de pesukim" : "Abrir libro de pesukim";
+  };
+  syncCoverState();
   bookToggle.addEventListener("click", () => {
-    const isHidden = bookReader.hidden;
-    bookReader.hidden = !isHidden;
-    bookToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
-    bookToggle.classList.toggle("open", isHidden);
-    if (isHidden) setBookPage(currentBookPage);
+    bookReader.hidden = !bookReader.hidden;
+    syncCoverState();
+    if (!bookReader.hidden) setBookPage(currentBookPage);
   });
   if (bookPrev) {
     bookPrev.addEventListener("click", () => setBookPage(currentBookPage - 1));

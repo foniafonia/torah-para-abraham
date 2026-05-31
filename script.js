@@ -1084,11 +1084,18 @@ const clickableWords = [...document.querySelectorAll(".pasuk .clickable[data-lem
 const rashiButtons = [...document.querySelectorAll(".rashi-item")];
 const lemmaToRashiId = {};
 let activeStudyContext = "General";
-const LIVE_NOTES_KEY = "torah_live_notes_v1";
-const QUIZ_PROGRESS_KEY = "torah_quiz_progress_v1";
-const GAME_STATS_KEY = "torah_game_stats_v1";
-const DAILY_MISSION_KEY = "torah_daily_mission_v1";
-const CLASS_MEMORY_KEY = "torah_class_memory_v1";
+const LIVE_NOTES_KEY = "torah_para_abraham_live_notes_v2";
+const QUIZ_PROGRESS_KEY = "torah_para_abraham_quiz_progress_v2";
+const GAME_STATS_KEY = "torah_para_abraham_game_stats_v2";
+const DAILY_MISSION_KEY = "torah_para_abraham_daily_mission_v2";
+const CLASS_MEMORY_KEY = "torah_para_abraham_class_memory_v2";
+const LEGACY_KEYS = {
+  liveNotes: "torah_live_notes_v1",
+  quizProgress: "torah_quiz_progress_v1",
+  gameStats: "torah_game_stats_v1",
+  dailyMission: "torah_daily_mission_v1",
+  classMemory: "torah_class_memory_v1",
+};
 let liveNotes = [];
 let currentLemma = "vaishma";
 const timelineData = [
@@ -1462,9 +1469,21 @@ function saveLiveNotes() {
   localStorage.setItem(LIVE_NOTES_KEY, JSON.stringify(liveNotes));
 }
 
+function readStorageWithFallback(primaryKey, legacyKey) {
+  const primary = localStorage.getItem(primaryKey);
+  if (primary) return primary;
+  if (!legacyKey) return null;
+  const legacy = localStorage.getItem(legacyKey);
+  if (legacy) {
+    localStorage.setItem(primaryKey, legacy);
+    return legacy;
+  }
+  return null;
+}
+
 function loadLiveNotes() {
   try {
-    const raw = localStorage.getItem(LIVE_NOTES_KEY);
+    const raw = readStorageWithFallback(LIVE_NOTES_KEY, LEGACY_KEYS.liveNotes);
     liveNotes = raw ? JSON.parse(raw) : [];
   } catch {
     liveNotes = [];
@@ -1607,7 +1626,7 @@ function saveDailyMission() {
 
 function loadQuizProgress() {
   try {
-    const raw = localStorage.getItem(QUIZ_PROGRESS_KEY);
+    const raw = readStorageWithFallback(QUIZ_PROGRESS_KEY, LEGACY_KEYS.quizProgress);
     quizState.attempts = raw ? JSON.parse(raw) : {};
   } catch {
     quizState.attempts = {};
@@ -1616,7 +1635,7 @@ function loadQuizProgress() {
 
 function loadGameStats() {
   try {
-    const raw = localStorage.getItem(GAME_STATS_KEY);
+    const raw = readStorageWithFallback(GAME_STATS_KEY, LEGACY_KEYS.gameStats);
     if (!raw) return;
     const parsed = JSON.parse(raw);
     gameState = {
@@ -1631,7 +1650,7 @@ function loadGameStats() {
 
 function loadDailyMission() {
   try {
-    const raw = localStorage.getItem(DAILY_MISSION_KEY);
+    const raw = readStorageWithFallback(DAILY_MISSION_KEY, LEGACY_KEYS.dailyMission);
     if (!raw) return;
     const parsed = JSON.parse(raw);
     const today = new Date().toISOString().slice(0, 10);
@@ -1652,7 +1671,7 @@ function saveClassMemoryEntries() {
 
 function loadClassMemoryEntries() {
   try {
-    const raw = localStorage.getItem(CLASS_MEMORY_KEY);
+    const raw = readStorageWithFallback(CLASS_MEMORY_KEY, LEGACY_KEYS.classMemory);
     classMemoryEntries = raw ? JSON.parse(raw) : [];
   } catch {
     classMemoryEntries = [];

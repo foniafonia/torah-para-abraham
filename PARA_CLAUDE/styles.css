@@ -28,6 +28,41 @@ body {
   min-height: 100vh;
 }
 
+body.auth-locked {
+  overflow: hidden;
+}
+
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 30, 20, 0.38);
+  backdrop-filter: blur(4px);
+}
+
+.auth-gate[hidden] {
+  display: none !important;
+}
+
+.auth-card {
+  width: min(420px, 92vw);
+  background: #fffdf6;
+  border: 2px solid #d8e8c7;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+}
+
+.auth-card h2 {
+  margin: 0 0 0.35rem;
+}
+
+.auth-card p {
+  margin: 0 0 0.7rem;
+}
+
 .page {
   width: min(1080px, 92vw);
   margin: 2rem auto 4rem;
@@ -89,6 +124,25 @@ body {
   background: linear-gradient(180deg, #6ddf6d 0%, #56c45c 100%);
   color: #12381f;
   border-color: #4cb856;
+}
+
+.student-login-bar {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+}
+
+.student-login-bar h3 {
+  margin: 0;
+}
+
+.student-login-bar,
+.cloud-sync-card {
+  display: none;
+}
+
+body.admin-view .student-login-bar,
+body.admin-view .cloud-sync-card {
+  display: block;
 }
 
 .app-screen[hidden] {

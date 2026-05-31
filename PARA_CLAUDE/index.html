@@ -8,6 +8,23 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <section id="authGate" class="auth-gate" aria-live="polite">
+      <article class="auth-card">
+        <h2>Acceso Alumno</h2>
+        <p>Inicia sesión para cargar tu progreso.</p>
+        <div class="memory-form">
+          <input id="authUser" type="text" placeholder="Usuario" autocomplete="username" />
+          <input id="authPass" type="password" placeholder="Contraseña" autocomplete="current-password" />
+          <label class="toggle"><input id="authRemember" type="checkbox" checked /> Recordarme en este dispositivo</label>
+          <div class="live-actions">
+            <button id="authLoginBtn" type="button">Entrar</button>
+            <button id="authSignupBtn" type="button">Crear cuenta (primera vez)</button>
+          </div>
+          <p id="authStatus" class="live-context">Estado: escribe usuario+contraseña y entra o crea cuenta</p>
+        </div>
+      </article>
+    </section>
+
     <aside class="kids-coach" aria-live="polite">
       <div id="coachFace" class="coach-face">🦉</div>
       <p id="coachBubble" class="coach-bubble">Vamos paso a paso. Toca una palabra para empezar.</p>
@@ -21,7 +38,7 @@
         <p class="tag">Proyecto piloto</p>
         <h1>Perashá Interactiva para Niños</h1>
         <p class="subtitle">
-          Primera prueba con <strong>שמות י״ח:א׳–ג׳</strong> (Perashat Yitró). Toca una palabra
+          Primera prueba con <strong>שמות י״ח:א׳–ה׳</strong> (Perashat Yitró). Toca una palabra
           para aprender su significado y su forma verbal.
         </p>
       </header>
@@ -35,10 +52,25 @@
         <button class="screen-tab" data-screen="screen-progress">Progreso</button>
       </nav>
 
+      <section class="student-login-bar card">
+        <div class="card-head">
+          <h3>Login Alumno</h3>
+          <span id="currentStudentBadge" class="badge">Alumno: abraham</span>
+        </div>
+        <div class="memory-form">
+          <input id="studentLoginInput" type="text" placeholder="ID alumno (ej. abraham)" value="abraham" />
+          <div class="live-actions">
+            <button id="studentLoginBtn" type="button">Entrar</button>
+            <button id="studentRememberBtn" type="button">Recordar en este dispositivo</button>
+          </div>
+          <p id="studentLoginStatus" class="live-context">Estado: sesión local activa</p>
+        </div>
+      </section>
+
       <section class="layout">
         <article class="card pasuk-card app-screen" id="screen-pasuk">
           <div class="card-head">
-            <h2>פסוקים: שמות י״ח:א׳–ג׳</h2>
+            <h2>פסוקים: שמות י״ח:א׳–ה׳</h2>
             <span class="badge">Demo 1</span>
           </div>
 
@@ -48,13 +80,15 @@
               <div class="book-nav">
                 <button id="bookPrev" class="book-nav-btn" type="button">Anterior ▶</button>
                 <div class="book-index" role="tablist" aria-label="Índice de pesukim">
-                  <button class="book-index-btn active" data-page="0" type="button">Pasuk ג׳</button>
-                  <button class="book-index-btn" data-page="1" type="button">Pasuk ב׳</button>
-                  <button class="book-index-btn" data-page="2" type="button">Pasuk א׳</button>
+                  <button class="book-index-btn active" data-page="0" type="button">Pasuk ה׳</button>
+                  <button class="book-index-btn" data-page="1" type="button">Pasuk ד׳</button>
+                  <button class="book-index-btn" data-page="2" type="button">Pasuk ג׳</button>
+                  <button class="book-index-btn" data-page="3" type="button">Pasuk ב׳</button>
+                  <button class="book-index-btn" data-page="4" type="button">Pasuk א׳</button>
                 </div>
                 <button id="bookNext" class="book-nav-btn" type="button">◀ Siguiente</button>
               </div>
-              <p id="bookPageLabel" class="book-page-label">Página 1 de 3</p>
+              <p id="bookPageLabel" class="book-page-label">Página 1 de 5</p>
               <div id="bookHand" class="book-hand" aria-hidden="true">🖐️</div>
               <div class="book-pages">
           <div class="pasuk-block book-page active" data-page="0">
@@ -127,6 +161,50 @@
             </div>
             <p class="translation">
               <strong>Traducción simple:</strong> Y (también trajo) a sus dos hijos, de los cuales el nombre de uno era Gershom, porque dijo: “Fui extranjero en tierra extraña”.
+            </p>
+          </div>
+
+          <div class="pasuk-block book-page" data-page="3">
+            <h3>שמות י״ח:ד׳</h3>
+            <p class="pasuk-plain" dir="rtl" lang="he">
+              וְשֵׁ֥ם הָאֶחָ֖ד אֱלִיעֶ֑זֶר כִּֽי־אֱלֹהֵ֤י אָבִי֙ בְּעֶזְרִ֔י וַיַּצִּלֵ֖נִי מֵחֶ֥רֶב פַּרְעֹֽה׃
+            </p>
+            <div class="pasuk with-nikkud with-teamim" dir="rtl" lang="he">
+              <button class="word clickable" data-lemma="shem-haechad">וְשֵׁ֥ם הָאֶחָ֖ד</button>
+              <button class="word clickable" data-lemma="eliezer">אֱלִיעֶ֑זֶר</button>
+              <button class="word clickable" data-lemma="ki-elohei">כִּֽי־אֱלֹהֵ֤י</button>
+              <button class="word clickable" data-lemma="avi">אָבִי֙</button>
+              <button class="word clickable" data-lemma="beezri">בְּעֶזְרִ֔י</button>
+              <button class="word clickable" data-lemma="vayatzileni">וַיַּצִּלֵ֖נִי</button>
+              <button class="word clickable" data-lemma="mecherev">מֵחֶ֥רֶב</button>
+              <button class="word clickable" data-lemma="paroh">פַּרְעֹֽה׃</button>
+            </div>
+            <p class="translation">
+              <strong>Traducción simple:</strong> Y el nombre del otro era Eliezer, porque “el Dios de mi padre fue mi ayuda y me salvó de la espada de Paró”.
+            </p>
+          </div>
+
+          <div class="pasuk-block book-page" data-page="4">
+            <h3>שמות י״ח:ה׳</h3>
+            <p class="pasuk-plain" dir="rtl" lang="he">
+              וַיָּבֹ֞א יִתְר֨וֹ חֹתֵ֥ן מֹשֶׁ֛ה וּבָנָ֥יו וְאִשְׁתּ֖וֹ אֶל־מֹשֶׁ֑ה אֶל־הַמִּדְבָּ֗ר אֲשֶׁר־ה֛וּא חֹנֶ֥ה שָׁ֖ם הַ֥ר הָאֱלֹהִֽים׃
+            </p>
+            <div class="pasuk with-nikkud with-teamim" dir="rtl" lang="he">
+              <button class="word clickable" data-lemma="vayavo">וַיָּבֹ֞א</button>
+              <button class="word clickable" data-lemma="yitro">יִתְר֨וֹ</button>
+              <button class="word clickable" data-lemma="choten">חֹתֵ֥ן</button>
+              <button class="word clickable" data-lemma="moshe">מֹשֶׁ֛ה</button>
+              <button class="word clickable" data-lemma="uvanav">וּבָנָ֥יו</button>
+              <button class="word clickable" data-lemma="veishto">וְאִשְׁתּ֖וֹ</button>
+              <button class="word clickable" data-lemma="el-moshe">אֶל־מֹשֶׁ֑ה</button>
+              <button class="word clickable" data-lemma="el-hamidbar">אֶל־הַמִּדְבָּ֗ר</button>
+              <button class="word clickable" data-lemma="asher-hu">אֲשֶׁר־ה֛וּא</button>
+              <button class="word clickable" data-lemma="choneh">חֹנֶ֥ה</button>
+              <button class="word clickable" data-lemma="sham">שָׁ֖ם</button>
+              <button class="word clickable" data-lemma="har-haelohim">הַ֥ר הָאֱלֹהִֽים׃</button>
+            </div>
+            <p class="translation">
+              <strong>Traducción simple:</strong> Yitró, suegro de Moshé, llegó con sus hijos y su esposa a Moshé, al desierto, donde él estaba acampando, en el monte de Dios.
             </p>
           </div>
               </div>
@@ -283,7 +361,8 @@
           <div class="memory-form">
             <input id="cloudUrl" type="text" placeholder="URL Supabase (https://xxxx.supabase.co)" />
             <input id="cloudAnon" type="text" placeholder="Anon/Publishable key" />
-            <input id="cloudStudent" type="text" placeholder="ID alumno (ej. abraham)" />
+            <input id="cloudStudent" type="text" placeholder="ID alumno (ej. abraham)" readonly />
+            <label class="toggle"><input id="cloudAutoSync" type="checkbox" checked /> Auto-sync de progreso (recomendado)</label>
             <div class="live-actions">
               <button id="saveCloudConfig" type="button">Guardar configuración</button>
               <button id="syncPush" type="button">Subir progreso</button>
@@ -425,6 +504,8 @@
                 <button class="rashi-item" data-rashi-id="r5">את כל אשר עשה</button>
                 <button class="rashi-item" data-rashi-id="r6">כי הוציא ה׳</button>
                 <button class="rashi-item" data-rashi-id="r1">אַחַר שִׁלּוּחֶיהָ</button>
+                <button class="rashi-item" data-rashi-id="r7">ויצלני מחרב פרעה</button>
+                <button class="rashi-item" data-rashi-id="r8">אל המדבר</button>
               </div>
             </aside>
           </div>

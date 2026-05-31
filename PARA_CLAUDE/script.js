@@ -88,6 +88,11 @@ const progressBadges = document.getElementById("progressBadges");
 const progressSummary = document.getElementById("progressSummary");
 const progressRows = document.getElementById("progressRows");
 const progressWeak = document.getElementById("progressWeak");
+const studentLoginInput = document.getElementById("studentLoginInput");
+const studentLoginBtn = document.getElementById("studentLoginBtn");
+const studentRememberBtn = document.getElementById("studentRememberBtn");
+const currentStudentBadge = document.getElementById("currentStudentBadge");
+const studentLoginStatus = document.getElementById("studentLoginStatus");
 const memoryTopic = document.getElementById("memoryTopic");
 const memoryNotes = document.getElementById("memoryNotes");
 const saveClassMemory = document.getElementById("saveClassMemory");
@@ -100,6 +105,16 @@ const saveCloudConfig = document.getElementById("saveCloudConfig");
 const syncPush = document.getElementById("syncPush");
 const syncPull = document.getElementById("syncPull");
 const cloudSyncStatus = document.getElementById("cloudSyncStatus");
+const cloudAutoSync = document.getElementById("cloudAutoSync");
+const authGate = document.getElementById("authGate");
+const authUser = document.getElementById("authUser");
+const authPass = document.getElementById("authPass");
+const authRemember = document.getElementById("authRemember");
+const authLoginBtn = document.getElementById("authLoginBtn");
+const authSignupBtn = document.getElementById("authSignupBtn");
+const authStatus = document.getElementById("authStatus");
+const isAdminView = new URLSearchParams(window.location.search).get("admin") === "1";
+document.body.classList.toggle("admin-view", isAdminView);
 const screenTabs = [...document.querySelectorAll(".screen-tab")];
 const appScreens = [...document.querySelectorAll(".app-screen")];
 const bookReader = document.getElementById("bookReader");
@@ -904,6 +919,344 @@ const wordData = {
     conjugationRows: [],
     bilingualPractice: [{ subject: "Lectura", he: "נׇכְרִיָּה", es: "extranjera / extraña" }],
   },
+  eliezer: {
+    ...baseWord,
+    title: "אֱלִיעֶזֶר - Eliezer",
+    heroHebrew: "אֱלִיעֶזֶר",
+    heroSpanish: "Eliezer",
+    meaningMain: "<strong>אֱלִיעֶזֶר</strong> es el nombre del segundo hijo.",
+    meaningAlt: "Puede entenderse como: “Mi Dios es ayuda”.",
+    rootWithNikkud: "אֵלִי־עֵזֶר",
+    rootWithoutNikkud: "אלי עזר",
+    rootLetters: "א־ל / ע־ז־ר",
+    rootIdeaA: "Nombre que incluye idea de ayuda divina.",
+    rootIdeaB: "Conecta con el final del pasuk: Dios me salvó.",
+    buildLine1: "Tipo: nombre propio.",
+    buildLine2: "No es verbo conjugado aquí.",
+    buildLine3: "Funciona como identidad del hijo.",
+    personInfo: "Clase: nombre propio.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">אֱלִיעֶזֶר</span>.',
+    tensePresent: "<strong>Función:</strong> nombre personal.",
+    tenseFuture: "<strong>Lectura guiada:</strong> segundo hijo de Moshé.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "שֵׁם הָאֶחָד אֱלִיעֶזֶר", es: "el nombre del otro: Eliezer" }],
+  },
+  "ki-elohei": {
+    ...baseWord,
+    title: "כִּי־אֱלֹהֵי - porque el Dios de",
+    heroHebrew: "כִּי־אֱלֹהֵי",
+    heroSpanish: "Porque el Dios de",
+    meaningMain: "<strong>כִּי־אֱלֹהֵי</strong> = porque el Dios de.",
+    meaningAlt: "Introduce la razón del nombre Eliezer.",
+    rootWithNikkud: "כִּי / אֱלֹהֵי",
+    rootWithoutNikkud: "כי / אלהי",
+    rootLetters: "כ־י / א־ל־ה",
+    rootIdeaA: "Partícula de causa + nombre divino en constructo.",
+    rootIdeaB: "Se completa con אָבִי: “el Dios de mi padre”.",
+    buildLine1: "Tipo: conector + sintagma nominal.",
+    buildLine2: "No es conjugación verbal.",
+    buildLine3: "Marca la causa de la frase.",
+    personInfo: "Clase: expresión causal.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">כִּי־אֱלֹהֵי</span>.',
+    tensePresent: "<strong>Función:</strong> explicar “por qué”.",
+    tenseFuture: "<strong>Lectura guiada:</strong> conecta con אָבִי.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "כִּי־אֱלֹהֵי אָבִי", es: "porque el Dios de mi padre" }],
+  },
+  avi: {
+    ...baseWord,
+    title: "אָבִי - mi padre",
+    heroHebrew: "אָבִי",
+    heroSpanish: "Mi padre",
+    meaningMain: "<strong>אָבִי</strong> = mi padre.",
+    meaningAlt: "Sufijo י indica posesión: “mi”.",
+    rootWithNikkud: "אָב",
+    rootWithoutNikkud: "אב",
+    rootLetters: "א־ב",
+    rootIdeaA: "Sustantivo con sufijo posesivo de 1ª persona.",
+    rootIdeaB: "Parte de la frase “el Dios de mi padre”.",
+    buildLine1: "Tipo: sustantivo con sufijo.",
+    buildLine2: "Base: אָב (padre).",
+    buildLine3: "Añadido: י = “mi”.",
+    personInfo: "Clase: nombre con posesivo.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">אָבִי</span>.',
+    tensePresent: "<strong>Función:</strong> indicar pertenencia.",
+    tenseFuture: "<strong>Lectura guiada:</strong> “de mi padre”.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "אֱלֹהֵי אָבִי", es: "el Dios de mi padre" }],
+  },
+  beezri: {
+    ...baseWord,
+    title: "בְּעֶזְרִי - en mi ayuda / como ayuda para mí",
+    heroHebrew: "בְּעֶזְרִי",
+    heroSpanish: "En mi ayuda",
+    meaningMain: "<strong>בְּעֶזְרִי</strong> = en mi ayuda / para ayudarme.",
+    meaningAlt: "Base עֶזֶר + sufijo י (mi).",
+    rootWithNikkud: "עֶזֶר",
+    rootWithoutNikkud: "עזר",
+    rootLetters: "ע־ז־ר",
+    rootIdeaA: "Raíz de ayuda/auxilio.",
+    rootIdeaB: "Con בְ + י expresa ayuda personal.",
+    buildLine1: "Tipo: sustantivo con prefijo y sufijo.",
+    buildLine2: "Base: עֶזֶר (ayuda).",
+    buildLine3: "Añadidos: בְ = en, י = mi.",
+    personInfo: "Clase: expresión nominal.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">בְּעֶזְרִי</span>.',
+    tensePresent: "<strong>Función:</strong> indicar ayuda recibida.",
+    tenseFuture: "<strong>Lectura guiada:</strong> apoyo personal de Dios.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "בְּעֶזְרִי", es: "en mi ayuda" }],
+  },
+  vayatzileni: {
+    ...baseWord,
+    title: "וַיַּצִּלֵנִי - y me salvó",
+    heroHebrew: "וַיַּצִּלֵנִי",
+    heroSpanish: "Y me salvó",
+    meaningMain: "<strong>וַיַּצִּלֵנִי</strong> = y me salvó.",
+    meaningAlt: "Incluye sufijo נִי = “me”.",
+    simpleText: "Cuenta una acción de rescate que Dios hizo por Moshé.",
+    simpleNote: "Es acción pasada en narración.",
+    rootWithNikkud: "הִצִּיל",
+    rootWithoutNikkud: "הציל",
+    rootLetters: "נ־צ־ל",
+    rootIdeaA: "Raíz de salvar/liberar.",
+    rootIdeaB: "Aquí aparece con “y” narrativa y objeto “me”.",
+    buildLine1: '<strong>Base verbal:</strong> <span class="hebrew-word" dir="rtl">יַצִּיל</span> = “salvará”.',
+    buildLine2: '<strong>Añadidos:</strong> <span class="hebrew-word" dir="rtl">וַ</span> (y narrativo) + <span class="hebrew-word" dir="rtl">נִי</span> (“me”).',
+    buildLine3: '<strong>Forma final:</strong> <span class="hebrew-word" dir="rtl">וַיַּצִּלֵנִי</span> = “y me salvó”.',
+    personInfo: "Conjugación en el pasuk: 3ª singular masculina con objeto “me”.",
+    tensePast: '<strong>Pasado:</strong> <span class="hebrew-word" dir="rtl">הִצִּיל</span> - él salvó.',
+    tensePresent: '<strong>Presente:</strong> <span class="hebrew-word" dir="rtl">מַצִּיל</span> - él salva.',
+    tenseFuture: '<strong>Futuro:</strong> <span class="hebrew-word" dir="rtl">יַצִּיל</span> - él salvará.',
+    conjugationRows: [],
+    examples: [
+      '<span class="hebrew-word" dir="rtl">וַיַּצִּלֵנִי</span> -> "y me salvó".',
+      '<span class="hebrew-word" dir="rtl">נִי</span> -> "me" (objeto).',
+      'Raíz: <span class="hebrew-word token root-mark" dir="rtl">נ־צ־ל</span>.',
+    ],
+    bilingualPractice: [
+      { subject: "Frase", he: "וַיַּצִּלֵנִי", es: "Y me salvó" },
+      { subject: "Comparación", he: "הִצִּיל אוֹתִי", es: "salvó a mí / me salvó" },
+    ],
+  },
+  mecherev: {
+    ...baseWord,
+    title: "מֵחֶרֶב - de la espada",
+    heroHebrew: "מֵחֶרֶב",
+    heroSpanish: "De la espada",
+    meaningMain: "<strong>מֵחֶרֶב</strong> = de la espada.",
+    meaningAlt: "מֵ = desde/de, חֶרֶב = espada.",
+    rootWithNikkud: "חֶרֶב",
+    rootWithoutNikkud: "חרב",
+    rootLetters: "ח־ר־ב",
+    rootIdeaA: "Nombre de arma (espada).",
+    rootIdeaB: "Con preposición מֵ expresa origen o separación.",
+    buildLine1: "Tipo: preposición + sustantivo.",
+    buildLine2: "Base: חֶרֶב (espada).",
+    buildLine3: "Añadido: מֵ = de/desde.",
+    personInfo: "Clase: sintagma preposicional.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">מֵחֶרֶב</span>.',
+    tensePresent: "<strong>Función:</strong> señalar de qué fue salvado.",
+    tenseFuture: "<strong>Lectura guiada:</strong> peligro del que salió.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "מֵחֶרֶב פַּרְעֹה", es: "de la espada de Paró" }],
+  },
+  paroh: {
+    ...baseWord,
+    title: "פַּרְעֹה - Paró",
+    heroHebrew: "פַּרְעֹה",
+    heroSpanish: "Paró",
+    meaningMain: "<strong>פַּרְעֹה</strong> = Faraón / Paró.",
+    meaningAlt: "Rey de Egipto en la historia.",
+    rootWithNikkud: "פַּרְעֹה",
+    rootWithoutNikkud: "פרעה",
+    rootLetters: "פ־ר־ע־ה",
+    rootIdeaA: "Nombre/título real.",
+    rootIdeaB: "Completa la frase del peligro: espada de Paró.",
+    buildLine1: "Tipo: nombre propio/título.",
+    buildLine2: "No conjugación verbal.",
+    buildLine3: "Referencia al enemigo de Moshé en Egipto.",
+    personInfo: "Clase: nombre propio.",
+    tensePast: '<strong>Forma:</strong> <span class="hebrew-word" dir="rtl">פַּרְעֹה</span>.',
+    tensePresent: "<strong>Función:</strong> identificar al personaje histórico.",
+    tenseFuture: "<strong>Lectura guiada:</strong> rey de Egipto.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "חֶרֶב פַּרְעֹה", es: "espada de Paró" }],
+  },
+  vayavo: {
+    ...baseWord,
+    title: "וַיָּבֹא - y llegó",
+    heroHebrew: "וַיָּבֹא",
+    heroSpanish: "Y llegó",
+    meaningMain: "<strong>וַיָּבֹא</strong> = y llegó / y vino.",
+    meaningAlt: "Acción narrativa en pasado.",
+    rootWithNikkud: "בָּא",
+    rootWithoutNikkud: "בא",
+    rootLetters: "ב־ו־א",
+    rootIdeaA: "Raíz de venir/llegar.",
+    rootIdeaB: "Con וַ narrativa se integra al relato bíblico.",
+    buildLine1: '<strong>Base:</strong> <span class="hebrew-word" dir="rtl">יָבֹא</span> = él vendrá.',
+    buildLine2: '<strong>Añadido:</strong> <span class="hebrew-word" dir="rtl">וַ</span> narrativa.',
+    buildLine3: '<strong>Resultado:</strong> <span class="hebrew-word" dir="rtl">וַיָּבֹא</span> = y llegó.',
+    personInfo: "Conjugación en el pasuk: 3ª singular masculina.",
+    tensePast: '<strong>Pasado:</strong> <span class="hebrew-word" dir="rtl">בָּא</span> - él vino.',
+    tensePresent: '<strong>Presente:</strong> <span class="hebrew-word" dir="rtl">בָּא</span> - él viene.',
+    tenseFuture: '<strong>Futuro:</strong> <span class="hebrew-word" dir="rtl">יָבֹא</span> - él vendrá.',
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "וַיָּבֹא יִתְרוֹ", es: "Yitró llegó" }],
+  },
+  uvanav: {
+    ...baseWord,
+    title: "וּבָנָיו - y sus hijos",
+    heroHebrew: "וּבָנָיו",
+    heroSpanish: "Y sus hijos",
+    meaningMain: "<strong>וּבָנָיו</strong> = y sus hijos.",
+    meaningAlt: "וּ = y ; בָנָיו = sus hijos.",
+    rootWithNikkud: "בֵּן",
+    rootWithoutNikkud: "בן",
+    rootLetters: "ב־נ",
+    rootIdeaA: "Nombre familiar (hijo).",
+    rootIdeaB: "Con sufijo ָיו indica posesión: sus.",
+    buildLine1: "Tipo: sustantivo con sufijo.",
+    buildLine2: "וּ = y.",
+    buildLine3: "בָנָיו = sus hijos.",
+    personInfo: "Clase: sustantivo posesivo.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "וּבָנָיו", es: "y sus hijos" }],
+  },
+  veishto: {
+    ...baseWord,
+    title: "וְאִשְׁתּוֹ - y su esposa",
+    heroHebrew: "וְאִשְׁתּוֹ",
+    heroSpanish: "Y su esposa",
+    meaningMain: "<strong>וְאִשְׁתּוֹ</strong> = y su esposa.",
+    meaningAlt: "וְ = y ; אִשְׁתּוֹ = su esposa.",
+    rootWithNikkud: "אִשָּׁה",
+    rootWithoutNikkud: "אשה",
+    rootLetters: "א־ש",
+    rootIdeaA: "Nombre de parentesco.",
+    rootIdeaB: "Forma con sufijo posesivo.",
+    buildLine1: "Tipo: sustantivo con sufijo.",
+    buildLine2: "וְ = y.",
+    buildLine3: "אִשְׁתּוֹ = su esposa.",
+    personInfo: "Clase: sustantivo posesivo.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "וְאִשְׁתּוֹ", es: "y su esposa" }],
+  },
+  "el-moshe": {
+    ...baseWord,
+    title: "אֶל־מֹשֶׁה - hacia Moshé",
+    heroHebrew: "אֶל־מֹשֶׁה",
+    heroSpanish: "Hacia Moshé",
+    meaningMain: "<strong>אֶל־מֹשֶׁה</strong> = hacia Moshé / a Moshé.",
+    meaningAlt: "Preposición de dirección.",
+    rootWithNikkud: "אֶל",
+    rootWithoutNikkud: "אל",
+    rootLetters: "א־ל",
+    rootIdeaA: "Dirección hacia alguien.",
+    rootIdeaB: "Conecta movimiento con destinatario.",
+    buildLine1: "Tipo: preposición + nombre propio.",
+    buildLine2: "אֶל = hacia/a.",
+    buildLine3: "מֹשֶׁה = Moshé.",
+    personInfo: "Clase: sintagma preposicional.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "אֶל־מֹשֶׁה", es: "hacia Moshé" }],
+  },
+  "el-hamidbar": {
+    ...baseWord,
+    title: "אֶל־הַמִּדְבָּר - al desierto",
+    heroHebrew: "אֶל־הַמִּדְבָּר",
+    heroSpanish: "Al desierto",
+    meaningMain: "<strong>אֶל־הַמִּדְבָּר</strong> = al desierto.",
+    meaningAlt: "Rashi destaca este punto para elogiar a Yitró.",
+    rootWithNikkud: "מִדְבָּר",
+    rootWithoutNikkud: "מדבר",
+    rootLetters: "ד־ב־ר (forma nominal)",
+    rootIdeaA: "Lugar desértico, zona sin comodidad.",
+    rootIdeaB: "Clave del Rashi: salir del honor hacia el desierto.",
+    buildLine1: "Tipo: preposición + sustantivo.",
+    buildLine2: "אֶל = hacia.",
+    buildLine3: "הַמִּדְבָּר = el desierto.",
+    personInfo: "Clase: sintagma preposicional.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "אֶל־הַמִּדְבָּר", es: "al desierto" }],
+  },
+  "asher-hu": {
+    ...baseWord,
+    title: "אֲשֶׁר־הוּא - donde él",
+    heroHebrew: "אֲשֶׁר־הוּא",
+    heroSpanish: "Donde él",
+    meaningMain: "<strong>אֲשֶׁר־הוּא</strong> = donde él / que él.",
+    meaningAlt: "Conector relativo + pronombre.",
+    rootWithNikkud: "אֲשֶׁר / הוּא",
+    rootWithoutNikkud: "אשר / הוא",
+    rootLetters: "א־ש־ר",
+    rootIdeaA: "Conecta cláusula explicativa.",
+    rootIdeaB: "Prepara el verbo חֹנֶה.",
+    buildLine1: "Tipo: relativo + pronombre.",
+    buildLine2: "No es verbo principal.",
+    buildLine3: "Une dos partes del pasuk.",
+    personInfo: "Clase: conector gramatical.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "אֲשֶׁר־הוּא חֹנֶה", es: "donde él acampa" }],
+  },
+  choneh: {
+    ...baseWord,
+    title: "חֹנֶה - acampa",
+    heroHebrew: "חֹנֶה",
+    heroSpanish: "Acampa",
+    meaningMain: "<strong>חֹנֶה</strong> = acampa / está acampando.",
+    meaningAlt: "Describe la situación de Moshé en ese lugar.",
+    rootWithNikkud: "חָנָה",
+    rootWithoutNikkud: "חנה",
+    rootLetters: "ח־נ־ה",
+    rootIdeaA: "Raíz de acampar.",
+    rootIdeaB: "Aquí en forma presente descriptiva.",
+    buildLine1: "Tipo: verbo descriptivo.",
+    buildLine2: "Indica estado/ubicación en ese momento.",
+    buildLine3: "Se completa con שָׁם.",
+    personInfo: "Conjugación: 3ª singular masculina.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "הוּא חֹנֶה שָׁם", es: "él acampa allí" }],
+  },
+  sham: {
+    ...baseWord,
+    title: "שָׁם - allí",
+    heroHebrew: "שָׁם",
+    heroSpanish: "Allí",
+    meaningMain: "<strong>שָׁם</strong> = allí.",
+    meaningAlt: "Indica lugar.",
+    rootWithNikkud: "שָׁם",
+    rootWithoutNikkud: "שם",
+    rootLetters: "ש־ם",
+    rootIdeaA: "Adverbio de lugar.",
+    rootIdeaB: "Completa la ubicación de acampada.",
+    buildLine1: "Tipo: adverbio.",
+    buildLine2: "No tiene conjugación verbal.",
+    buildLine3: "Función: localización.",
+    personInfo: "Clase: adverbio de lugar.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "שָׁם", es: "allí" }],
+  },
+  "har-haelohim": {
+    ...baseWord,
+    title: "הַר הָאֱלֹהִים - monte de Dios",
+    heroHebrew: "הַר הָאֱלֹהִים",
+    heroSpanish: "Monte de Dios",
+    meaningMain: "<strong>הַר הָאֱלֹהִים</strong> = el monte de Dios.",
+    meaningAlt: "Lugar sagrado de encuentro y revelación.",
+    rootWithNikkud: "הַר / אֱלֹהִים",
+    rootWithoutNikkud: "הר / אלהים",
+    rootLetters: "ה־ר / א־ל־ה",
+    rootIdeaA: "Expresión nominal de lugar sagrado.",
+    rootIdeaB: "Cierra el pasuk con ubicación espiritual.",
+    buildLine1: "Tipo: sintagma nominal.",
+    buildLine2: "הַר = monte.",
+    buildLine3: "הָאֱלֹהִים = de Dios.",
+    personInfo: "Clase: expresión de lugar.",
+    conjugationRows: [],
+    bilingualPractice: [{ subject: "Lectura", he: "הַר הָאֱלֹהִים", es: "monte de Dios" }],
+  },
 };
 
 const rashiData = {
@@ -958,6 +1311,26 @@ const rashiData = {
     simple:
       "En palabras simples: primero Moshé llevó a su esposa e hijos; después los devolvió a casa de su padre. Por eso el pasuk dice 'después de haberla enviado'.",
     lemmas: ["achar", "shilucheha", "vayikach", "tzipora", "eshet"],
+  },
+  r7: {
+    title: "ויצלני מחרב פרעה",
+    hebrew:
+      "כְּשֶׁגִּלּוּ דָּתָן וַאֲבִירָם עַל דְּבַר הַמִּצְרִי וּבִקֵּשׁ לַהֲרֹג אֶת מֹשֶׁה נַעֲשָׂה צַוָּארוֹ כְּעַמּוּד שֶׁל שַׁיִשׁ.",
+    idea:
+      "Rashi explica el peligro del que Moshé fue salvado: cuando Paró quiso matarlo tras la denuncia del egipcio.",
+    simple:
+      "En simple: quisieron matar a Moshé, pero Dios lo protegió con un milagro. Por eso dice: 'me salvó de la espada de Paró'.",
+    lemmas: ["vayatzileni", "mecherev", "paroh", "eliezer", "ki-elohei", "avi", "beezri"],
+  },
+  r8: {
+    title: "אל המדבר",
+    hebrew:
+      "אַף אָנוּ יוֹדְעִים שֶׁבַּמִּדְבָּר הָיוּ אֶלָּא בְּשִׁבְחוֹ שֶׁל יִתְרוֹ דִּבֵּר הַכָּתוּב שֶׁהָיָה יוֹשֵׁב בִּכְבוֹדוֹ שֶׁל עוֹלָם וּנְדָבוֹ לִבּוֹ לָצֵאת אֶל הַמִּדְבָּר מְקוֹם תֹּהוּ לִשְׁמֹעַ דִּבְרֵי תוֹרָה.",
+    idea:
+      "Rashi elogia a Yitró: dejó comodidad y honor para ir al desierto a escuchar Torá.",
+    simple:
+      "En simple: Yitró vivía bien, pero eligió ir al desierto solo para aprender Torá. Eso muestra grandeza.",
+    lemmas: ["el-hamidbar", "yitro", "vayavo", "choneh", "har-haelohim"],
   },
 };
 
@@ -1050,6 +1423,39 @@ const literalGlossary = {
   "שמועה": { literal: "noticia / rumor oído", note: "Algo que se escuchó." },
   "שמע": { literal: "escuchó", note: "Verbo en pasado." },
   "שקול": { literal: "equivale / pesa como", note: "Comparación de valor." },
+  "כשגלו": { literal: "cuando revelaron", note: "Introduce el momento en que denunciaron." },
+  "דתן": { literal: "Datán", note: "Nombre propio." },
+  "ואבירם": { literal: "y Aviram", note: "Segundo nombre propio." },
+  "על": { literal: "sobre", note: "Preposición." },
+  "דבר": { literal: "asunto", note: "Tema del que se habla." },
+  "המצרי": { literal: "el egipcio", note: "Referencia al episodio del egipcio." },
+  "ובקש": { literal: "y buscó / intentó", note: "Acción de intentar." },
+  "להרג": { literal: "matar", note: "Infinitivo de matar." },
+  "נעשה": { literal: "se hizo", note: "Cambio milagroso descrito por Rashi." },
+  "צוארו": { literal: "su cuello", note: "Sujeto del milagro en el midrash." },
+  "כעמוד": { literal: "como una columna", note: "Comparación de dureza." },
+  "של": { literal: "de", note: "Partícula de posesión." },
+  "שיש": { literal: "mármol", note: "Piedra dura usada en la imagen de Rashi." },
+  "אַף": { literal: "incluso / además", note: "Introduce una idea enfática." },
+  "אָנוּ": { literal: "nosotros", note: "Pronombre de 1ª plural." },
+  "יוֹדְעִים": { literal: "sabemos", note: "Verbo en presente plural." },
+  "שֶׁבַּמִּדְבָּר": { literal: "que en el desierto", note: "Ubicación conocida." },
+  "הָיוּ": { literal: "estaban", note: "Pasado plural." },
+  "אֶלָּא": { literal: "sino que", note: "Contraste explicativo." },
+  "בְּשִׁבְחוֹ": { literal: "en alabanza de él", note: "Elogio del personaje." },
+  "דִּבֵּר": { literal: "habló / dijo", note: "Acción del texto bíblico." },
+  "הַכָּתוּב": { literal: "la Escritura", note: "Forma clásica de referirse al pasuk." },
+  "יוֹשֵׁב": { literal: "sentado / viviendo", note: "Estado de vida estable." },
+  "בִּכְבוֹדוֹ": { literal: "en su honor", note: "Comodidad y dignidad social." },
+  "עוֹלָם": { literal: "mundo", note: "Expresión de ‘honor del mundo’." },
+  "וּנְדָבוֹ": { literal: "y lo impulsó", note: "Motivación interna generosa." },
+  "לִבּוֹ": { literal: "su corazón", note: "Voluntad interior." },
+  "לָצֵאת": { literal: "salir", note: "Dejar el lugar cómodo." },
+  "מְקוֹם": { literal: "lugar", note: "Sustantivo de ubicación." },
+  "תֹּהוּ": { literal: "vacío / desolado", note: "Describe el desierto." },
+  "לִשְׁמֹעַ": { literal: "escuchar", note: "Objetivo de ir al desierto." },
+  "דִּבְרֵי": { literal: "palabras de", note: "Forma constructa." },
+  "תּוֹרָה": { literal: "Torá", note: "Enseñanza sagrada." },
 };
 
 function toLearningPair(data) {
@@ -1091,12 +1497,10 @@ const clickableWords = [...document.querySelectorAll(".pasuk .clickable[data-lem
 const rashiButtons = [...document.querySelectorAll(".rashi-item")];
 const lemmaToRashiId = {};
 let activeStudyContext = "General";
-const LIVE_NOTES_KEY = "torah_para_abraham_live_notes_v2";
-const QUIZ_PROGRESS_KEY = "torah_para_abraham_quiz_progress_v2";
-const GAME_STATS_KEY = "torah_para_abraham_game_stats_v2";
-const DAILY_MISSION_KEY = "torah_para_abraham_daily_mission_v2";
-const CLASS_MEMORY_KEY = "torah_para_abraham_class_memory_v2";
 const CLOUD_CONFIG_KEY = "torah_para_abraham_cloud_config_v1";
+const STUDENT_SESSION_KEY = "torah_para_abraham_current_student_v1";
+const AUTH_SESSION_KEY = "torah_para_abraham_auth_session_v1";
+const STUDENT_CREDENTIALS_KEY = "torah_para_abraham_student_credentials_v1";
 const LEGACY_KEYS = {
   liveNotes: "torah_live_notes_v1",
   quizProgress: "torah_quiz_progress_v1",
@@ -1104,8 +1508,21 @@ const LEGACY_KEYS = {
   dailyMission: "torah_daily_mission_v1",
   classMemory: "torah_class_memory_v1",
 };
+const STORAGE_BASE = {
+  liveNotes: "torah_para_abraham_live_notes_v2",
+  quizProgress: "torah_para_abraham_quiz_progress_v2",
+  gameStats: "torah_para_abraham_game_stats_v2",
+  dailyMission: "torah_para_abraham_daily_mission_v2",
+  classMemory: "torah_para_abraham_class_memory_v2",
+};
+const AUTO_SYNC_DELAY_MS = 1400;
+const DEFAULT_STUDENT_CREDENTIALS = {};
 let liveNotes = [];
 let currentLemma = "vaishma";
+let currentStudentId = "abraham";
+let autoSyncTimer = null;
+let isAuthenticated = false;
+let studentCredentials = { ...DEFAULT_STUDENT_CREDENTIALS };
 const timelineData = [
   {
     id: "t1",
@@ -1208,10 +1625,30 @@ const quizBanks = {
       { q: "¿Este pasuk tiene Rashi cargado aquí?", options: ["Sí", "No"], answer: 1, explain: "Ahora mismo este pasuk está sin Rashi." },
     ],
   },
+  p4: {
+    title: "Quiz Pasuk 4",
+    questions: [
+      { q: "¿Cómo se llama el otro hijo en 18:4?", options: ["Gershom", "Eliezer", "Aharón"], answer: 1, explain: "El pasuk dice אֱלִיעֶזֶר." },
+      { q: "כִּי־אֱלֹהֵי אָבִי significa...", options: ["porque el Dios de mi padre", "porque mi padre era Dios", "porque hubo guerra"], answer: 0, explain: "Es la causa del nombre Eliezer." },
+      { q: "וַיַּצִּלֵנִי significa...", options: ["y me llamó", "y me salvó", "y me envió"], answer: 1, explain: "Es verbo de rescate: me salvó." },
+      { q: "¿De qué fue salvado Moshé?", options: ["Del mar", "De Amalek", "De la espada de Paró"], answer: 2, explain: "מֵחֶרֶב פַּרְעֹה = de la espada de Paró." },
+      { q: "Rashi en este pasuk explica...", options: ["un milagro de protección", "la salida de Egipto", "las leyes de jueces"], answer: 0, explain: "Rashi explica el intento de matar a Moshé y su protección." },
+    ],
+  },
+  p5: {
+    title: "Quiz Pasuk 5",
+    questions: [
+      { q: "וַיָּבֹא significa...", options: ["y llegó", "y escuchó", "y tomó"], answer: 0, explain: "וַיָּבֹא = y llegó." },
+      { q: "¿Quién llegó a Moshé en este pasuk?", options: ["Aharón", "Yitró con su familia", "Amalek"], answer: 1, explain: "El pasuk dice Yitró, sus hijos y su esposa." },
+      { q: "אֶל־הַמִּדְבָּר significa...", options: ["al monte", "al desierto", "a Egipto"], answer: 1, explain: "Es dirección al desierto." },
+      { q: "Rashi 'אל המדבר' destaca que Yitró...", options: ["buscó guerra", "dejó su honor para oír Torá", "volvió a Midyán"], answer: 1, explain: "Rashi elogia que salió al desierto para escuchar Torá." },
+      { q: "הַר הָאֱלֹהִים significa...", options: ["ciudad de Dios", "monte de Dios", "pueblo de Dios"], answer: 1, explain: "Es el monte de Dios." },
+    ],
+  },
 };
 quizBanks.all = {
-  title: "Quiz Acumulativo (1+2+3)",
-  questions: [...quizBanks.p1.questions, ...quizBanks.p2.questions, ...quizBanks.p3.questions],
+  title: "Quiz Acumulativo (1+2+3+4+5)",
+  questions: [...quizBanks.p1.questions, ...quizBanks.p2.questions, ...quizBanks.p3.questions, ...quizBanks.p4.questions, ...quizBanks.p5.questions],
 };
 
 let quizState = {
@@ -1245,6 +1682,7 @@ let cloudConfig = {
   url: "",
   anonKey: "",
   studentId: "abraham",
+  autoSync: true,
 };
 let currentBookPage = -1;
 const avatarOptions = ["🦁", "🦊", "🐯", "🐼", "🐬", "🦄"];
@@ -1479,7 +1917,35 @@ function escapeHtml(text) {
 }
 
 function saveLiveNotes() {
-  localStorage.setItem(LIVE_NOTES_KEY, JSON.stringify(liveNotes));
+  localStorage.setItem(scopedKey(STORAGE_BASE.liveNotes), JSON.stringify(liveNotes));
+  scheduleAutoCloudSync();
+}
+
+function normalizeStudentId(value) {
+  const normalized = (value || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9_-]/g, "");
+  return normalized || "abraham";
+}
+
+function scopedKey(base) {
+  return `${base}__${currentStudentId}`;
+}
+
+function renderStudentBadge() {
+  if (currentStudentBadge) currentStudentBadge.textContent = `Alumno: ${currentStudentId}`;
+  if (studentLoginInput) studentLoginInput.value = currentStudentId;
+  if (studentLoginStatus) studentLoginStatus.textContent = `Estado: sesión activa (${currentStudentId})`;
+}
+
+function saveCurrentStudentSession() {
+  localStorage.setItem(STUDENT_SESSION_KEY, currentStudentId);
+}
+
+function loadCurrentStudentSession() {
+  const saved = localStorage.getItem(STUDENT_SESSION_KEY);
+  if (saved) currentStudentId = normalizeStudentId(saved);
 }
 
 function readStorageWithFallback(primaryKey, legacyKey) {
@@ -1496,7 +1962,8 @@ function readStorageWithFallback(primaryKey, legacyKey) {
 
 function loadLiveNotes() {
   try {
-    const raw = readStorageWithFallback(LIVE_NOTES_KEY, LEGACY_KEYS.liveNotes);
+    const legacy = currentStudentId === "abraham" ? LEGACY_KEYS.liveNotes : null;
+    const raw = readStorageWithFallback(scopedKey(STORAGE_BASE.liveNotes), legacy);
     liveNotes = raw ? JSON.parse(raw) : [];
   } catch {
     liveNotes = [];
@@ -1626,20 +2093,24 @@ function initTimeline() {
 }
 
 function saveQuizProgress() {
-  localStorage.setItem(QUIZ_PROGRESS_KEY, JSON.stringify(quizState.attempts));
+  localStorage.setItem(scopedKey(STORAGE_BASE.quizProgress), JSON.stringify(quizState.attempts));
+  scheduleAutoCloudSync();
 }
 
 function saveGameStats() {
-  localStorage.setItem(GAME_STATS_KEY, JSON.stringify(gameState));
+  localStorage.setItem(scopedKey(STORAGE_BASE.gameStats), JSON.stringify(gameState));
+  scheduleAutoCloudSync();
 }
 
 function saveDailyMission() {
-  localStorage.setItem(DAILY_MISSION_KEY, JSON.stringify(dailyMission));
+  localStorage.setItem(scopedKey(STORAGE_BASE.dailyMission), JSON.stringify(dailyMission));
+  scheduleAutoCloudSync();
 }
 
 function loadQuizProgress() {
   try {
-    const raw = readStorageWithFallback(QUIZ_PROGRESS_KEY, LEGACY_KEYS.quizProgress);
+    const legacy = currentStudentId === "abraham" ? LEGACY_KEYS.quizProgress : null;
+    const raw = readStorageWithFallback(scopedKey(STORAGE_BASE.quizProgress), legacy);
     quizState.attempts = raw ? JSON.parse(raw) : {};
   } catch {
     quizState.attempts = {};
@@ -1648,7 +2119,8 @@ function loadQuizProgress() {
 
 function loadGameStats() {
   try {
-    const raw = readStorageWithFallback(GAME_STATS_KEY, LEGACY_KEYS.gameStats);
+    const legacy = currentStudentId === "abraham" ? LEGACY_KEYS.gameStats : null;
+    const raw = readStorageWithFallback(scopedKey(STORAGE_BASE.gameStats), legacy);
     if (!raw) return;
     const parsed = JSON.parse(raw);
     gameState = {
@@ -1663,7 +2135,8 @@ function loadGameStats() {
 
 function loadDailyMission() {
   try {
-    const raw = readStorageWithFallback(DAILY_MISSION_KEY, LEGACY_KEYS.dailyMission);
+    const legacy = currentStudentId === "abraham" ? LEGACY_KEYS.dailyMission : null;
+    const raw = readStorageWithFallback(scopedKey(STORAGE_BASE.dailyMission), legacy);
     if (!raw) return;
     const parsed = JSON.parse(raw);
     const today = new Date().toISOString().slice(0, 10);
@@ -1679,12 +2152,14 @@ function loadDailyMission() {
 }
 
 function saveClassMemoryEntries() {
-  localStorage.setItem(CLASS_MEMORY_KEY, JSON.stringify(classMemoryEntries));
+  localStorage.setItem(scopedKey(STORAGE_BASE.classMemory), JSON.stringify(classMemoryEntries));
+  scheduleAutoCloudSync();
 }
 
 function loadClassMemoryEntries() {
   try {
-    const raw = readStorageWithFallback(CLASS_MEMORY_KEY, LEGACY_KEYS.classMemory);
+    const legacy = currentStudentId === "abraham" ? LEGACY_KEYS.classMemory : null;
+    const raw = readStorageWithFallback(scopedKey(STORAGE_BASE.classMemory), legacy);
     classMemoryEntries = raw ? JSON.parse(raw) : [];
   } catch {
     classMemoryEntries = [];
@@ -1710,12 +2185,14 @@ function loadCloudConfigState() {
 }
 
 function renderCloudConfigState() {
+  cloudConfig.studentId = currentStudentId;
   if (cloudUrl) cloudUrl.value = cloudConfig.url || "";
   if (cloudAnon) cloudAnon.value = cloudConfig.anonKey || "";
-  if (cloudStudent) cloudStudent.value = cloudConfig.studentId || "abraham";
+  if (cloudStudent) cloudStudent.value = currentStudentId;
+  if (cloudAutoSync) cloudAutoSync.checked = cloudConfig.autoSync !== false;
   if (cloudSyncStatus) {
     cloudSyncStatus.textContent = cloudConfig.url && cloudConfig.anonKey
-      ? `Estado: nube configurada (${cloudConfig.studentId || "abraham"})`
+      ? `Estado: nube configurada (${currentStudentId})`
       : "Estado: local (sin nube)";
   }
 }
@@ -1769,7 +2246,8 @@ function applyLearningState(state) {
 function readCloudFormIntoState() {
   cloudConfig.url = (cloudUrl?.value || "").trim().replace(/\/+$/, "");
   cloudConfig.anonKey = (cloudAnon?.value || "").trim();
-  cloudConfig.studentId = ((cloudStudent?.value || "").trim() || "abraham").toLowerCase();
+  cloudConfig.studentId = currentStudentId;
+  cloudConfig.autoSync = cloudAutoSync ? cloudAutoSync.checked : true;
 }
 
 function setCloudStatus(message) {
@@ -1783,15 +2261,32 @@ function getCloudEndpoint() {
 }
 
 async function pushProgressToCloud() {
+  return pushProgressToCloudInternal(false);
+}
+
+function isCloudReady() {
+  return Boolean(cloudConfig.url && cloudConfig.anonKey && currentStudentId);
+}
+
+function scheduleAutoCloudSync() {
+  if (!isCloudReady()) return;
+  if (cloudConfig.autoSync === false) return;
+  clearTimeout(autoSyncTimer);
+  autoSyncTimer = setTimeout(() => {
+    pushProgressToCloudInternal(true);
+  }, AUTO_SYNC_DELAY_MS);
+}
+
+async function pushProgressToCloudInternal(silent = false) {
   readCloudFormIntoState();
-  if (!cloudConfig.url || !cloudConfig.anonKey || !cloudConfig.studentId) {
-    setCloudStatus("faltan URL/key/ID alumno");
+  if (!isCloudReady()) {
+    if (!silent) setCloudStatus("faltan URL/key/ID alumno");
     return;
   }
   saveCloudConfigState();
   renderCloudConfigState();
   const endpoint = getCloudEndpoint();
-  setCloudStatus("subiendo progreso...");
+  if (!silent) setCloudStatus("subiendo progreso...");
   try {
     const res = await fetch(`${endpoint}?on_conflict=student_id`, {
       method: "POST",
@@ -1808,15 +2303,15 @@ async function pushProgressToCloud() {
       }]),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    setCloudStatus(`subido ✅ (${cloudConfig.studentId})`);
+    if (!silent) setCloudStatus(`subido ✅ (${currentStudentId})`);
   } catch (error) {
-    setCloudStatus(`error al subir (${error.message})`);
+    if (!silent) setCloudStatus(`error al subir (${error.message})`);
   }
 }
 
 async function pullProgressFromCloud() {
   readCloudFormIntoState();
-  if (!cloudConfig.url || !cloudConfig.anonKey || !cloudConfig.studentId) {
+  if (!isCloudReady()) {
     setCloudStatus("faltan URL/key/ID alumno");
     return;
   }
@@ -1826,7 +2321,7 @@ async function pullProgressFromCloud() {
   setCloudStatus("descargando progreso...");
   try {
     const res = await fetch(
-      `${endpoint}?student_id=eq.${encodeURIComponent(cloudConfig.studentId)}&select=payload,updated_at&order=updated_at.desc&limit=1`,
+      `${endpoint}?student_id=eq.${encodeURIComponent(currentStudentId)}&select=payload,updated_at&order=updated_at.desc&limit=1`,
       {
         headers: {
           apikey: cloudConfig.anonKey,
@@ -1842,9 +2337,188 @@ async function pullProgressFromCloud() {
       return;
     }
     applyLearningState(payload);
-    setCloudStatus(`descargado ✅ (${cloudConfig.studentId})`);
+    setCloudStatus(`descargado ✅ (${currentStudentId})`);
   } catch (error) {
     setCloudStatus(`error al descargar (${error.message})`);
+  }
+}
+
+function switchStudentSession(nextId, remember = false) {
+  currentStudentId = normalizeStudentId(nextId);
+  if (remember) saveCurrentStudentSession();
+  renderStudentBadge();
+  loadQuizProgress();
+  loadGameStats();
+  loadDailyMission();
+  loadClassMemoryEntries();
+  loadLiveNotes();
+  cloudConfig.studentId = currentStudentId;
+  renderCloudConfigState();
+  renderProgressPanel();
+  renderGameStats();
+  renderDailyMission();
+  renderClassMemory();
+  renderLiveNotes();
+  selectQuizBank("p1");
+  setCloudStatus(`sesión iniciada (${currentStudentId})`);
+  if (isCloudReady() && cloudConfig.autoSync !== false) {
+    pullProgressFromCloud();
+  }
+}
+
+function initStudentLogin() {
+  loadCurrentStudentSession();
+  renderStudentBadge();
+  if (studentLoginBtn) {
+    studentLoginBtn.addEventListener("click", () => {
+      switchStudentSession(studentLoginInput?.value || "abraham", false);
+    });
+  }
+  if (studentRememberBtn) {
+    studentRememberBtn.addEventListener("click", () => {
+      switchStudentSession(studentLoginInput?.value || "abraham", true);
+      setCloudStatus(`recordado en este dispositivo (${currentStudentId})`);
+    });
+  }
+}
+
+function setAuthStatus(message) {
+  if (authStatus) authStatus.textContent = `Estado: ${message}`;
+}
+
+function showAuthGate() {
+  if (!authGate) return;
+  authGate.hidden = false;
+  document.body.classList.add("auth-locked");
+  if (authUser) authUser.focus();
+}
+
+function hideAuthGate() {
+  if (!authGate) return;
+  authGate.hidden = true;
+  document.body.classList.remove("auth-locked");
+}
+
+function saveAuthSession(userId, remember) {
+  const payload = JSON.stringify({ userId, remember });
+  if (remember) {
+    localStorage.setItem(AUTH_SESSION_KEY, payload);
+  } else {
+    sessionStorage.setItem(AUTH_SESSION_KEY, payload);
+  }
+}
+
+function clearAuthSession() {
+  localStorage.removeItem(AUTH_SESSION_KEY);
+  sessionStorage.removeItem(AUTH_SESSION_KEY);
+}
+
+function loadAuthSession() {
+  const local = localStorage.getItem(AUTH_SESSION_KEY);
+  if (local) return local;
+  return sessionStorage.getItem(AUTH_SESSION_KEY);
+}
+
+function saveStudentCredentials() {
+  localStorage.setItem(STUDENT_CREDENTIALS_KEY, JSON.stringify(studentCredentials));
+}
+
+function loadStudentCredentials() {
+  try {
+    const raw = localStorage.getItem(STUDENT_CREDENTIALS_KEY);
+    if (!raw) {
+      studentCredentials = { ...DEFAULT_STUDENT_CREDENTIALS };
+      saveStudentCredentials();
+      return;
+    }
+    const parsed = JSON.parse(raw);
+    studentCredentials = parsed && typeof parsed === "object"
+      ? { ...DEFAULT_STUDENT_CREDENTIALS, ...parsed }
+      : { ...DEFAULT_STUDENT_CREDENTIALS };
+  } catch {
+    studentCredentials = { ...DEFAULT_STUDENT_CREDENTIALS };
+  }
+}
+
+function verifyCredentials(userId, password) {
+  return Boolean(studentCredentials[userId] && studentCredentials[userId] === password);
+}
+
+function authenticateStudent(userId, remember) {
+  isAuthenticated = true;
+  saveAuthSession(userId, remember);
+  switchStudentSession(userId, remember);
+  hideAuthGate();
+  setAuthStatus(`sesión iniciada (${userId})`);
+}
+
+function tryRestoreAuthSession() {
+  const raw = loadAuthSession();
+  if (!raw) return false;
+  try {
+    const parsed = JSON.parse(raw);
+    const userId = normalizeStudentId(parsed.userId || "abraham");
+    if (!studentCredentials[userId]) return false;
+    authenticateStudent(userId, Boolean(parsed.remember));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function handleAuthLogin() {
+  const userId = normalizeStudentId(authUser?.value || "");
+  const pass = (authPass?.value || "").trim();
+  if (!userId || !pass) {
+    setAuthStatus("completa usuario y contraseña");
+    return;
+  }
+  if (!studentCredentials[userId]) {
+    setAuthStatus("usuario no existe; pulsa Crear cuenta (primera vez)");
+    return;
+  }
+  if (!verifyCredentials(userId, pass)) {
+    setAuthStatus("credenciales incorrectas");
+    clearAuthSession();
+    isAuthenticated = false;
+    return;
+  }
+  authenticateStudent(userId, Boolean(authRemember?.checked));
+}
+
+function handleAuthSignup() {
+  const userId = normalizeStudentId(authUser?.value || "");
+  const pass = (authPass?.value || "").trim();
+  if (!userId || !pass) {
+    setAuthStatus("para crear cuenta, completa usuario y contraseña");
+    return;
+  }
+  const existed = Boolean(studentCredentials[userId]);
+  studentCredentials[userId] = pass;
+  saveStudentCredentials();
+  authenticateStudent(userId, Boolean(authRemember?.checked));
+  setAuthStatus(
+    existed
+      ? `usuario recuperado: contraseña actualizada (${userId})`
+      : `cuenta creada y sesión iniciada (${userId})`,
+  );
+}
+
+function initAuthGate() {
+  if (!authGate) return;
+  loadStudentCredentials();
+  if (authLoginBtn) authLoginBtn.addEventListener("click", handleAuthLogin);
+  if (authSignupBtn) authSignupBtn.addEventListener("click", handleAuthSignup);
+  if (authPass) {
+    authPass.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") handleAuthLogin();
+    });
+  }
+  if (authUser && !authUser.value) authUser.value = currentStudentId;
+  const restored = tryRestoreAuthSession();
+  if (!restored) {
+    showAuthGate();
+    setAuthStatus("si es primera vez, pulsa Crear cuenta");
   }
 }
 
@@ -1922,7 +2596,7 @@ function renderDailyMission() {
 function updateChallenges(lastPercent = null) {
   if (gameState.streak >= 3) gameState.challenges.streak3 = true;
   if (lastPercent !== null && lastPercent >= 80) gameState.challenges.score80 = true;
-  const done = ["p1", "p2", "p3"].every((k) => (quizState.attempts[k]?.best || 0) >= 60);
+  const done = ["p1", "p2", "p3", "p4", "p5"].every((k) => (quizState.attempts[k]?.best || 0) >= 60);
   if (done) gameState.challenges.allDone = true;
 }
 
@@ -1952,7 +2626,7 @@ function renderGameStats() {
   const items = [
     { key: "streak3", label: "Reto 1: 3 respuestas seguidas correctas" },
     { key: "score80", label: "Reto 2: sacar 80% o más en un quiz" },
-    { key: "allDone", label: "Reto 3: completar Pasuk 1, 2 y 3 (mínimo 60%)" },
+    { key: "allDone", label: "Reto 3: completar Pasuk 1, 2, 3, 4 y 5 (mínimo 60%)" },
   ];
   items.forEach((it) => {
     const row = document.createElement("div");
@@ -2279,15 +2953,20 @@ function selectQuizBank(bankKey) {
 
 function initQuiz() {
   if (!quizSelector) return;
+  loadCurrentStudentSession();
+  renderStudentBadge();
   loadQuizProgress();
   loadGameStats();
   loadDailyMission();
   loadClassMemoryEntries();
+  loadLiveNotes();
   loadCloudConfigState();
   const banks = [
     ["p1", "Pasuk 1"],
     ["p2", "Pasuk 2"],
     ["p3", "Pasuk 3"],
+    ["p4", "Pasuk 4"],
+    ["p5", "Pasuk 5"],
     ["all", "Acumulativo"],
   ];
   banks.forEach(([key, label]) => {
@@ -2304,12 +2983,15 @@ function initQuiz() {
   renderDailyMission();
   renderClassMemory();
   renderCloudConfigState();
+  if (isCloudReady() && cloudConfig.autoSync !== false) {
+    pullProgressFromCloud();
+  }
 }
 
 function renderProgressPanel() {
   if (!progressRows || !progressSummary || !progressBadges || !progressWeak) return;
-  const banks = ["p1", "p2", "p3", "all"];
-  const labels = { p1: "Pasuk 1", p2: "Pasuk 2", p3: "Pasuk 3", all: "Acumulativo" };
+  const banks = ["p1", "p2", "p3", "p4", "p5", "all"];
+  const labels = { p1: "Pasuk 1", p2: "Pasuk 2", p3: "Pasuk 3", p4: "Pasuk 4", p5: "Pasuk 5", all: "Acumulativo" };
   progressRows.innerHTML = "";
   progressBadges.innerHTML = "";
   let completed = 0;
@@ -2329,7 +3011,7 @@ function renderProgressPanel() {
 
   const badgeA = document.createElement("span");
   badgeA.className = "chip-btn";
-  badgeA.textContent = `Quizzes hechos: ${completed}/4`;
+  badgeA.textContent = `Quizzes hechos: ${completed}/${banks.length}`;
   progressBadges.appendChild(badgeA);
   const badgeB = document.createElement("span");
   badgeB.className = "chip-btn";
@@ -2482,7 +3164,14 @@ if (saveCloudConfig) {
     readCloudFormIntoState();
     saveCloudConfigState();
     renderCloudConfigState();
-    setCloudStatus(`config guardada (${cloudConfig.studentId})`);
+    setCloudStatus(`config guardada (${currentStudentId})`);
+  });
+}
+if (cloudAutoSync) {
+  cloudAutoSync.addEventListener("change", () => {
+    cloudConfig.autoSync = cloudAutoSync.checked;
+    saveCloudConfigState();
+    setCloudStatus(cloudConfig.autoSync ? "auto-sync activado" : "auto-sync pausado");
   });
 }
 if (syncPush) {
@@ -2496,11 +3185,11 @@ initSupportProfiles();
 initTimeline();
 renderStudyRoute();
 initQuiz();
+initStudentLogin();
+initAuthGate();
 initAvatarPicker();
 initScreenNav();
 initBookReader();
 renderPasuk();
-loadLiveNotes();
-renderLiveNotes();
 renderProgressPanel();
 renderGameStats();

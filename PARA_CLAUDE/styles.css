@@ -107,44 +107,17 @@ body {
   color: #5f3e1f;
 }
 
-.book-cover {
-  width: 100%;
-  border: 2px solid #7f5b2f;
-  border-radius: 16px;
-  padding: 1rem;
-  text-align: left;
-  cursor: pointer;
-  background:
-    linear-gradient(135deg, #6b4522 0%, #8d5d31 45%, #5b3a1e 100%);
-  color: #fff7da;
-  box-shadow: 0 8px 0 #4f3018;
-}
-
-.book-cover.open {
-  box-shadow: 0 4px 0 #4f3018;
-  transform: translateY(2px);
-}
-
-.book-cover-title {
-  display: block;
-  font-size: 1.2rem;
-  font-weight: 900;
-}
-
-.book-cover-sub {
-  display: block;
-  margin-top: 0.35rem;
-  opacity: 0.95;
-  font-size: 0.95rem;
-}
-
 .book-reader {
   position: relative;
   margin-top: 0.8rem;
-  border: 2px solid #d5e4c8;
-  border-radius: 16px;
+  border: 2px solid #cbb792;
+  border-radius: 18px;
   padding: 0.8rem;
-  background: linear-gradient(180deg, #fffef8, #f8fcee);
+  background:
+    linear-gradient(90deg, #ead7b4 0%, #f8efd8 8%, #fff8e8 50%, #f8efd8 92%, #ead7b4 100%);
+  box-shadow:
+    inset 0 0 0 1px #f4e7cc,
+    0 14px 28px -18px rgba(56, 33, 10, 0.6);
 }
 
 .book-reader::before,
@@ -176,6 +149,7 @@ body {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  direction: rtl;
 }
 
 .book-nav-btn {
@@ -196,6 +170,7 @@ body {
 .book-index {
   display: flex;
   gap: 0.35rem;
+  flex-direction: row-reverse;
 }
 
 .book-index-btn {
@@ -218,6 +193,176 @@ body {
   margin: 0.6rem 0 0.1rem;
   font-weight: 800;
   color: #355740;
+  text-align: right;
+}
+
+.book-hand {
+  position: absolute;
+  right: 22px;
+  top: 58px;
+  font-size: 1.7rem;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
+  transform: translateX(0) translateY(0) rotate(0deg);
+  z-index: 9;
+}
+
+.book-hand.hand-next {
+  animation: handNext 0.56s ease forwards;
+}
+
+.book-hand.hand-prev {
+  left: 22px;
+  right: auto;
+  transform: scaleX(-1);
+  animation: handPrev 0.56s ease forwards;
+}
+
+.book-pages {
+  position: relative;
+}
+
+.book-pages.manual {
+  position: relative;
+  min-height: 360px;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  padding: 0 10px;
+}
+
+.book-pages.manual::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 22px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(120, 84, 45, 0.06) 0%,
+    rgba(120, 84, 45, 0.24) 50%,
+    rgba(120, 84, 45, 0.06) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.book-pages.manual .book-page {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #fffef8, #fff9eb 60%, #f8efd8 100%);
+  border: 1px solid #e0cfad;
+  border-radius: 12px;
+  box-shadow:
+    inset 0 0 0 1px #fffdf3,
+    0 8px 16px -12px rgba(69, 43, 18, 0.4);
+  opacity: 0;
+  transform: translateX(26px) scale(0.985) rotateY(-12deg);
+  transform-origin: left center;
+  pointer-events: none;
+  transition: opacity 0.32s ease, transform 0.32s ease;
+  padding: 0.55rem;
+  overflow: hidden;
+}
+
+.book-pages.manual .book-page.active {
+  opacity: 1;
+  transform: translateX(0) scale(1) rotateY(0deg);
+  pointer-events: auto;
+  z-index: 3;
+}
+
+.book-pages.manual .book-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  right: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.08));
+  pointer-events: none;
+}
+
+.book-pages.manual .book-page.leaving-next::before,
+.book-pages.manual .book-page.leaving-prev::before {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  top: 0;
+  right: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(236, 224, 195, 0.9) 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.book-pages.manual .book-page.turn-next {
+  animation: pageEnterNext 0.34s ease;
+}
+
+.book-pages.manual .book-page.turn-prev {
+  animation: pageEnterPrev 0.34s ease;
+}
+
+.book-pages.manual .book-page.leaving-next {
+  z-index: 4;
+  animation: pageLeaveNext 0.34s ease forwards;
+}
+
+.book-pages.manual .book-page.leaving-prev {
+  z-index: 4;
+  animation: pageLeavePrev 0.34s ease forwards;
+}
+
+.book-pages.enhanced {
+  min-height: 560px;
+  padding: 0;
+}
+
+.book-pages.enhanced .book-page {
+  background: #fffef9;
+  border: 1px solid #ecdcbf;
+  padding: 0.7rem 0.85rem 1.25rem;
+  overflow: auto;
+}
+
+@keyframes pageEnterNext {
+  0% { opacity: 0.1; transform: translateX(26px) rotateY(-16deg) scale(0.98); }
+  100% { opacity: 1; transform: translateX(0) rotateY(0deg) scale(1); }
+}
+
+@keyframes pageEnterPrev {
+  0% { opacity: 0.1; transform: translateX(-26px) rotateY(16deg) scale(0.98); }
+  100% { opacity: 1; transform: translateX(0) rotateY(0deg) scale(1); }
+}
+
+@keyframes pageLeaveNext {
+  0% { opacity: 1; transform: translateX(0) rotateY(0deg) scale(1); }
+  100% { opacity: 0; transform: translateX(-36px) rotateY(22deg) scale(0.985); }
+}
+
+@keyframes pageLeavePrev {
+  0% { opacity: 1; transform: translateX(0) rotateY(0deg) scale(1); }
+  100% { opacity: 0; transform: translateX(36px) rotateY(-22deg) scale(0.985); }
+}
+
+@keyframes handNext {
+  0% { opacity: 0; transform: translateX(26px) translateY(-6px) rotate(-8deg); }
+  20% { opacity: 1; }
+  55% { opacity: 1; transform: translateX(-20px) translateY(2px) rotate(4deg); }
+  100% { opacity: 0; transform: translateX(-42px) translateY(10px) rotate(8deg); }
+}
+
+@keyframes handPrev {
+  0% { opacity: 0; transform: scaleX(-1) translateX(26px) translateY(-6px) rotate(-8deg); }
+  20% { opacity: 1; }
+  55% { opacity: 1; transform: scaleX(-1) translateX(-20px) translateY(2px) rotate(4deg); }
+  100% { opacity: 0; transform: scaleX(-1) translateX(-42px) translateY(10px) rotate(8deg); }
 }
 
 .card {
@@ -610,6 +755,47 @@ body {
 
 .mini-table h4 {
   margin: 0 0 0.4rem;
+}
+
+.class-memory-card p {
+  margin: 0.2rem 0 0.55rem;
+}
+
+.memory-form input,
+.memory-form textarea {
+  width: 100%;
+  border: 1px solid #d7c48d;
+  background: #fffdf6;
+  border-radius: 8px;
+  padding: 0.45rem 0.55rem;
+  font: inherit;
+}
+
+.memory-form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.class-memory-list {
+  margin-top: 0.6rem;
+  max-height: 280px;
+  overflow: auto;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.memory-item {
+  border: 1px solid #e1d3a9;
+  background: #fffdf8;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.memory-meta,
+.memory-notes,
+.memory-snapshot {
+  margin: 0.15rem 0;
+  font-size: 0.92rem;
 }
 
 .conj-rows {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Perashá Interactiva | Yitró</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/src/Style/stPageFlip.min.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -43,23 +44,20 @@
 
           <section class="book-shell" aria-label="Libro digital de pesukim">
             <p class="book-kicker">Libro digital</p>
-            <button id="bookToggle" class="book-cover open" type="button" aria-expanded="true">
-              <span class="book-cover-title">Cerrar libro de pesukim</span>
-              <span class="book-cover-sub">Shemot 18:1-3 · toca para empezar</span>
-            </button>
-            <div id="bookReader" class="book-reader">
+            <div id="bookReader" class="book-reader" dir="rtl">
               <div class="book-nav">
-                <button id="bookPrev" class="book-nav-btn" type="button">◀ Anterior</button>
+                <button id="bookPrev" class="book-nav-btn" type="button">Anterior ▶</button>
                 <div class="book-index" role="tablist" aria-label="Índice de pesukim">
-                  <button class="book-index-btn active" data-page="0" type="button">Pasuk א׳</button>
+                  <button class="book-index-btn active" data-page="0" type="button">Pasuk ג׳</button>
                   <button class="book-index-btn" data-page="1" type="button">Pasuk ב׳</button>
-                  <button class="book-index-btn" data-page="2" type="button">Pasuk ג׳</button>
+                  <button class="book-index-btn" data-page="2" type="button">Pasuk א׳</button>
                 </div>
-                <button id="bookNext" class="book-nav-btn" type="button">Siguiente ▶</button>
+                <button id="bookNext" class="book-nav-btn" type="button">◀ Siguiente</button>
               </div>
               <p id="bookPageLabel" class="book-page-label">Página 1 de 3</p>
-
-          <div class="pasuk-block book-page" data-page="0">
+              <div id="bookHand" class="book-hand" aria-hidden="true">🖐️</div>
+              <div class="book-pages">
+          <div class="pasuk-block book-page active" data-page="0">
             <h3>שמות י״ח:א׳</h3>
             <p class="pasuk-plain" dir="rtl" lang="he">
               וַיִּשְׁמַ֞ע יִתְר֨וֹ כֹהֵ֤ן מִדְיָן֙ חֹתֵ֣ן מֹשֶׁ֔ה אֵת֩ כׇּל־אֲשֶׁ֨ר עָשָׂ֤ה אֱלֹהִים֙ לְמֹשֶׁ֔ה וּלְיִשְׂרָאֵ֖ל עַמּ֑וֹ כִּֽי־הוֹצִ֧יא יְהֹוָ֛ה אֶת־יִשְׂרָאֵ֖ל מִמִּצְרָֽיִם׃
@@ -88,7 +86,7 @@
             </p>
           </div>
 
-          <div class="pasuk-block book-page" data-page="1" hidden>
+          <div class="pasuk-block book-page" data-page="1">
             <h3>שמות י״ח:ב׳</h3>
             <p class="pasuk-plain" dir="rtl" lang="he">
               וַיִּקַּ֗ח יִתְרוֹ֙ חֹתֵ֣ן מֹשֶׁ֔ה אֶת־צִפֹּרָ֖ה אֵ֣שֶׁת מֹשֶׁ֑ה אַחַ֖ר שִׁלּוּחֶֽיהָ׃
@@ -110,7 +108,7 @@
             </p>
           </div>
 
-          <div class="pasuk-block book-page" data-page="2" hidden>
+          <div class="pasuk-block book-page" data-page="2">
             <h3>שמות י״ח:ג׳</h3>
             <p class="pasuk-plain" dir="rtl" lang="he">
               וְאֵ֖ת שְׁנֵ֣י בָנֶ֑יהָ אֲשֶׁ֨ר שֵׁ֤ם הָֽאֶחָד֙ גֵּֽרְשֹׁ֔ם כִּ֣י אָמַ֔ר גֵּ֣ר הָיִ֔יתִי בְּאֶ֖רֶץ נׇכְרִיָּֽה׃
@@ -131,6 +129,7 @@
               <strong>Traducción simple:</strong> Y (también trajo) a sus dos hijos, de los cuales el nombre de uno era Gershom, porque dijo: “Fui extranjero en tierra extraña”.
             </p>
           </div>
+              </div>
             </div>
           </section>
 
@@ -264,6 +263,19 @@
         <div class="mini-table">
           <h4>Retos Del Día</h4>
           <div id="challengeList" class="rashi-list"></div>
+        </div>
+        <div class="mini-table class-memory-card">
+          <h4>Memoria De Clase (Abraham)</h4>
+          <p>Guarda un resumen rápido al terminar cada clase para seguir el proceso.</p>
+          <div class="memory-form">
+            <input id="memoryTopic" type="text" placeholder="Tema de hoy (ej. Pasuk 1 + Rashi וישמע)" />
+            <textarea id="memoryNotes" rows="3" placeholder="Qué salió bien, qué repasar, próxima meta..."></textarea>
+            <div class="live-actions">
+              <button id="saveClassMemory" type="button">Guardar clase</button>
+              <button id="clearClassMemory" type="button">Borrar historial</button>
+            </div>
+          </div>
+          <div id="classMemoryList" class="class-memory-list"></div>
         </div>
       </section>
     </main>
@@ -433,6 +445,7 @@
       </article>
     </dialog>
 
-    <script src="script.js?v=20260525-book-1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+    <script src="script.js?v=20260525-book-2"></script>
   </body>
 </html>

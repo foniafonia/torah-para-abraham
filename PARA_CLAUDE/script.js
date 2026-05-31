@@ -88,15 +88,24 @@ const progressBadges = document.getElementById("progressBadges");
 const progressSummary = document.getElementById("progressSummary");
 const progressRows = document.getElementById("progressRows");
 const progressWeak = document.getElementById("progressWeak");
+const memoryTopic = document.getElementById("memoryTopic");
+const memoryNotes = document.getElementById("memoryNotes");
+const saveClassMemory = document.getElementById("saveClassMemory");
+const clearClassMemory = document.getElementById("clearClassMemory");
+const classMemoryList = document.getElementById("classMemoryList");
 const screenTabs = [...document.querySelectorAll(".screen-tab")];
 const appScreens = [...document.querySelectorAll(".app-screen")];
-const bookToggle = document.getElementById("bookToggle");
 const bookReader = document.getElementById("bookReader");
 const bookPrev = document.getElementById("bookPrev");
 const bookNext = document.getElementById("bookNext");
 const bookPageLabel = document.getElementById("bookPageLabel");
+const bookHand = document.getElementById("bookHand");
 const bookIndexButtons = [...document.querySelectorAll(".book-index-btn")];
-const bookPages = [...document.querySelectorAll(".book-page")];
+let bookPages = [...document.querySelectorAll(".book-page")];
+let bookFlip = null;
+const BOOK_IS_RTL = true;
+if (BOOK_IS_RTL) bookPages = bookPages.slice().reverse();
+const BOOK_START_INDEX = BOOK_IS_RTL ? bookPages.length - 1 : 0;
 
 const TEAMIM_REGEX = /[\u0591-\u05AF]/g;
 const NIKKUD_REGEX = /[\u05B0-\u05BC\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7]/g;
@@ -1079,6 +1088,7 @@ const LIVE_NOTES_KEY = "torah_live_notes_v1";
 const QUIZ_PROGRESS_KEY = "torah_quiz_progress_v1";
 const GAME_STATS_KEY = "torah_game_stats_v1";
 const DAILY_MISSION_KEY = "torah_daily_mission_v1";
+const CLASS_MEMORY_KEY = "torah_class_memory_v1";
 let liveNotes = [];
 let currentLemma = "vaishma";
 const timelineData = [
@@ -1215,7 +1225,8 @@ let dailyMission = {
   correctToday: 0,
   target: 5,
 };
-let currentBookPage = 0;
+let classMemoryEntries = [];
+let currentBookPage = -1;
 const avatarOptions = ["🦁", "🦊", "🐯", "🐼", "🐬", "🦄"];
 
 words.forEach((word) => {
@@ -1635,6 +1646,70 @@ function loadDailyMission() {
   }
 }
 
+function saveClassMemoryEntries() {
+  localStorage.setItem(CLASS_MEMORY_KEY, JSON.stringify(classMemoryEntries));
+}
+
+function loadClassMemoryEntries() {
+  try {
+    const raw = localStorage.getItem(CLASS_MEMORY_KEY);
+    classMemoryEntries = raw ? JSON.parse(raw) : [];
+  } catch {
+    classMemoryEntries = [];
+  }
+}
+
+function buildClassSnapshot() {
+  const quizDone = Object.entries(quizState.attempts || {})
+    .map(([key, data]) => `${key.toUpperCase()}: ${data.last || 0}%`)
+    .join(" · ");
+  return {
+    points: gameState.points || 0,
+    stars: gameState.stars || 0,
+    streak: gameState.streak || 0,
+    quiz: quizDone || "sin quiz aún",
+  };
+}
+
+function renderClassMemory() {
+  if (!classMemoryList) return;
+  classMemoryList.innerHTML = "";
+  if (!classMemoryEntries.length) {
+    classMemoryList.innerHTML = '<p class="live-empty">Todavía no hay clases guardadas.</p>';
+    return;
+  }
+  classMemoryEntries
+    .slice()
+    .reverse()
+    .forEach((entry) => {
+      const item = document.createElement("article");
+      item.className = "memory-item";
+      item.innerHTML = `
+        <p class="memory-meta"><strong>${escapeHtml(entry.topic)}</strong> · ${escapeHtml(entry.time)}</p>
+        <p class="memory-notes">${escapeHtml(entry.notes || "Sin notas adicionales.")}</p>
+        <p class="memory-snapshot">Puntos: ${entry.snapshot.points} · Estrellas: ${entry.snapshot.stars} · Racha: ${entry.snapshot.streak}</p>
+        <p class="memory-snapshot">Quiz: ${escapeHtml(entry.snapshot.quiz)}</p>
+      `;
+      classMemoryList.appendChild(item);
+    });
+}
+
+function addClassMemoryEntry() {
+  const topic = (memoryTopic?.value || "").trim() || "Clase de Torá";
+  const notes = (memoryNotes?.value || "").trim();
+  const now = new Date();
+  classMemoryEntries.push({
+    topic,
+    notes,
+    time: now.toLocaleString("es-ES"),
+    snapshot: buildClassSnapshot(),
+  });
+  saveClassMemoryEntries();
+  renderClassMemory();
+  if (memoryTopic) memoryTopic.value = "";
+  if (memoryNotes) memoryNotes.value = "";
+}
+
 function setCoachMessage(msg, mood = "neutral") {
   if (coachBubble) coachBubble.textContent = msg;
   if (coachFace) {
@@ -1735,39 +1810,159 @@ function initScreenNav() {
 function setBookPage(pageIndex) {
   if (!bookPages.length) return;
   const safeIndex = Math.max(0, Math.min(pageIndex, bookPages.length - 1));
+  if (bookFlip) {
+    if (safeIndex === currentBookPage) return;
+    const isForward = BOOK_IS_RTL ? safeIndex < currentBookPage : safeIndex > currentBookPage;
+    if (bookHand) {
+      bookHand.classList.remove("hand-next", "hand-prev");
+      void bookHand.offsetWidth;
+      const handClass = BOOK_IS_RTL
+        ? (isForward ? "hand-prev" : "hand-next")
+        : (isForward ? "hand-next" : "hand-prev");
+      bookHand.classList.add(handClass);
+    }
+    const diff = safeIndex - currentBookPage;
+    if (Math.abs(diff) === 1) {
+      const goForward = BOOK_IS_RTL ? bookFlip.flipPrev.bind(bookFlip) : bookFlip.flipNext.bind(bookFlip);
+      const goBackward = BOOK_IS_RTL ? bookFlip.flipNext.bind(bookFlip) : bookFlip.flipPrev.bind(bookFlip);
+      (isForward ? goForward : goBackward)("top");
+    } else {
+      bookFlip.turnToPage(safeIndex);
+      currentBookPage = safeIndex;
+      bookIndexButtons.forEach((btn) => {
+        btn.classList.toggle("active", Number(btn.dataset.page) === currentBookPage);
+      });
+      if (bookPageLabel) bookPageLabel.textContent = `Página ${currentBookPage + 1} de ${bookPages.length}`;
+      if (bookPrev) bookPrev.disabled = BOOK_IS_RTL ? currentBookPage === bookPages.length - 1 : currentBookPage === 0;
+      if (bookNext) bookNext.disabled = BOOK_IS_RTL ? currentBookPage === 0 : currentBookPage === bookPages.length - 1;
+    }
+    return;
+  }
+  const previousIndex = currentBookPage;
+  if (safeIndex === previousIndex) return;
+  const previousPage = bookPages[previousIndex];
+  const nextPage = bookPages[safeIndex];
   currentBookPage = safeIndex;
-  bookPages.forEach((page, index) => {
-    page.hidden = index !== safeIndex;
+  const isForward = safeIndex > previousIndex;
+  const enterClass = BOOK_IS_RTL
+    ? (isForward ? "turn-prev" : "turn-next")
+    : (isForward ? "turn-next" : "turn-prev");
+  const leaveClass = BOOK_IS_RTL
+    ? (isForward ? "leaving-prev" : "leaving-next")
+    : (isForward ? "leaving-next" : "leaving-prev");
+  if (bookHand && previousIndex >= 0) {
+    bookHand.classList.remove("hand-next", "hand-prev");
+    // Force reflow so repeated clicks replay the animation every time.
+    void bookHand.offsetWidth;
+    const handClass = BOOK_IS_RTL
+      ? (isForward ? "hand-prev" : "hand-next")
+      : (isForward ? "hand-next" : "hand-prev");
+    bookHand.classList.add(handClass);
+  }
+  bookPages.forEach((page) => {
+    page.classList.remove("turn-next", "turn-prev", "leaving-next", "leaving-prev");
   });
+  if (previousPage) {
+    previousPage.classList.add(leaveClass);
+  }
+  if (nextPage) {
+    nextPage.classList.add("active", enterClass);
+  }
+  setTimeout(() => {
+    bookPages.forEach((page, index) => {
+      page.classList.remove("turn-next", "turn-prev", "leaving-next", "leaving-prev");
+      if (index !== safeIndex) page.classList.remove("active");
+    });
+  }, 360);
   bookIndexButtons.forEach((btn) => {
     btn.classList.toggle("active", Number(btn.dataset.page) === safeIndex);
   });
   if (bookPageLabel) bookPageLabel.textContent = `Página ${safeIndex + 1} de ${bookPages.length}`;
-  if (bookPrev) bookPrev.disabled = safeIndex === 0;
-  if (bookNext) bookNext.disabled = safeIndex === bookPages.length - 1;
+  if (bookPrev) bookPrev.disabled = BOOK_IS_RTL ? safeIndex === bookPages.length - 1 : safeIndex === 0;
+  if (bookNext) bookNext.disabled = BOOK_IS_RTL ? safeIndex === 0 : safeIndex === bookPages.length - 1;
 }
 
 function initBookReader() {
-  if (!bookToggle || !bookReader || !bookPages.length) return;
-  setBookPage(0);
-  const coverTitle = bookToggle.querySelector(".book-cover-title");
-  const syncCoverState = () => {
-    const isOpen = !bookReader.hidden;
-    bookToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    bookToggle.classList.toggle("open", isOpen);
-    if (coverTitle) coverTitle.textContent = isOpen ? "Cerrar libro de pesukim" : "Abrir libro de pesukim";
-  };
-  syncCoverState();
-  bookToggle.addEventListener("click", () => {
-    bookReader.hidden = !bookReader.hidden;
-    syncCoverState();
-    if (!bookReader.hidden) setBookPage(currentBookPage);
-  });
+  if (!bookReader || !bookPages.length) return;
+  const pagesContainer = bookReader.querySelector(".book-pages");
+  if (!pagesContainer) return;
+  if (window.St && window.St.PageFlip) {
+    pagesContainer.classList.remove("manual");
+    pagesContainer.classList.add("enhanced");
+    const contentHeight = Math.max(...bookPages.map((p) => p.scrollHeight));
+    const flipHeight = Math.max(560, Math.min(920, contentHeight + 96));
+    const flipMinHeight = Math.max(460, Math.min(860, flipHeight - 80));
+    const flipMaxHeight = Math.max(flipHeight, 980);
+    bookPages.forEach((p, i) => {
+      p.classList.remove("active", "turn-next", "turn-prev", "leaving-next", "leaving-prev");
+      p.setAttribute("data-density", i === 0 || i === bookPages.length - 1 ? "hard" : "soft");
+    });
+    bookFlip = new window.St.PageFlip(pagesContainer, {
+      width: 900,
+      height: flipHeight,
+      size: "stretch",
+      minWidth: 280,
+      maxWidth: 1100,
+      minHeight: flipMinHeight,
+      maxHeight: flipMaxHeight,
+      maxShadowOpacity: 0.5,
+      showCover: false,
+      mobileScrollSupport: false,
+      clickEventForward: true,
+      useMouseEvents: true,
+      usePortrait: true,
+      drawShadow: true,
+      flippingTime: 900,
+      autoSize: true,
+      showPageCorners: true,
+      disableFlipByClick: false,
+      startPage: BOOK_START_INDEX,
+    });
+    bookFlip.loadFromHTML(bookPages);
+    bookFlip.on("flip", (event) => {
+      currentBookPage = Number(event.data) || 0;
+      bookIndexButtons.forEach((btn) => {
+        btn.classList.toggle("active", Number(btn.dataset.page) === currentBookPage);
+      });
+      if (bookPageLabel) bookPageLabel.textContent = `Página ${currentBookPage + 1} de ${bookPages.length}`;
+      if (bookPrev) bookPrev.disabled = BOOK_IS_RTL ? currentBookPage === bookPages.length - 1 : currentBookPage === 0;
+      if (bookNext) bookNext.disabled = BOOK_IS_RTL ? currentBookPage === 0 : currentBookPage === bookPages.length - 1;
+    });
+    currentBookPage = BOOK_START_INDEX;
+    if (bookHand) bookHand.hidden = true;
+    if (bookPageLabel) bookPageLabel.textContent = `Página ${currentBookPage + 1} de ${bookPages.length}`;
+    if (bookPrev) {
+      bookPrev.disabled = BOOK_IS_RTL ? currentBookPage === bookPages.length - 1 : currentBookPage === 0;
+      bookPrev.addEventListener("click", () =>
+        setBookPage(BOOK_IS_RTL ? currentBookPage + 1 : currentBookPage - 1),
+      );
+    }
+    if (bookNext) {
+      bookNext.disabled = BOOK_IS_RTL ? currentBookPage === 0 : currentBookPage === bookPages.length - 1;
+      bookNext.addEventListener("click", () =>
+        setBookPage(BOOK_IS_RTL ? currentBookPage - 1 : currentBookPage + 1),
+      );
+    }
+    bookIndexButtons.forEach((btn) => {
+      btn.addEventListener("click", () => setBookPage(Number(btn.dataset.page)));
+    });
+    return;
+  }
+  pagesContainer.classList.add("manual");
+  if (pagesContainer) {
+    const maxHeight = Math.max(...bookPages.map((p) => p.scrollHeight));
+    pagesContainer.style.minHeight = `${maxHeight + 16}px`;
+  }
+  setBookPage(BOOK_START_INDEX);
   if (bookPrev) {
-    bookPrev.addEventListener("click", () => setBookPage(currentBookPage - 1));
+    bookPrev.addEventListener("click", () =>
+      setBookPage(BOOK_IS_RTL ? currentBookPage + 1 : currentBookPage - 1),
+    );
   }
   if (bookNext) {
-    bookNext.addEventListener("click", () => setBookPage(currentBookPage + 1));
+    bookNext.addEventListener("click", () =>
+      setBookPage(BOOK_IS_RTL ? currentBookPage - 1 : currentBookPage + 1),
+    );
   }
   bookIndexButtons.forEach((btn) => {
     btn.addEventListener("click", () => setBookPage(Number(btn.dataset.page)));
@@ -1898,6 +2093,7 @@ function initQuiz() {
   loadQuizProgress();
   loadGameStats();
   loadDailyMission();
+  loadClassMemoryEntries();
   const banks = [
     ["p1", "Pasuk 1"],
     ["p2", "Pasuk 2"],
@@ -1916,6 +2112,7 @@ function initQuiz() {
   renderProgressPanel();
   renderGameStats();
   renderDailyMission();
+  renderClassMemory();
 }
 
 function renderProgressPanel() {
@@ -2078,6 +2275,16 @@ if (quizNext) {
 }
 if (quizRestart) {
   quizRestart.addEventListener("click", () => selectQuizBank(quizState.bank));
+}
+if (saveClassMemory) {
+  saveClassMemory.addEventListener("click", addClassMemoryEntry);
+}
+if (clearClassMemory) {
+  clearClassMemory.addEventListener("click", () => {
+    classMemoryEntries = [];
+    saveClassMemoryEntries();
+    renderClassMemory();
+  });
 }
 
 initSupportProfiles();

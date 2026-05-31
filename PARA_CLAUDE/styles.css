@@ -798,6 +798,12 @@ body {
   font-size: 0.92rem;
 }
 
+.cloud-sync-card .live-context {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: #2a5f3c;
+}
+
 .conj-rows {
   display: grid;
   gap: 0.45rem;

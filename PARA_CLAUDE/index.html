@@ -277,6 +277,21 @@
           </div>
           <div id="classMemoryList" class="class-memory-list"></div>
         </div>
+        <div class="mini-table cloud-sync-card">
+          <h4>Sincronización Nube (Backend sencillo)</h4>
+          <p>Guarda y recupera el progreso de Abraham entre dispositivos.</p>
+          <div class="memory-form">
+            <input id="cloudUrl" type="text" placeholder="URL Supabase (https://xxxx.supabase.co)" />
+            <input id="cloudAnon" type="text" placeholder="Anon/Publishable key" />
+            <input id="cloudStudent" type="text" placeholder="ID alumno (ej. abraham)" />
+            <div class="live-actions">
+              <button id="saveCloudConfig" type="button">Guardar configuración</button>
+              <button id="syncPush" type="button">Subir progreso</button>
+              <button id="syncPull" type="button">Descargar progreso</button>
+            </div>
+            <p id="cloudSyncStatus" class="live-context">Estado: local (sin nube)</p>
+          </div>
+        </div>
       </section>
     </main>
 

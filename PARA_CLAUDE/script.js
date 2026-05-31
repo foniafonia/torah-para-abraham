@@ -93,6 +93,13 @@ const memoryNotes = document.getElementById("memoryNotes");
 const saveClassMemory = document.getElementById("saveClassMemory");
 const clearClassMemory = document.getElementById("clearClassMemory");
 const classMemoryList = document.getElementById("classMemoryList");
+const cloudUrl = document.getElementById("cloudUrl");
+const cloudAnon = document.getElementById("cloudAnon");
+const cloudStudent = document.getElementById("cloudStudent");
+const saveCloudConfig = document.getElementById("saveCloudConfig");
+const syncPush = document.getElementById("syncPush");
+const syncPull = document.getElementById("syncPull");
+const cloudSyncStatus = document.getElementById("cloudSyncStatus");
 const screenTabs = [...document.querySelectorAll(".screen-tab")];
 const appScreens = [...document.querySelectorAll(".app-screen")];
 const bookReader = document.getElementById("bookReader");
@@ -1089,6 +1096,7 @@ const QUIZ_PROGRESS_KEY = "torah_para_abraham_quiz_progress_v2";
 const GAME_STATS_KEY = "torah_para_abraham_game_stats_v2";
 const DAILY_MISSION_KEY = "torah_para_abraham_daily_mission_v2";
 const CLASS_MEMORY_KEY = "torah_para_abraham_class_memory_v2";
+const CLOUD_CONFIG_KEY = "torah_para_abraham_cloud_config_v1";
 const LEGACY_KEYS = {
   liveNotes: "torah_live_notes_v1",
   quizProgress: "torah_quiz_progress_v1",
@@ -1233,6 +1241,11 @@ let dailyMission = {
   target: 5,
 };
 let classMemoryEntries = [];
+let cloudConfig = {
+  url: "",
+  anonKey: "",
+  studentId: "abraham",
+};
 let currentBookPage = -1;
 const avatarOptions = ["🦁", "🦊", "🐯", "🐼", "🐬", "🦄"];
 
@@ -1678,6 +1691,163 @@ function loadClassMemoryEntries() {
   }
 }
 
+function saveCloudConfigState() {
+  localStorage.setItem(CLOUD_CONFIG_KEY, JSON.stringify(cloudConfig));
+}
+
+function loadCloudConfigState() {
+  try {
+    const raw = localStorage.getItem(CLOUD_CONFIG_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    cloudConfig = {
+      ...cloudConfig,
+      ...parsed,
+    };
+  } catch {
+    // keep defaults
+  }
+}
+
+function renderCloudConfigState() {
+  if (cloudUrl) cloudUrl.value = cloudConfig.url || "";
+  if (cloudAnon) cloudAnon.value = cloudConfig.anonKey || "";
+  if (cloudStudent) cloudStudent.value = cloudConfig.studentId || "abraham";
+  if (cloudSyncStatus) {
+    cloudSyncStatus.textContent = cloudConfig.url && cloudConfig.anonKey
+      ? `Estado: nube configurada (${cloudConfig.studentId || "abraham"})`
+      : "Estado: local (sin nube)";
+  }
+}
+
+function collectLearningState() {
+  return {
+    quizAttempts: quizState.attempts || {},
+    gameState,
+    dailyMission,
+    classMemoryEntries,
+    liveNotes,
+    savedAt: new Date().toISOString(),
+    app: "torah-para-abraham",
+    version: 1,
+  };
+}
+
+function applyLearningState(state) {
+  if (!state || typeof state !== "object") return;
+  if (state.quizAttempts && typeof state.quizAttempts === "object") {
+    quizState.attempts = state.quizAttempts;
+  }
+  if (state.gameState && typeof state.gameState === "object") {
+    gameState = {
+      ...gameState,
+      ...state.gameState,
+      challenges: { ...gameState.challenges, ...(state.gameState.challenges || {}) },
+    };
+  }
+  if (state.dailyMission && typeof state.dailyMission === "object") {
+    dailyMission = {
+      ...dailyMission,
+      ...state.dailyMission,
+    };
+  }
+  if (Array.isArray(state.classMemoryEntries)) classMemoryEntries = state.classMemoryEntries;
+  if (Array.isArray(state.liveNotes)) liveNotes = state.liveNotes;
+
+  saveQuizProgress();
+  saveGameStats();
+  saveDailyMission();
+  saveClassMemoryEntries();
+  saveLiveNotes();
+  renderProgressPanel();
+  renderGameStats();
+  renderDailyMission();
+  renderClassMemory();
+  renderLiveNotes();
+}
+
+function readCloudFormIntoState() {
+  cloudConfig.url = (cloudUrl?.value || "").trim().replace(/\/+$/, "");
+  cloudConfig.anonKey = (cloudAnon?.value || "").trim();
+  cloudConfig.studentId = ((cloudStudent?.value || "").trim() || "abraham").toLowerCase();
+}
+
+function setCloudStatus(message) {
+  if (cloudSyncStatus) cloudSyncStatus.textContent = `Estado: ${message}`;
+}
+
+function getCloudEndpoint() {
+  const base = cloudConfig.url;
+  if (!base) return "";
+  return `${base}/rest/v1/abraham_progress`;
+}
+
+async function pushProgressToCloud() {
+  readCloudFormIntoState();
+  if (!cloudConfig.url || !cloudConfig.anonKey || !cloudConfig.studentId) {
+    setCloudStatus("faltan URL/key/ID alumno");
+    return;
+  }
+  saveCloudConfigState();
+  renderCloudConfigState();
+  const endpoint = getCloudEndpoint();
+  setCloudStatus("subiendo progreso...");
+  try {
+    const res = await fetch(`${endpoint}?on_conflict=student_id`, {
+      method: "POST",
+      headers: {
+        apikey: cloudConfig.anonKey,
+        Authorization: `Bearer ${cloudConfig.anonKey}`,
+        "Content-Type": "application/json",
+        Prefer: "resolution=merge-duplicates,return=representation",
+      },
+      body: JSON.stringify([{
+        student_id: cloudConfig.studentId,
+        payload: collectLearningState(),
+        updated_at: new Date().toISOString(),
+      }]),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    setCloudStatus(`subido ✅ (${cloudConfig.studentId})`);
+  } catch (error) {
+    setCloudStatus(`error al subir (${error.message})`);
+  }
+}
+
+async function pullProgressFromCloud() {
+  readCloudFormIntoState();
+  if (!cloudConfig.url || !cloudConfig.anonKey || !cloudConfig.studentId) {
+    setCloudStatus("faltan URL/key/ID alumno");
+    return;
+  }
+  saveCloudConfigState();
+  renderCloudConfigState();
+  const endpoint = getCloudEndpoint();
+  setCloudStatus("descargando progreso...");
+  try {
+    const res = await fetch(
+      `${endpoint}?student_id=eq.${encodeURIComponent(cloudConfig.studentId)}&select=payload,updated_at&order=updated_at.desc&limit=1`,
+      {
+        headers: {
+          apikey: cloudConfig.anonKey,
+          Authorization: `Bearer ${cloudConfig.anonKey}`,
+        },
+      },
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const rows = await res.json();
+    const payload = Array.isArray(rows) && rows[0] ? rows[0].payload : null;
+    if (!payload) {
+      setCloudStatus("no hay datos en nube para ese alumno");
+      return;
+    }
+    applyLearningState(payload);
+    setCloudStatus(`descargado ✅ (${cloudConfig.studentId})`);
+  } catch (error) {
+    setCloudStatus(`error al descargar (${error.message})`);
+  }
+}
+
 function buildClassSnapshot() {
   const quizDone = Object.entries(quizState.attempts || {})
     .map(([key, data]) => `${key.toUpperCase()}: ${data.last || 0}%`)
@@ -2113,6 +2283,7 @@ function initQuiz() {
   loadGameStats();
   loadDailyMission();
   loadClassMemoryEntries();
+  loadCloudConfigState();
   const banks = [
     ["p1", "Pasuk 1"],
     ["p2", "Pasuk 2"],
@@ -2132,6 +2303,7 @@ function initQuiz() {
   renderGameStats();
   renderDailyMission();
   renderClassMemory();
+  renderCloudConfigState();
 }
 
 function renderProgressPanel() {
@@ -2304,6 +2476,20 @@ if (clearClassMemory) {
     saveClassMemoryEntries();
     renderClassMemory();
   });
+}
+if (saveCloudConfig) {
+  saveCloudConfig.addEventListener("click", () => {
+    readCloudFormIntoState();
+    saveCloudConfigState();
+    renderCloudConfigState();
+    setCloudStatus(`config guardada (${cloudConfig.studentId})`);
+  });
+}
+if (syncPush) {
+  syncPush.addEventListener("click", pushProgressToCloud);
+}
+if (syncPull) {
+  syncPull.addEventListener("click", pullProgressFromCloud);
 }
 
 initSupportProfiles();

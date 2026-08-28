@@ -98,9 +98,16 @@ body{
 .he{ font-family:'DavidLibre',serif; direction:rtl; text-align:justify; font-size:9.3pt; line-height:1.345; }
 .es{ font-family:'Garamond',serif; direction:ltr; text-align:justify; font-size:8.6pt; line-height:1.345; }
 .par > .he, .h-sub > .he{ grid-column:2; grid-row:1; }
-.par > .es, .h-sub > .es{ grid-column:1; grid-row:1; padding-inline-end:3mm; border-inline-end:.5pt solid var(--linea); }
+.par > .es, .h-sub > .es{ grid-column:1; grid-row:1; }
+/* align-self:start deja que cada columna mida su contenido real: de ahi salen
+   los huecos que rellena el glosario. La divisoria pasa a pseudoelemento
+   absoluto (fuera del flujo del grid) para seguir abarcando toda la fila. */
+.par > .he, .par > .es{ align-self:start; }
+.par::before{ content:''; position:absolute; left:50%; top:0; bottom:0;
+  width:0; border-left:.5pt solid var(--linea); }
+.par.h-sec::before, .h-sub::before{ border:none; }
 .par > .in{ grid-column:1 / -1; grid-row:1; }
-.par.h-sec > .in{ border:none; padding-inline-end:0; }
+.par.h-sec > .in{ border:none; }
 .he b,.he strong{ font-weight:700; color:var(--azul); }
 .es b,.es strong{ font-weight:700; color:var(--azul); }
 .he .cita{ color:var(--gris); }
@@ -157,7 +164,7 @@ ul.lista > li::before{ content:'\25AA'; position:absolute; inset-inline-start:0;
 
 .nota{ margin-top:2.5mm; font-size:7.4pt; color:var(--gris); font-style:italic; text-align:center; }
 
-.h-sub > .es{ border-inline-end:none; padding-inline-end:0; }
+
 
 /* ---------- Cierre ---------- */
 .cierre{
@@ -168,3 +175,54 @@ ul.lista > li::before{ content:'\25AA'; position:absolute; inset-inline-start:0;
 }
 .cierre .he{ font-family:'FrankRuhl',serif; direction:rtl; font-weight:700; font-size:11.5pt; color:var(--azul); text-align:center; }
 .cierre .es{ font-family:'Garamond',serif; font-size:8.6pt; font-style:italic; color:var(--oro); text-align:center; margin-top:.8mm; }
+
+/* ---------- Glosario en los huecos ---------- */
+.glosa{
+  margin:3mm 0 0; padding:1.8mm 2.5mm 2mm;
+  border:.6pt solid var(--oro-claro); border-radius:2pt;
+  background:linear-gradient(0deg,var(--crema2),var(--crema));
+  text-align:center;
+  /* La ficha no se parte, y ademas se queda pegada al parrafo que la explica:
+     sin break-before quedaria huerfana al principio de la pagina siguiente. */
+  break-inside:avoid; break-before:avoid;
+}
+.glosa .voz{ font-family:'FrankRuhl',serif; direction:rtl; font-weight:700;
+  font-size:16pt; line-height:1.1; color:var(--azul); text-align:center; }
+.glosa .tr{ font-family:'Garamond',serif; direction:ltr; font-style:italic;
+  font-size:8.2pt; color:var(--oro); letter-spacing:.5pt; margin-top:.4mm; text-align:center; }
+.glosa .def{ font-family:'Garamond',serif; direction:ltr; font-size:7.4pt;
+  line-height:1.28; color:var(--gris); margin-top:1mm; text-align:center; }
+.glosa.compacta{ padding:1.4mm 2.5mm 1.6mm; }
+.glosa.compacta .voz{ font-size:14pt; }
+.glosa.compacta .def{ display:none; }
+
+.filigrana{ margin:3mm 0 0; break-inside:avoid; break-before:avoid; display:flex; align-items:center; justify-content:center; gap:2.5mm; }
+.filigrana::before,.filigrana::after{ content:''; width:16mm; border-top:.5pt solid var(--oro-claro); }
+.filigrana i{ width:1.7mm; height:1.7mm; background:var(--oro-claro); transform:rotate(45deg); }
+
+/* ---------- Panel de glosario al cierre ---------- */
+.glosa .def.breve{ display:none; }
+.glosa.compacta .def.larga{ display:none; }
+.glosa.compacta .def.breve{ display:block; }
+
+.glosario-final{ margin-top:3.5mm; border:1pt solid var(--azul); break-inside:avoid; }
+.glosario-final .cabeza{ background:var(--crema2); padding:1mm 3mm;
+  border-bottom:.6pt solid var(--linea);
+  display:flex; justify-content:space-between; align-items:baseline; }
+.glosario-final .cabeza .he{ font-family:'FrankRuhl',serif; direction:rtl;
+  font-weight:700; font-size:10.5pt; color:var(--azul); order:2; }
+.glosario-final .cabeza .es{ font-family:'Garamond',serif; font-size:7.8pt;
+  font-style:italic; color:var(--oro); order:1; }
+.glosario-final .rejilla{ display:grid; grid-template-columns:repeat(4,1fr); }
+
+.voz-panel{ padding:.9mm 2.4mm 1mm; border-inline-start:.5pt solid var(--linea);
+  border-top:.4pt dotted var(--linea); break-inside:avoid; }
+.voz-panel:nth-child(4n+1){ border-inline-start:none; }
+.voz-panel:nth-child(-n+4){ border-top:none; }
+.voz-panel .t{ font-family:'DavidLibre',serif; direction:rtl; font-weight:700;
+  font-size:10pt; line-height:1.1; color:var(--azul); }
+.voz-panel .p{ font-family:'Garamond',serif; font-style:italic; font-size:7pt;
+  color:var(--oro); letter-spacing:.2pt; }
+.voz-panel .p::before{ content:'\00b7\00a0'; }
+.voz-panel .d{ display:block; font-family:'Garamond',serif; font-size:6.9pt;
+  line-height:1.2; color:var(--gris); }

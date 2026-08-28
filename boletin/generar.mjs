@@ -12,6 +12,7 @@ const HTML = resolve(DIR, 'boletin-05-ki-tetse.html');
 const SALIDA = process.argv[2] || resolve(DIR, 'boletin-05-ki-tetse-he-es.pdf');
 const CHROME = process.env.CHROME || '/opt/pw-browsers/chromium';
 const PUERTO = 9333;
+const PAGINAS = 4; // objetivo: 2 folios a doble cara
 
 const mm = v => v / 25.4; // mm -> pulgadas
 
@@ -84,8 +85,14 @@ try {
   await s.enviar('Page.navigate', { url: `file://${HTML}` }, sessionId);
   await cargada;
   await s.enviar('Runtime.evaluate', { expression: 'document.fonts.ready', awaitPromise: true }, sessionId);
+  // El guion del glosario mide los huecos y los rellena; hay que esperarlo.
+  for (let i = 0; i < 100; i++) {
+    const { result } = await s.enviar('Runtime.evaluate', { expression: 'window.__glosarioListo === true', returnByValue: true }, sessionId);
+    if (result.value) break;
+    await esperar(50);
+  }
 
-  const { data } = await s.enviar('Page.printToPDF', {
+  const imprimir = () => s.enviar('Page.printToPDF', {
     printBackground: true,
     paperWidth: mm(210), paperHeight: mm(297),
     marginTop: mm(9), marginBottom: mm(10), marginLeft: mm(9), marginRight: mm(9),
@@ -93,6 +100,23 @@ try {
     headerTemplate: '<span></span>',
     footerTemplate: pie,
   }, sessionId);
+
+  const paginas = pdf => Number((pdf.match(/\/Count\s+(\d+)/) || [])[1] || 0);
+
+  // El glosario de cierre se monta entero y aqui se recorta: se imprime, se
+  // cuentan las paginas y, si sobran, se quita una fila. Cuando no queda nada
+  // que recortar se acepta el resultado tal cual.
+  let { data } = await imprimir();
+  for (let i = 0; i < 8; i++) {
+    const n = paginas(Buffer.from(data, 'base64').toString('latin1'));
+    if (n <= PAGINAS || n === 0) break;
+    const { result } = await s.enviar('Runtime.evaluate', {
+      expression: 'typeof __recortarGlosario === "function" && __recortarGlosario()',
+      returnByValue: true,
+    }, sessionId);
+    if (!result.value) break;
+    ({ data } = await imprimir());
+  }
 
   writeFileSync(SALIDA, Buffer.from(data, 'base64'));
   console.log(`PDF escrito en ${SALIDA}`);

@@ -13,7 +13,7 @@ Dedicado a la *refuá shelemá* de todos los enfermos del pueblo de Israel.
 | `boletin-05-ki-tetse.html` | El documento fuente. |
 | `estilo.css` | Maquetación e impresión. |
 | `fonts/` | David Libre y Frank Ruhl Libre (hebreo), EB Garamond (castellano). Todas con licencia OFL. |
-| `generar.mjs` | Regenera el PDF a partir del HTML y dibuja el pie numerado. Necesita Node 22+. |
+| `generar.mjs` | Regenera el PDF, dibuja el pie numerado y ajusta el glosario de cierre. Necesita Node 22+. |
 | `generar.sh` | Atajo: llama a `generar.mjs`. |
 
 ## Regenerar el PDF
@@ -33,6 +33,26 @@ márgenes.
 A4, a doble cara, borde largo. Salen 2 folios: página 1–2 en el primero, 3–4 en el segundo.
 Cada página lleva su número al pie, en castellano a la izquierda y en hebreo a la derecha.
 
+## El glosario
+
+La columna hebrea es más corta que la castellana, así que al final de cada
+párrafo queda un hueco. Un guion incrustado en el HTML los mide cuando las
+fuentes ya están cargadas y los rellena:
+
+- Hueco de 13 mm o más, en un párrafo marcado con `data-glosa`: una ficha con
+  el término hebreo en grande, su transliteración y una definición.
+- Hueco de 9 mm o más: una filigrana dorada.
+- La ficha nunca hace crecer la fila. Si no cabe entera, se queda en versión
+  compacta; si tampoco, se retira.
+
+Al final del boletín va una tira con los términos del número. Cuántos caben
+depende de por dónde parta las páginas el motor de impresión, así que no se
+calcula: `generar.mjs` imprime, cuenta las páginas y quita una fila hasta que
+el boletín entra en cuatro. Los términos van en la plantilla `#glosario` por
+orden de prioridad, porque el recorte muerde por el final.
+
+Para añadir o cambiar un término basta con editar esa plantilla.
+
 ## Sobre el texto
 
 - El hebreo se reproduce **literalmente**, sin adaptaciones ni correcciones. Se conserva
@@ -41,3 +61,4 @@ Cada página lleva su número al pie, en castellano a la izquierda y en hebreo a
   (*lejatjilá*, *bli neder*, *yeush*, *borer*…) se transliteran y se explican la primera vez.
 - Las referencias abreviadas del original (שו"ע, רמ"א, יבי"א…) se dan desarrolladas
   en castellano: Shulján Aruj, Ramá, Yabía Omer, etc.
+- Los términos del glosario van sin nikud, como el resto del boletín.

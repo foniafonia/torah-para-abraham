@@ -61,4 +61,36 @@ Para añadir o cambiar un término basta con editar esa plantilla.
   (*lejatjilá*, *bli neder*, *yeush*, *borer*…) se transliteran y se explican la primera vez.
 - Las referencias abreviadas del original (שו"ע, רמ"א, יבי"א…) se dan desarrolladas
   en castellano: Shulján Aruj, Ramá, Yabía Omer, etc.
-- Los términos del glosario van sin nikud, como el resto del boletín.
+
+## El nikud
+
+Lleva vocales solo lo que se puede vocalizar sin arriesgar:
+
+- Todos los titulares: cabecera, dedicatoria, título del tema, encabezados de
+  sección, cabeceras de la tabla, acertijo, cierre y pie.
+- Los 16 términos del glosario.
+- Tres bloques del cuerpo que son palabras del propio rab y de vocabulario
+  claro: el resumen inicial, las cuatro conclusiones y los dos acertijos.
+
+Queda **sin vocalizar** todo lo demás, y es a propósito:
+
+- Las citas literales de los *poskim* (la sección de fuentes entera) y la tabla
+  de halajot, que son casi transcripción del Shulján Aruj.
+- Las abreviaturas con gershayim: שו"ע, רמ"א, יבי"א, ר"ה, בס"ד, קי"ל…
+  No se vocalizan nunca.
+- Las referencias entre paréntesis y los números en letras hebreas.
+- Cualquier palabra con más de una lectura posible.
+
+Se conservan las letras del original (ktiv male), así que la vocalización se
+apoya en la grafía tal como está: לְכַתְּחִילָּה y no לְכַתְּחִלָּה.
+
+### Comprobación
+
+El nikud no debe alterar ni una letra. Para verificarlo se quitan los puntos
+(U+0591–U+05C7, sin tocar el maqaf) del HTML y se comparan las consonantes con
+las del PDF original, palabra por palabra. La comprobación tiene que salir
+vacía salvo por la dedicatoria y el glosario, que son texto añadido.
+
+No sirve hacer esa comprobación sobre el PDF generado: `pdftotext` mete
+espacios dentro de las palabras vocalizadas porque posiciona cada glifo por
+separado. Es un artefacto de la extracción, no del PDF.

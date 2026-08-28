@@ -64,25 +64,28 @@ Para añadir o cambiar un término basta con editar esa plantilla.
 
 ## El nikud
 
-Lleva vocales solo lo que se puede vocalizar sin arriesgar:
+Lleva vocales **el 84% de las palabras hebreas**: todos los titulares, el
+glosario, el cuerpo entero del boletín (resumen, fuentes, conclusiones, tabla
+de halajot y acertijos) y la cabecera.
 
-- Todos los titulares: cabecera, dedicatoria, título del tema, encabezados de
-  sección, cabeceras de la tabla, acertijo, cierre y pie.
-- Los 16 términos del glosario.
-- Tres bloques del cuerpo que son palabras del propio rab y de vocabulario
-  claro: el resumen inicial, las cuatro conclusiones y los dos acertijos.
+Queda **sin vocalizar** solo lo que no debe llevarlas o no se puede vocalizar
+sin arriesgar:
 
-Queda **sin vocalizar** todo lo demás, y es a propósito:
-
-- Las citas literales de los *poskim* (la sección de fuentes entera) y la tabla
-  de halajot, que son casi transcripción del Shulján Aruj.
-- Las abreviaturas con gershayim: שו"ע, רמ"א, יבי"א, ר"ה, בס"ד, קי"ל…
-  No se vocalizan nunca.
-- Las referencias entre paréntesis y los números en letras hebreas.
-- Cualquier palabra con más de una lectura posible.
+- Abreviaturas con gershayim: שו"ע, רמ"א, יבי"א, משנ"ב, ע"ש, עכ"ל, הנ"ל,
+  ר"ה, בס"ד, קי"ל, תכ"ד… No se vocalizan nunca.
+- Referencias de siman y se'if en letras hebreas: ריא, ס"ב, תקצז, רל"ב…
+- Apellidos y nombres propios no hebreos: ביטן, זוננפלד, וואזנר, פרץ,
+  נספרסו, שהדרשו.
+- La fórmula aramea de Kol Nidré que cita la Mishná Berurá:
+  די נדירנא ודמישתבענא, דנדרנא.
+- `היאולא`, que en el original va pegado (por `היא ולא`). No es una palabra,
+  así que no admite vocalización.
+- `בחינוך`, que puede leerse *be-* o *ba-*.
 
 Se conservan las letras del original (ktiv male), así que la vocalización se
-apoya en la grafía tal como está: לְכַתְּחִילָּה y no לְכַתְּחִלָּה.
+apoya en la grafía tal como está: לְכַתְּחִילָּה y no לְכַתְּחִלָּה. Por eso
+la misma palabra lleva puntos distintos según cómo esté escrita en cada sitio:
+מִצְוָוה donde el original pone מצווה y מִצְוָה donde pone מצוה.
 
 ### Comprobación
 

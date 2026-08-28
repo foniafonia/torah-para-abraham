@@ -13,7 +13,8 @@ Dedicado a la *refuá shelemá* de todos los enfermos del pueblo de Israel.
 | `boletin-05-ki-tetse.html` | El documento fuente. |
 | `estilo.css` | Maquetación e impresión. |
 | `fonts/` | David Libre y Frank Ruhl Libre (hebreo), EB Garamond (castellano). Todas con licencia OFL. |
-| `generar.sh` | Regenera el PDF a partir del HTML. |
+| `generar.mjs` | Regenera el PDF a partir del HTML y dibuja el pie numerado. Necesita Node 22+. |
+| `generar.sh` | Atajo: llama a `generar.mjs`. |
 
 ## Regenerar el PDF
 
@@ -22,9 +23,15 @@ Dedicado a la *refuá shelemá* de todos los enfermos del pueblo de Israel.
 CHROME=/ruta/a/chrome ./generar.sh # o indica tu navegador
 ```
 
+Los márgenes y el pie de página los fija `generar.mjs`, no el CSS: Chromium solo
+deja numerar las páginas a través del `footerTemplate` de `Page.printToPDF`, que
+se pasa por el protocolo de depuración. Por eso `@page` en el CSS no lleva
+márgenes.
+
 ## Impresión
 
 A4, a doble cara, borde largo. Salen 2 folios: página 1–2 en el primero, 3–4 en el segundo.
+Cada página lleva su número al pie, en castellano a la izquierda y en hebreo a la derecha.
 
 ## Sobre el texto
 

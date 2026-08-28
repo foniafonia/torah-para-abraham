@@ -16,7 +16,7 @@
   --gris:#5d6470;
 }
 
-@page { size:A4; margin:9mm 9mm 9mm 9mm; }
+@page { size:A4; }  /* los márgenes los fija generar.mjs, que además dibuja el pie numerado */
 
 *{ box-sizing:border-box; margin:0; padding:0; }
 
@@ -92,11 +92,11 @@ body{
 /* ---------- Rejilla bilingüe ---------- */
 .par{
   display:grid; grid-template-columns:1fr 1fr; gap:0 6mm;
-  margin-bottom:1.9mm; position:relative;
+  margin-bottom:1.7mm; position:relative;
 }
 .par.keep{ break-inside:avoid; }
-.he{ font-family:'DavidLibre',serif; direction:rtl; text-align:justify; font-size:9.3pt; line-height:1.38; }
-.es{ font-family:'Garamond',serif; direction:ltr; text-align:justify; font-size:8.6pt; line-height:1.38; }
+.he{ font-family:'DavidLibre',serif; direction:rtl; text-align:justify; font-size:9.3pt; line-height:1.345; }
+.es{ font-family:'Garamond',serif; direction:ltr; text-align:justify; font-size:8.6pt; line-height:1.345; }
 .par > .he, .h-sub > .he{ grid-column:2; grid-row:1; }
 .par > .es, .h-sub > .es{ grid-column:1; grid-row:1; padding-inline-end:3mm; border-inline-end:.5pt solid var(--linea); }
 .par > .in{ grid-column:1 / -1; grid-row:1; }

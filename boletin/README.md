@@ -1,99 +1,92 @@
-# Boletín Yediat Retzonó nº 5 — Ki Tetsé 5786 (hebreo / castellano)
+# Boletín Yediat Retzonó — hebreo / castellano
 
-Edición bilingüe a dos columnas del boletín del Rab Moshé Bitán:
-**hebreo a la derecha, castellano a la izquierda**, párrafo con párrafo.
+Edición bilingüe del boletín del Rab Moshé Bitán: **hebreo a la derecha,
+castellano a la izquierda**, párrafo con párrafo. A4, 4 páginas = 2 folios a
+doble cara. Dedicado a la *refuá shelemá* de todos los enfermos del pueblo de
+Israel.
 
-Dedicado a la *refuá shelemá* de todos los enfermos del pueblo de Israel.
+## Estructura
 
-## Archivos
-
-| Archivo | Qué es |
-|---|---|
-| `boletin-05-ki-tetse-he-es.pdf` | El PDF final. A4, 4 páginas = 2 folios a doble cara. |
-| `boletin-05-ki-tetse.html` | El documento fuente. |
-| `estilo.css` | Maquetación e impresión. |
-| `fonts/` | David Libre y Frank Ruhl Libre (hebreo), EB Garamond (castellano). Todas con licencia OFL. |
-| `generar.mjs` | Regenera el PDF, dibuja el pie numerado y ajusta el glosario de cierre. Necesita Node 22+. |
-| `generar.sh` | Atajo: llama a `generar.mjs`. |
-
-## Regenerar el PDF
-
-```sh
-./generar.sh                       # usa /opt/pw-browsers/chromium
-CHROME=/ruta/a/chrome ./generar.sh # o indica tu navegador
+```
+comun/            lo compartido entre números
+  plantilla.html    esqueleto para un número nuevo
+  estilo.css        maquetación e impresión
+  generar.mjs       genera el PDF, numera páginas y ajusta el glosario
+  verificar.py      comprueba que el hebreo no se ha alterado
+  fonts/            David Libre, Frank Ruhl Libre, EB Garamond (OFL)
+05-ki-tetse/      número 5 — Ki Tetsé 5786
+  boletin-05-ki-tetse.html
+  boletin-05-ki-tetse.pdf
 ```
 
-Los márgenes y el pie de página los fija `generar.mjs`, no el CSS: Chromium solo
-deja numerar las páginas a través del `footerTemplate` de `Page.printToPDF`, que
-se pasa por el protocolo de depuración. Por eso `@page` en el CSS no lleva
-márgenes.
+## Un número nuevo
+
+```sh
+mkdir boletin/06-parasha
+cp boletin/comun/plantilla.html boletin/06-parasha/boletin-06-parasha.html
+# rellenar el HTML
+node boletin/comun/generar.mjs boletin/06-parasha/boletin-06-parasha.html
+python3 boletin/comun/verificar.py boletin/06-parasha/boletin-06-parasha.html original.pdf
+```
+
+El PDF toma el nombre del HTML, así que el HTML lleva el del número.
+
+`generar.mjs` necesita Node 22+ y un Chromium; se le indica con `CHROME=`.
+El objetivo de páginas se cambia con `PAGINAS=`.
+
+El proceso completo, con las trampas de extracción, traducción y nikud, está
+en la skill del proyecto: `.claude/skills/boletin/SKILL.md`.
 
 ## Impresión
 
-A4, a doble cara, borde largo. Salen 2 folios: página 1–2 en el primero, 3–4 en el segundo.
-Cada página lleva su número al pie, en castellano a la izquierda y en hebreo a la derecha.
+A4, a doble cara, borde largo. Salen 2 folios: página 1–2 en el primero, 3–4
+en el segundo. Cada página lleva su número al pie, en castellano a la
+izquierda y en hebreo a la derecha.
+
+## El texto
+
+- El hebreo se reproduce **literalmente**, sin adaptaciones ni correcciones.
+  Se conserva incluso `וחומרא היאולא מדינא` (por `היא ולא`), tal como aparece
+  en el original.
+- La traducción castellana es literal, no una paráfrasis. Los términos
+  halájicos se transliteran y se explican la primera vez, y las referencias
+  abreviadas se dan desarrolladas: Shulján Aruj, Ramá, Yabía Omer, etc.
+
+## El nikud
+
+Lleva vocales **el 84% de las palabras hebreas**: los titulares, el glosario y
+el cuerpo entero, incluidas las citas de los *poskim*.
+
+Queda sin vocalizar solo lo que no debe llevarlas o no admite una lectura
+única: las abreviaturas con gershayim (שו"ע, רמ"א, ע"ש, עכ"ל…), las
+referencias de siman en letras hebreas, los apellidos y nombres no hebreos, la
+fórmula aramea de Kol Nidré que cita la Mishná Berurá, `היאולא` —que en el
+original va pegado— y `בחינוך`, que puede leerse *be-* o *ba-*.
+
+Se conservan las letras del original (ktiv male), así que la vocalización se
+apoya en la grafía tal como está. Por eso la misma palabra lleva puntos
+distintos según cómo esté escrita en cada sitio: `מִצְוָוה` donde el original
+pone מצווה y `מִצְוָה` donde pone מצוה.
+
+### Comprobación
+
+`verificar.py` quita los puntos de ambos lados y compara las consonantes
+palabra por palabra. Tiene que salir sin faltantes: al vocalizar es fácil
+comerse una yod o un vav pasando de ktiv male a la forma clásica.
+
+No sirve comprobar contra el PDF generado: `pdftotext` mete espacios dentro de
+las palabras vocalizadas porque posiciona cada glifo por separado.
 
 ## El glosario
 
 La columna hebrea es más corta que la castellana, así que al final de cada
 párrafo queda un hueco. Un guion incrustado en el HTML los mide cuando las
-fuentes ya están cargadas y los rellena:
+fuentes ya están cargadas y los rellena: ficha de término en los huecos de
+13 mm o más marcados con `data-glosa`, filigrana dorada en los de 9 mm. La
+ficha nunca hace crecer la fila; si no cabe, se compacta o se retira.
 
-- Hueco de 13 mm o más, en un párrafo marcado con `data-glosa`: una ficha con
-  el término hebreo en grande, su transliteración y una definición.
-- Hueco de 9 mm o más: una filigrana dorada.
-- La ficha nunca hace crecer la fila. Si no cabe entera, se queda en versión
-  compacta; si tampoco, se retira.
-
-Al final del boletín va una tira con los términos del número. Cuántos caben
-depende de por dónde parta las páginas el motor de impresión, así que no se
-calcula: `generar.mjs` imprime, cuenta las páginas y quita una fila hasta que
-el boletín entra en cuatro. Los términos van en la plantilla `#glosario` por
-orden de prioridad, porque el recorte muerde por el final.
-
-Para añadir o cambiar un término basta con editar esa plantilla.
-
-## Sobre el texto
-
-- El hebreo se reproduce **literalmente**, sin adaptaciones ni correcciones. Se conserva
-  incluso `וחומרא היאולא מדינא` (por `היא ולא`), tal como aparece en el original.
-- La traducción castellana es literal, no una paráfrasis. Los términos halájicos
-  (*lejatjilá*, *bli neder*, *yeush*, *borer*…) se transliteran y se explican la primera vez.
-- Las referencias abreviadas del original (שו"ע, רמ"א, יבי"א…) se dan desarrolladas
-  en castellano: Shulján Aruj, Ramá, Yabía Omer, etc.
-
-## El nikud
-
-Lleva vocales **el 84% de las palabras hebreas**: todos los titulares, el
-glosario, el cuerpo entero del boletín (resumen, fuentes, conclusiones, tabla
-de halajot y acertijos) y la cabecera.
-
-Queda **sin vocalizar** solo lo que no debe llevarlas o no se puede vocalizar
-sin arriesgar:
-
-- Abreviaturas con gershayim: שו"ע, רמ"א, יבי"א, משנ"ב, ע"ש, עכ"ל, הנ"ל,
-  ר"ה, בס"ד, קי"ל, תכ"ד… No se vocalizan nunca.
-- Referencias de siman y se'if en letras hebreas: ריא, ס"ב, תקצז, רל"ב…
-- Apellidos y nombres propios no hebreos: ביטן, זוננפלד, וואזנר, פרץ,
-  נספרסו, שהדרשו.
-- La fórmula aramea de Kol Nidré que cita la Mishná Berurá:
-  די נדירנא ודמישתבענא, דנדרנא.
-- `היאולא`, que en el original va pegado (por `היא ולא`). No es una palabra,
-  así que no admite vocalización.
-- `בחינוך`, que puede leerse *be-* o *ba-*.
-
-Se conservan las letras del original (ktiv male), así que la vocalización se
-apoya en la grafía tal como está: לְכַתְּחִילָּה y no לְכַתְּחִלָּה. Por eso
-la misma palabra lleva puntos distintos según cómo esté escrita en cada sitio:
-מִצְוָוה donde el original pone מצווה y מִצְוָה donde pone מצוה.
-
-### Comprobación
-
-El nikud no debe alterar ni una letra. Para verificarlo se quitan los puntos
-(U+0591–U+05C7, sin tocar el maqaf) del HTML y se comparan las consonantes con
-las del PDF original, palabra por palabra. La comprobación tiene que salir
-vacía salvo por la dedicatoria y el glosario, que son texto añadido.
-
-No sirve hacer esa comprobación sobre el PDF generado: `pdftotext` mete
-espacios dentro de las palabras vocalizadas porque posiciona cada glifo por
-separado. Es un artefacto de la extracción, no del PDF.
+Al final va una tira con los términos del número. Cuántos caben depende de por
+dónde parta las páginas el motor de impresión, así que no se calcula:
+`generar.mjs` imprime, cuenta páginas y quita una fila hasta que entra. Los
+términos van en la plantilla `#glosario` por orden de prioridad, porque el
+recorte muerde por el final.

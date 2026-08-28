@@ -1,18 +1,27 @@
 #!/usr/bin/env node
-// Genera el PDF del boletín con pie de página numerado bilingüe.
-// Uso: node generar.mjs   (opcional: CHROME=/ruta/a/chrome)
+// Genera el PDF de un boletín: pie numerado bilingüe y recorte automático del
+// glosario de cierre hasta que cabe en el número de páginas objetivo.
+//
+//   node comun/generar.mjs <boletin.html> [salida.pdf]
+//
+// Variables de entorno: CHROME (ruta al navegador), PAGINAS (por defecto 4).
 import { spawn } from 'node:child_process';
-import { writeFileSync, mkdtempSync } from 'node:fs';
+import { writeFileSync, mkdtempSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join, resolve, basename, dirname } from 'node:path';
 
-const DIR = dirname(fileURLToPath(import.meta.url));
-const HTML = resolve(DIR, 'boletin-05-ki-tetse.html');
-const SALIDA = process.argv[2] || resolve(DIR, 'boletin-05-ki-tetse-he-es.pdf');
+if (!process.argv[2]) {
+  console.error('uso: node comun/generar.mjs <boletin.html> [salida.pdf]');
+  process.exit(2);
+}
+const HTML = resolve(process.argv[2]);
+if (!existsSync(HTML)) { console.error(`no existe: ${HTML}`); process.exit(2); }
+const SALIDA = process.argv[3]
+  ? resolve(process.argv[3])
+  : join(dirname(HTML), basename(HTML).replace(/\.html?$/i, '') + '.pdf');
 const CHROME = process.env.CHROME || '/opt/pw-browsers/chromium';
-const PUERTO = 9333;
-const PAGINAS = 4; // objetivo: 2 folios a doble cara
+const PUERTO = Number(process.env.PUERTO || 9333);
+const PAGINAS = Number(process.env.PAGINAS || 4); // 4 = 2 folios a doble cara
 
 const mm = v => v / 25.4; // mm -> pulgadas
 

@@ -16,6 +16,7 @@ las palabras vocalizadas porque posiciona cada glifo por separado.
 import re
 import subprocess
 import sys
+import unicodedata
 from collections import Counter
 
 NIKUD = re.compile('[֑-ׇֽֿׁׂׅׄ]')          # puntos y cantilación, sin el maqaf
@@ -35,8 +36,24 @@ def texto(ruta):
     return crudo
 
 
+def limpio(t):
+    # NFKC deshace las formas de presentación (U+FB4B y compañía) que pdftotext
+    # emite en las palabras que ya vienen vocalizadas en el original.
+    return NIKUD.sub('', unicodedata.normalize('NFKC', BIDI.sub('', t)))
+
+
 def consonantes(t):
-    return HEBREO.findall(NIKUD.sub('', BIDI.sub('', t)))
+    return HEBREO.findall(limpio(t))
+
+
+def letras(t):
+    """Todas las letras hebreas seguidas, sin cortes de palabra.
+
+    Sirve para distinguir un cambio real de un artefacto de extracción:
+    pdftotext mete espacios dentro de las palabras vocalizadas, así que el
+    recuento por palabras puede fallar aunque no falte ni una letra.
+    """
+    return re.sub(r'[^֐-׿]', '', limpio(t))
 
 
 def main():
@@ -53,9 +70,19 @@ def main():
     print(f'palabras hebreas en el boletín:  {sum(b.values())}')
     print()
     if falta:
-        print(f'ERROR: {len(falta)} palabras del original no aparecen:')
+        # ¿Faltan letras de verdad, o solo se han movido los cortes de palabra?
+        la, lb = Counter(letras(viejo)), Counter(letras(nuevo))
+        perdidas = la - lb
+        if perdidas:
+            print(f'ERROR: {len(falta)} palabras del original no aparecen,')
+            print(f'       y faltan {sum(perdidas.values())} letras:'
+                  f' {" ".join(sorted(perdidas.elements()))}')
+        else:
+            print(f'AVISO: {len(falta)} palabras no cuadran, pero no falta ninguna')
+            print('       letra: son cortes de palabra, artefacto de la extracción.')
         for w in falta:
             print(f'   {w}')
+        falta = perdidas
     else:
         print('OK: no falta ninguna consonante del original.')
     print()

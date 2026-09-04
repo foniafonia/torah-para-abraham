@@ -10,8 +10,8 @@ izquierda**, alineados párrafo con párrafo. A4, 4 páginas = 2 folios a doble
 cara, para entregar a las familias. Dedicado a la *refuá shelemá* de todos los
 enfermos del pueblo de Israel.
 
-El número 5 (Ki Tetsé 5786) está en `boletin/05-ki-tetse/` y sirve de
-referencia: si dudas de cómo se resuelve algo, míralo ahí.
+Los números hechos están en `boletin/05-ki-tetse/` y `boletin/06-nitzavim-vayelej/`
+y sirven de referencia: si dudas de cómo se resuelve algo, míralos ahí.
 
 ## Reglas que no se negocian
 
@@ -89,6 +89,18 @@ porque numerar las páginas exige el `footerTemplate` de `Page.printToPDF`.
 Además imprime, cuenta páginas y recorta el glosario de cierre hasta que cabe
 en 4. Variables: `CHROME`, `PAGINAS`, `PUERTO`.
 
+**Ajustar el llenado.** El generador recorta si sobra, pero no estira si falta.
+Si el número es corto y deja media página en blanco al final, sube el cuerpo
+de texto en el HTML del número:
+
+```html
+<style>:root{ --cuerpo:1.04; }</style>
+```
+
+Va después del `<link>` del CSS y solo mueve el texto corrido; titulares y
+fichas se quedan igual. Sube de centésima en centésima hasta que pase de 4
+páginas y quédate con el valor anterior: en el nº6, 1.04 cabe y 1.05 no.
+
 ### 5. Verificar
 
 ```sh
@@ -98,6 +110,16 @@ python3 boletin/comun/verificar.py boletin/NN-parasha/boletin-NN-parasha.html or
 Quita el nikud de ambos lados y compara las consonantes. Tiene que decir «no
 falta ninguna consonante del original». Lo que sobre debe ser solo la
 dedicatoria y el glosario.
+
+Si sale **AVISO** en vez de ERROR, no falta ninguna letra: solo se han movido
+los cortes de palabra. Pasa cuando el original ya trae alguna palabra
+vocalizada (en el nº6, `ופוֹתֵחַ`), porque ahí pdftotext parte la palabra.
+
+Si sale **ERROR**, faltan letras de verdad y hay que arreglarlo. En el nº6
+pilló cinco cosas: `הכוונה` y `השנייה` escritas con una letra de menos al
+vocalizar, un vav de más en `ותרוייהו`, un `ש` perdido en `שסובר`, y —lo
+importante— que me había dejado sin traducir la lista de autores entre
+paréntesis del subencabezado. **No te fíes de la lectura, fíate del script.**
 
 **No verifiques contra el PDF generado**: `pdftotext` mete espacios dentro de
 las palabras vocalizadas porque posiciona cada glifo por separado. Es un

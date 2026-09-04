@@ -15,8 +15,7 @@ comun/            lo compartido entre números
   verificar.py      comprueba que el hebreo no se ha alterado
   fonts/            David Libre, Frank Ruhl Libre, EB Garamond (OFL)
 05-ki-tetse/      número 5 — Ki Tetsé 5786
-  boletin-05-ki-tetse.html
-  boletin-05-ki-tetse.pdf
+06-nitzavim-vayelej/  número 6 — Nitzavim-Vayélej 5786
 ```
 
 ## Un número nuevo
@@ -30,6 +29,10 @@ python3 boletin/comun/verificar.py boletin/06-parasha/boletin-06-parasha.html or
 ```
 
 El PDF toma el nombre del HTML, así que el HTML lleva el del número.
+
+Si el número es corto y deja blanco al final, se sube el cuerpo de texto en su
+HTML con `<style>:root{ --cuerpo:1.04; }</style>`. El generador recorta cuando
+sobra, pero no estira cuando falta.
 
 `generar.mjs` necesita Node 22+ y un Chromium; se le indica con `CHROME=`.
 El objetivo de páginas se cambia con `PAGINAS=`.

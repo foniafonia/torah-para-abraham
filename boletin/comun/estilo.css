@@ -14,6 +14,11 @@
   --crema2:#f3ece0;
   --linea:#d8cdb8;
   --gris:#5d6470;
+
+  /* Regulador del cuerpo de texto. Cada número lo ajusta en su HTML para
+     llenar las cuatro páginas: un boletín corto sube, uno largo baja.
+     Solo afecta al texto corrido; titulares y fichas no se mueven. */
+  --cuerpo:1;
 }
 
 @page { size:A4; }  /* los márgenes los fija generar.mjs, que además dibuja el pie numerado */
@@ -95,8 +100,8 @@ body{
   margin-bottom:1.7mm; position:relative;
 }
 .par.keep{ break-inside:avoid; }
-.he{ font-family:'DavidLibre',serif; direction:rtl; text-align:justify; font-size:9.3pt; line-height:1.345; }
-.es{ font-family:'Garamond',serif; direction:ltr; text-align:justify; font-size:8.6pt; line-height:1.345; }
+.he{ font-family:'DavidLibre',serif; direction:rtl; text-align:justify; font-size:calc(9.3pt * var(--cuerpo)); line-height:1.345; }
+.es{ font-family:'Garamond',serif; direction:ltr; text-align:justify; font-size:calc(8.6pt * var(--cuerpo)); line-height:1.345; }
 .par > .he, .h-sub > .he{ grid-column:2; grid-row:1; }
 .par > .es, .h-sub > .es{ grid-column:1; grid-row:1; }
 /* align-self:start deja que cada columna mida su contenido real: de ahi salen
@@ -141,8 +146,8 @@ ul.lista > li::before{ content:'\25AA'; position:absolute; inset-inline-start:0;
 .tres .cab .es{ font-family:'Garamond',serif; font-size:7.6pt; font-style:italic; color:var(--oro); margin-top:.6mm; line-height:1.25; }
 .tres .mat{ text-align:center; font-family:'DavidLibre',serif; direction:rtl; font-weight:700; font-size:10.5pt; color:var(--tinta); text-decoration:underline; text-underline-offset:2px; margin-bottom:.6mm; }
 .tres .mat i{ display:block; font-family:'Garamond',serif; direction:ltr; font-size:7.6pt; font-style:italic; font-weight:400; color:var(--gris); text-decoration:none; }
-.tres .he{ font-size:8.8pt; }
-.tres .es{ font-size:8.1pt; }
+.tres .he{ font-size:calc(8.8pt * var(--cuerpo)); }
+.tres .es{ font-size:calc(8.1pt * var(--cuerpo)); }
 .tres .bloque{ margin-top:1.6mm; }
 .tres .bloque .he{ font-family:'DavidLibre',serif; direction:rtl; text-align:justify; }
 .tres .bloque .es{ font-family:'Garamond',serif; direction:ltr; text-align:justify; color:var(--tinta); border-top:.4pt dotted var(--linea); margin-top:.8mm; padding-top:.8mm; }
@@ -226,3 +231,10 @@ ul.lista > li::before{ content:'\25AA'; position:absolute; inset-inline-start:0;
 .voz-panel .p::before{ content:'\00b7\00a0'; }
 .voz-panel .d{ display:block; font-family:'Garamond',serif; font-size:6.9pt;
   line-height:1.2; color:var(--gris); }
+
+/* ---------- Línea de cálculo (los «יוצא» del nº6) ---------- */
+.par.calculo{ background:var(--crema); border-inline-start:2pt solid var(--oro-claro);
+  padding:1.2mm 3mm 1.4mm; margin-bottom:2.2mm; break-inside:avoid; }
+.par.calculo .he, .par.calculo .es{ font-size:calc(8.7pt * var(--cuerpo)); }
+.par.calculo u{ text-decoration:none; font-weight:700; color:var(--azul); }
+.par.calculo .son{ display:block; margin-top:.8mm; letter-spacing:.3pt; color:var(--gris); }

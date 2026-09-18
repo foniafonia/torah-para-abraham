@@ -16,6 +16,7 @@ comun/            lo compartido entre números
   fonts/            David Libre, Frank Ruhl Libre, EB Garamond (OFL)
 05-ki-tetse/      número 5 — Ki Tetsé 5786
 06-nitzavim-vayelej/  número 6 — Nitzavim-Vayélej 5786
+07-haazinu/       número 7 — Haazinu 5787
 ```
 
 ## Un número nuevo

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Yom Kipur para chicos y chicas</title>
+<style>
+@font-face{ font-family:'Nunito'; src:url('../fonts/Nunito-var.ttf') format('truetype'); font-weight:200 1000; }
+@font-face{ font-family:'Nunito'; src:url('../fonts/Nunito-Italic-var.ttf') format('truetype'); font-weight:200 1000; font-style:italic; }
+@font-face{ font-family:'Fredoka'; src:url('../fonts/Fredoka-var.ttf') format('truetype'); font-weight:300 700; }
+@font-face{ font-family:'David'; src:url('../../boletin/comun/fonts/DavidLibre-Bold.ttf') format('truetype'); font-weight:700; }
+
+:root{
+  --azul:#1e3a5f; --azul-2:#2f5a8a; --celeste:#eaf1f8;
+  --oro:#8c6d2f; --oro-claro:#e2cf9f; --crema:#fbf7ee;
+  --rojo:#b83a2f; --rojo-claro:#f7e3e0; --verde:#3d7a57; --verde-claro:#e3f0e8;
+  --tinta:#26303b; --gris:#6b7480; --linea:#c9cfd6;
+}
+@page{ size:A4; margin:0; }
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; background:#fff; }
+body{ font-family:'Nunito',sans-serif; color:var(--tinta); font-size:10.6pt; line-height:1.38;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+.pag{ width:210mm; height:297mm; padding:11mm 12.5mm 12mm; position:relative; overflow:hidden;
+      display:flex; flex-direction:column; gap:3.4mm; break-after:page; }
+.pag:last-child{ break-after:auto; }
+.pie{ position:absolute; left:12.5mm; right:12.5mm; bottom:5mm; display:flex; justify-content:space-between;
+      font-size:7.6pt; color:var(--gris); border-top:.5pt solid var(--linea); padding-top:1.4mm; }
+
+p{ margin:0 0 1.6mm; }
+p:last-child{ margin-bottom:0; }
+b{ font-weight:800; color:var(--azul); }
+.he{ font-family:'David',serif; direction:rtl; unicode-bidi:isolate; }
+
+/* ---------- cabecera ---------- */
+.cab{ background:var(--azul); color:#fff; border-radius:5mm; padding:6mm 8mm 5.5mm; position:relative; overflow:hidden; }
+.cab::after{ content:''; position:absolute; right:-18mm; top:-22mm; width:70mm; height:70mm; border-radius:50%;
+             background:radial-gradient(circle, rgba(226,207,159,.35), rgba(226,207,159,0) 70%); }
+.cab .fila{ display:flex; justify-content:space-between; align-items:flex-end; position:relative; z-index:1; }
+.cab h1{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:34pt; line-height:1; margin:0; letter-spacing:.3pt; }
+.cab .he{ font-size:26pt; color:var(--oro-claro); line-height:1; }
+.cab .sub{ font-family:'Fredoka',sans-serif; font-size:15pt; font-weight:500; color:var(--oro-claro); margin-top:1.5mm; position:relative; z-index:1; }
+.cab .nota{ font-size:8.6pt; opacity:.85; margin-top:1.8mm; position:relative; z-index:1; }
+
+.intro{ font-size:11pt; }
+
+/* ---------- secciones ---------- */
+.sec h2{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:15.5pt; color:var(--azul); margin:0 0 1.6mm;
+         display:flex; align-items:center; gap:2.4mm; line-height:1.1; }
+.sec h2 .n{ flex:none; width:8mm; height:8mm; border-radius:50%; background:var(--oro); color:#fff;
+            font-size:11pt; display:flex; align-items:center; justify-content:center; }
+.sec h2 small{ font-family:'Nunito',sans-serif; font-weight:600; font-size:9pt; color:var(--oro); margin-left:auto; }
+
+/* tarjetas en fila */
+.trio{ display:grid; grid-template-columns:repeat(3,1fr); gap:3mm; }
+.tarj{ border-radius:3.5mm; padding:3mm 3.4mm; background:var(--celeste); font-size:9.8pt; line-height:1.33; }
+.tarj h3{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:11.5pt; color:var(--azul); margin:0 0 1mm; }
+.tarj .num{ font-family:'Fredoka',sans-serif; font-weight:700; font-size:20pt; color:var(--oro); line-height:1; float:right; margin:-1mm 0 0 2mm; }
+.tarj.c2{ background:var(--verde-claro); } .tarj.c2 h3{ color:var(--verde); }
+.tarj.c3{ background:var(--rojo-claro); } .tarj.c3 h3{ color:var(--rojo); }
+
+/* frase clave */
+.idea{ font-family:'Fredoka',sans-serif; font-weight:500; font-size:13.5pt; color:var(--azul); text-align:center;
+       background:var(--crema); border-radius:3mm; padding:2.6mm 4mm; border:1pt solid var(--oro-claro); }
+.idea em{ font-style:normal; color:var(--rojo); }
+
+/* aparte */
+.aparte{ background:var(--crema); border-left:2.2pt solid var(--oro); border-radius:0 3mm 3mm 0; padding:2.4mm 3.6mm; font-size:10pt; }
+
+/* historia */
+.hist{ background:var(--crema); border-radius:3.5mm; padding:3mm 4mm; font-size:10pt; line-height:1.36; position:relative; }
+.hist .et{ display:inline-block; font-family:'Fredoka',sans-serif; font-weight:600; font-size:8.6pt; letter-spacing:.6pt;
+           text-transform:uppercase; color:#fff; background:var(--oro); border-radius:1.5mm; padding:.5mm 2mm; margin-bottom:1.4mm; }
+.hist h3{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:12pt; color:var(--azul); margin:0 0 1mm; }
+
+/* dinámica */
+.din{ border:1.3pt dashed var(--verde); border-radius:4mm; padding:3mm 4mm 3.4mm; background:#fff; }
+.din .tit{ display:flex; align-items:center; gap:2mm; margin-bottom:1.6mm; }
+.din .tit span{ font-family:'Fredoka',sans-serif; font-weight:700; font-size:8.6pt; letter-spacing:.8pt; text-transform:uppercase;
+                color:#fff; background:var(--verde); border-radius:1.5mm; padding:.6mm 2.2mm; }
+.din .tit h3{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:12.5pt; color:var(--verde); margin:0; }
+.din .ins{ font-size:9.8pt; margin-bottom:2mm; }
+
+.lineas{ background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 6.2mm, var(--linea) 6.2mm, var(--linea) 6.5mm); }
+
+/* mochilas */
+.mochilas{ display:grid; grid-template-columns:1fr 1fr; gap:10mm; padding:4mm 8mm 0; }
+.mochila{ position:relative; height:54mm; border:1.6pt solid var(--azul); border-radius:14mm 14mm 5mm 5mm; background:#fff; }
+.mochila::before{ content:''; position:absolute; left:50%; top:-7mm; width:18mm; height:9mm; transform:translateX(-50%);
+                  border:1.6pt solid var(--azul); border-bottom:none; border-radius:9mm 9mm 0 0; }
+.mochila .solapa{ position:absolute; left:6mm; right:6mm; top:5mm; height:9mm; border-bottom:1.3pt solid var(--azul);
+                  border-radius:0 0 8mm 8mm; text-align:center; font-family:'Fredoka',sans-serif; font-weight:600; font-size:11pt; }
+.mochila.atras .solapa{ color:var(--rojo); } .mochila.lleva .solapa{ color:var(--verde); }
+.mochila .dentro{ position:absolute; left:7mm; right:7mm; top:17mm; bottom:5mm; }
+
+/* tabla de casos */
+.casos{ display:grid; grid-template-columns:repeat(3,1fr); gap:3mm; }
+.caso{ background:var(--verde-claro); border-radius:3mm; padding:2.6mm 3mm; font-size:9.6pt; display:flex; flex-direction:column; }
+.caso .q{ font-weight:700; margin-bottom:1.6mm; min-height:15mm; }
+.caso .et2{ font-size:8.2pt; font-weight:700; color:var(--verde); text-transform:uppercase; letter-spacing:.4pt; }
+.caso .lineas{ height:13mm; margin-bottom:1.4mm; background-color:#fff; border-radius:1.5mm; }
+
+/* rojo a blanco */
+.rb{ display:grid; grid-template-columns:1fr 1fr; border-radius:3mm; overflow:hidden; border:1pt solid var(--rojo); }
+.rb .h{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:10.5pt; padding:1.6mm 3mm; }
+.rb .h.r{ background:var(--rojo); color:#fff; } .rb .h.w{ background:#fff; color:var(--rojo); border-left:1pt solid var(--rojo); }
+.rb .c{ height:19.5mm; margin:0 3mm; } .rb .c.w{ border-left:1pt solid var(--rojo); margin:0; padding:0 3mm; }
+.rb .c.r{ background-color:var(--rojo-claro); margin:0; padding:0 3mm; }
+
+/* dos columnas */
+.dos{ display:grid; grid-template-columns:1fr 1fr; gap:5mm; align-items:start; }
+.dos.a{ grid-template-columns:1.25fr 1fr; }
+
+/* tarjeta recortable */
+.recorte{ border:1.2pt dashed var(--gris); border-radius:2mm; padding:3.5mm; position:relative; }
+.recorte .tijera{ position:absolute; top:-3.2mm; left:6mm; background:#fff; padding:0 1.4mm; font-size:10pt; color:var(--gris); }
+.tarjeta{ background:var(--azul); color:#fff; border-radius:3mm; padding:4mm 4.5mm; text-align:center; }
+.tarjeta .he{ font-size:24pt; color:var(--oro-claro); line-height:1.1; }
+.tarjeta .gr{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:17pt; line-height:1.1; margin:.6mm 0 1.6mm; }
+.tarjeta .t{ font-size:9.6pt; margin:0 0 2.4mm; }
+.tarjeta .campo{ display:flex; gap:2mm; align-items:flex-end; font-size:9pt; text-align:left; margin-top:2mm; }
+.tarjeta .campo i{ flex:1; border-bottom:.8pt solid rgba(255,255,255,.7); height:4.5mm; }
+
+/* tres historias */
+.hist3{ display:grid; grid-template-columns:repeat(3,1fr); gap:3mm; }
+.hist3 .hist{ font-size:9.2pt; line-height:1.32; padding:2.8mm 3.2mm; }
+.hist3 .hist h3{ font-size:11pt; }
+
+/* cierre */
+.cierre{ background:var(--azul); color:#fff; border-radius:4mm; padding:2.6mm 6mm; text-align:center; }
+.cierre .he{ font-size:15pt; color:var(--oro-claro); }
+.cierre .t{ font-family:'Fredoka',sans-serif; font-weight:600; font-size:13pt; margin-top:.6mm; }
+.cierre .s{ font-size:9.4pt; opacity:.9; }
+
+.compromiso{ display:flex; align-items:flex-end; gap:3mm; font-family:'Fredoka',sans-serif; font-weight:600; font-size:12pt; color:var(--verde); }
+.compromiso i{ flex:1; height:6.5mm; border-bottom:1pt solid var(--linea); }
+
+.cinta{ display:block; width:100%; height:10mm; }
+.fill{ flex:1; }
+.din.fill{ display:flex; flex-direction:column; }
+.din.fill .mochilas{ flex:1; grid-template-rows:1fr; padding-bottom:1mm; }
+.din.fill .mochila{ height:auto; min-height:50mm; }
+.din.fill .casos{ flex:1; }
+.din.fill .caso .lineas{ flex:1; height:auto; min-height:12mm; }
+.din.fill > .lineas{ flex:1; min-height:12.5mm; }
+</style>
+</head>
+<body>
+
+<!-- ======================= PÁGINA 1 ======================= -->
+<section class="pag">
+  <header class="cab">
+    <div class="fila">
+      <h1>Yom Kipur</h1>
+      <div class="he">יוֹם כִּפּוּר</div>
+    </div>
+    <div class="sub">El gran día para empezar de nuevo</div>
+    <div class="nota">Las ideas de «Reflexiones para Kipur», contadas para chicos y chicas de 10 años · con actividades para hacer en casa o en clase</div>
+  </header>
+
+  <div class="intro">
+    <p>Yom Kipur es el día más importante del año: <b>el Día del Perdón</b>. Durante un día entero dejamos todo lo demás para hacer algo muy especial: <b>arreglar lo que salió mal y empezar de nuevo</b>. Es un día serio, sí, pero también es un regalo: Hashem nos da la oportunidad de borrar nuestros errores. ¡Sería una pena desaprovecharla!</p>
+    <p>En Kipur hacemos las paces tres veces:</p>
+  </div>
+
+  <div class="trio">
+    <div class="tarj"><span class="num">1</span><h3>Con Hashem</h3>Le pedimos perdón por lo que hicimos mal… y también por lo bueno que pudimos hacer y no hicimos.</div>
+    <div class="tarj c2"><span class="num">2</span><h3>Con los demás</h3>Hacemos las paces con la familia, los amigos, los compañeros: con cualquiera con quien nos hayamos peleado.</div>
+    <div class="tarj c3"><span class="num">3</span><h3>Conmigo mismo</h3>Quizá el más importante. Mirar mis errores sin miedo, aprender de ellos y perdonarme para ser mejor.</div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">1</span>Kal Nidré: suelta la mochila</h2>
+    <p>La noche de Kipur empieza con el <b>Kal Nidré</b>. Toda la sinagoga canta a la vez, con una melodía que pone la piel de gallina. Sus palabras deshacen las promesas del año pasado. ¿Por qué empezar así? Porque una promesa es como una cuerda: <b>nos ata</b>. En Kipur nos desatamos del pasado. Nos equivocamos, y no lo negamos; pero no vamos a seguir atados a eso. Es como volver a nacer.</p>
+    <p>Para eso hay que creer en Hashem… <b>y también creer en ti</b>: en que eres capaz de arreglar lo que salió mal y de conseguir cosas nuevas.</p>
+  </div>
+
+  <div class="aparte"><b>¡Ojo, que vale para los dos lados!</b> Si tu año fue buenísimo, no te quedes sentado. Rabán Yojanán ben Zakai decía: «Si estudiaste mucha Torá, no presumas: para eso fuiste creado». Lo que ya hiciste queda atrás. ¡Busca una montaña más alta!</div>
+
+  <div class="din fill">
+    <div class="tit"><span>Dinámica 1</span><h3>Dos mochilas</h3></div>
+    <div class="ins">En la primera mochila escribe o dibuja lo que quieres <b>dejar atrás</b>: una mala costumbre, un enfado, un «yo no puedo». En la segunda, lo que te quieres <b>llevar</b> al año nuevo.</div>
+    <div class="mochilas">
+      <div class="mochila atras"><div class="solapa">Lo dejo atrás</div><div class="dentro lineas"></div></div>
+      <div class="mochila lleva"><div class="solapa">Me lo llevo</div><div class="dentro lineas"></div></div>
+    </div>
+  </div>
+
+  <div class="pie"><span>Yom Kipur para chicos y chicas</span><span>1 / 4</span></div>
+</section>
+
+<!-- ======================= PÁGINA 2 ======================= -->
+<section class="pag">
+  <div class="sec">
+    <h2><span class="n">2</span>¿Por qué ayunamos?<small>Los niños no hacen el ayuno entero: en casa os dirán cómo lo hacéis</small></h2>
+    <p>En Kipur los mayores no comen ni beben nada. Cuando alguien pregunta «¿cuánto falta para comer?», vale la pena saber para qué sirve el ayuno. Estas son tres razones:</p>
+  </div>
+
+  <div class="trio">
+    <div class="tarj"><h3>Como los ángeles</h3>Cuando Moshé subió al monte Sinai a por las Tablas, pasó 40 días sin comer ni beber. Estaba con los ángeles, que no comen, y por respeto hizo como ellos. En Kipur pasa al revés: <b>el Cielo baja hasta nosotros</b>. Así que nos portamos como ángeles.</div>
+    <div class="tarj c2"><h3>No somos superhéroes</h3>Con hambre notamos que no somos tan fuertes como creemos. Eso nos ayuda a ser humildes y a reconocer nuestros fallos delante de Hashem. El ayuno es, además, un regalo que le hacemos: le ofrecemos nuestro propio cuerpo.</div>
+    <div class="tarj c3"><h3>Todos iguales</h3>Un día normal, unos comen manjares y otros solo un trozo de pan. En Kipur nadie come y nadie bebe: rico o pobre, todos estamos igual, esperando un buen año.</div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">3</span>Zapatos de tela</h2>
+    <p>En Kipur no nos ponemos zapatos de cuero. Antes casi todos los zapatos eran de cuero, así que la gente pasaba el día en calcetines o en zapatillas de tela. ¿Solo para estar incómodos? Hay algo más.</p>
+    <p>Cuando Hashem le pidió a Moshé que fuera a sacar al pueblo de Egipto, lo primero que le dijo fue: <b>«Quítate los zapatos»</b>. Descalzo notas cada piedra y cada agujero del camino. Para ayudar a los demás, primero hay que <b>sentir lo que sienten ellos</b>. En Kipur nos quitamos los zapatos para demostrar que estamos dispuestos a dejar un poco de nuestra comodidad por los demás.</p>
+  </div>
+
+  <div class="hist">
+    <span class="et">Historia real</span>
+    <h3>El rabino que fue a defender a la chica</h3>
+    <p>El Rab Tzvi Hirsh Broida fue un gran sabio de Europa. Un día su mujer echó en falta cosas de valor en casa y sospechó de la joven que ayudaba con la limpieza. El rabino le dijo: «No puedes tratarla mal. Si crees que ha sido ella, lo que puedes hacer es ir a un tribunal rabínico». Ella aceptó y salió hacia el tribunal… y vio que su marido cogía el abrigo para ir detrás. «No hace falta que me acompañes», le dijo. Y él contestó: <b>«No te acompaño a ti. Voy a defenderla a ella: es huérfana y no tiene a nadie que la ayude»</b>. Su mujer se quedó pensando… y cerró la puerta. Ya no fue a ninguna parte.</p>
+  </div>
+
+  <div class="din fill">
+    <div class="tit"><span>Dinámica 2</span><h3>Ponte en sus zapatos</h3></div>
+    <div class="ins">Lee cada caso. ¿Cómo se siente esa persona? ¿Qué harías tú? Si lo hacéis en grupo, cada uno puede representar un caso.</div>
+    <div class="casos">
+      <div class="caso"><div class="q">Hay un chico nuevo en clase que se sienta solo en el recreo.</div>
+        <div class="et2">Se siente…</div><div class="lineas"></div><div class="et2">Yo haría…</div><div class="lineas"></div></div>
+      <div class="caso"><div class="q">Tu hermana pequeña ha roto tu dibujo sin querer y está llorando.</div>
+        <div class="et2">Se siente…</div><div class="lineas"></div><div class="et2">Yo haría…</div><div class="lineas"></div></div>
+      <div class="caso"><div class="q">Una compañera se equivocó al leer en voz alta y la clase se rio.</div>
+        <div class="et2">Se siente…</div><div class="lineas"></div><div class="et2">Yo haría…</div><div class="lineas"></div></div>
+    </div>
+  </div>
+
+  <div class="pie"><span>Yom Kipur para chicos y chicas</span><span>2 / 4</span></div>
+</section>
+
+<!-- ======================= PÁGINA 3 ======================= -->
+<section class="pag">
+  <div class="sec">
+    <h2><span class="n">4</span>La cinta roja que se volvía blanca</h2>
+    <svg class="cinta" viewBox="0 0 400 30" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="rb" x1="0" x2="1"><stop offset="0" stop-color="#b83a2f"/><stop offset=".45" stop-color="#d9776c"/><stop offset=".75" stop-color="#fbeeee"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs>
+      <path d="M2 15 C 50 1, 90 29, 140 15 S 230 1, 280 15 S 360 29, 398 15 L 398 21 C 360 35, 320 7, 280 21 S 190 35, 140 21 S 50 7, 2 21 Z" fill="url(#rb)" stroke="#b83a2f" stroke-width="1"/>
+    </svg>
+    <p>Hace mucho tiempo, en el Templo de Jerusalén, había en Yom Kipur una cinta roja. Si Hashem perdonaba al pueblo, <b>¡la cinta se volvía blanca!</b> Como dice el profeta Yeshayahu: «Aunque vuestros pecados sean rojos, se volverán blancos como la nieve».</p>
+    <p>Al principio la cinta estaba fuera, a la vista de todos. Pero algunos años no se volvía blanca, y la gente se ponía tan triste que se hundía. La pusieron dentro para que no se viera, pero la gente se asomaba igual, y al final los sabios la quitaron del todo. ¿Por qué? ¿No era bueno saber la verdad? Sí… pero la cinta estaba para <b>mejorar</b>, y la gente la usaba para <b>ponerse triste</b>. Así no servía de nada.</p>
+    <p>Lo mismo le pasó a Caín. Hashem no aceptó su ofrenda y le dijo: «¿Por qué estás enfadado? Si lo haces bien, te irá bien». Pero Caín se quedó hundido, le entró envidia de su hermano Hével… y acabó haciendo algo terrible.</p>
+  </div>
+
+  <div class="idea">Corrige siempre… <em>pero nunca te hundas</em>.</div>
+
+  <div class="din">
+    <div class="tit"><span>Dinámica 3</span><h3>De rojo a blanco</h3></div>
+    <div class="ins">Cuando te equivocas tienes dos caminos: usar el error para mejorar, o pensar que eres un desastre. Elige el primero. En la columna roja escribe un error de este año; en la blanca, qué vas a hacer para que no se repita. Es solo para ti: no hace falta enseñarlo.</div>
+    <div class="rb">
+      <div class="h r">Me equivoqué cuando…</div><div class="h w">La próxima vez voy a…</div>
+      <div class="c r lineas"></div><div class="c w lineas"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">5</span>La puerta del Cielo está en tu corazón</h2>
+    <div class="dos a">
+      <div>
+        <p>En Kipur rezamos mucho y pedimos un buen año. ¿Sirve de algo? ¡Muchísimo! La llave que abre las puertas del Cielo es la misma que abre tu corazón. Cuando rezas <b>sintiendo</b> lo que dices, y no solo leyendo, tus rezos llegan directos.</p>
+        <p>Dentro llevas un alma, un trocito de Cielo que nunca se rompe. Por eso, si haces algo mal, <b>lo que hiciste está mal, pero tú sigues siendo bueno</b>, y puedes volver a empezar.</p>
+        <p>El rey David escribió en Tehilim que <b>Hashem es como tu sombra</b>: se porta contigo como tú te portas.</p>
+      </div>
+      <div class="hist">
+        <span class="et">Cuento</span>
+        <h3>El hacha</h3>
+        <p>Un alumno le pidió a su maestro un consejo para cambiar. El maestro le dijo: «Lo siento, hijo, he buscado la llave de tu corazón y no la encuentro». El alumno, llorando, le suplicó: «¿La llave? ¡No use una llave! ¡Use un hacha y rompa la puerta si hace falta!». Y el maestro le contestó: «Ya no hace falta. <b>Tu corazón se acaba de abrir</b>».</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="din fill">
+    <div class="tit"><span>Dinámica 4</span><h3>La prueba de la sombra</h3></div>
+    <div class="ins">Ponte al sol o junto a una lámpara. Levanta un brazo, salta, saluda: ¿qué hace tu sombra? Ahora piensa: si yo perdono, ayudo y sonrío… ¿qué hará Hashem conmigo? Escribe tres cosas buenas que tu sombra podría «copiarte» esta semana:</div>
+    <div class="lineas"></div>
+  </div>
+
+  <div class="pie"><span>Yom Kipur para chicos y chicas</span><span>3 / 4</span></div>
+</section>
+
+<!-- ======================= PÁGINA 4 ======================= -->
+<section class="pag">
+  <div class="sec">
+    <h2><span class="n">6</span>¿Perdonar? ¡Majalnu!</h2>
+    <div class="dos a">
+      <div>
+        <p>Para que nos perdonen, hay que perdonar. Casi siempre, quien nos hizo daño <b>no lo hizo a propósito</b>: no pensó, creía tener razón o fue un malentendido. ¿A que a ti también te ha pasado sin querer?</p>
+        <p>A veces una vocecita dentro nos dice: «¿Vas a dejar que se salga con la suya?», «¡No se merece tu perdón!». No le hagas caso. Los enfados pesan como piedras en la mochila, y quien los lleva eres tú. <b>Perdonar te deja libre.</b></p>
+        <p>La noche de Kipur, en las sinagogas de todo el mundo, el jazán dice: «Perdonaos unos a otros». Y todos responden a la vez: <b>«¡Majalnu! ¡Perdonamos!»</b></p>
+      </div>
+      <div class="recorte">
+        <span class="tijera">✂ Dinámica 5 · recorta y regala</span>
+        <div class="tarjeta">
+          <div class="he">מָחַלְנוּ</div>
+          <div class="gr">¡Majalnu!</div>
+          <p class="t">Perdóname si alguna vez te hice daño.<br>Yo también te perdono.<br>¡Que tengamos un año muy bueno!</p>
+          <div class="campo">Para:<i></i></div>
+          <div class="campo">De:<i></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">7</span>Tres historias de verdad</h2>
+  </div>
+  <div class="hist3">
+    <div class="hist">
+      <h3>Cinco por cinco</h3>
+      <p>Durante la Shoá, cinco chicas intentaron encender velas por una fiesta judía y las descubrieron. Iban a castigarlas muy duramente, pero una joven intérprete habló con el jefe del campo y las salvó.</p>
+      <p>Años después, una de ellas, la Sra. Gordon, ayudó con mucho dinero a una familia con <b>quintillizos</b> que no podía con los gastos. Al visitarlos vio un retrato: ¡era la joven que la salvó, la abuela de los bebés! Cinco vidas, cinco nietos. <b>Lo que das, vuelve.</b></p>
+    </div>
+    <div class="hist">
+      <h3>Tres horas</h3>
+      <p>Al Rab Ovadia Yosef, ya mayor, había que operarle del corazón enseguida. Él pidió volver antes a casa <b>tres horas</b>. ¿Para qué?</p>
+      <p>Estaba acabando un escrito para ayudar a una mujer que llevaba años sola y triste, esperando el permiso de la halajá para rehacer su vida. «Si no salgo del quirófano, ella se quedará sin ayuda», explicó. Lo terminó, volvió al hospital y todo salió bien. Cuando murió, casi un millón de personas fueron a despedirle.</p>
+    </div>
+    <div class="hist">
+      <h3>El soldado</h3>
+      <p>Hace unos 200 años, en Rusia, se llevaban a niños judíos al ejército durante 25 años. Un Yom Kipur, unos soldados judíos fueron a rezar a una sinagoga donde estaban dos grandes rabinos.</p>
+      <p>Para Neilá, el último rezo, pidieron que lo dirigiera un compañero que había sufrido muchísimo por seguir siendo judío. Él dijo: «Hashem, no te pido vida, ni hijos, ni dinero. Solo te pido una cosa: <b>Yitgadal veyitkadash Shemé rabá</b>, que Tu nombre sea grande».</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2><span class="n">8</span>Tú vales un mundo</h2>
+    <p>¿Te imaginas comprar el ordenador más potente del mundo… para usarlo de calculadora? A veces hacemos eso con nosotros mismos: tenemos talentos enormes y no los usamos.</p>
+    <p>En la Torá, Hashem cuenta al pueblo muchas veces, ¡y eso que ya sabe cuántos somos! Nos cuenta para que <b>cada uno sepa que cuenta</b>. Hashem creó al principio a una sola persona para enseñarnos que <b>una persona vale un mundo entero</b>; y por una sola persona que se arrepiente de verdad, perdona al mundo entero. Por eso cada uno puede decir: «El mundo fue creado para mí». Y esa persona eres tú.</p>
+  </div>
+
+  <div class="din">
+    <div class="tit"><span>Dinámica 6</span><h3>Mi compromiso para este año</h3></div>
+    <div class="compromiso">Este año voy a<i></i></div>
+    <div class="compromiso" style="margin-top:1.5mm"><i></i></div>
+      </div>
+
+  <div class="fill"></div>
+
+  <div class="cierre">
+    <div class="he">תִּזְכּוּ לְשָׁנִים רַבּוֹת נְעִימוֹת וְטוֹבוֹת</div>
+    <div class="t">¡Tizkú leshanim rabot, neimot vetovot!</div>
+    <div class="s">¡Que vivamos muchos años, dulces y buenos!</div>
+  </div>
+
+  <div class="pie"><span>Yom Kipur para chicos y chicas</span><span>4 / 4</span></div>
+</section>
+
+<script>
+// Comprobación de maquetación: marca las páginas cuyo contenido no cabe.
+document.fonts.ready.then(() => {
+  const malas = [...document.querySelectorAll('.pag')]
+    .map((p, i) => [i + 1, p.scrollHeight - p.clientHeight])
+    .filter(([, d]) => d > 1);
+  document.body.dataset.desborde = malas.map(([i, d]) => `${i}:${d}px`).join(' ') || 'ninguno';
+  // hueco libre que queda en cada página (para ajustar)
+  document.body.dataset.huecos = [...document.querySelectorAll('.pag')].map(p => {
+    const f = p.querySelector('.fill');
+    return f ? Math.round(f.getBoundingClientRect().height) : '-';
+  }).join(' ');
+});
+</script>
+</body>
+</html>

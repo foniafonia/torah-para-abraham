@@ -20,6 +20,13 @@ comun/
     construir.py                      monta el HTML a partir de los bloques
     gilyon-263-original.txt           el hebreo tal como queda en el HTML,
                                        para el verificador
+264-shmini-atzeret/
+  gilyon-264.html
+  gilyon-264.pdf
+  fuente/
+    contenido_a.py … contenido_f.py
+    construir.py
+    gilyon-264-original.txt
 ```
 
 ## Un número nuevo
@@ -82,3 +89,34 @@ que resta son sobre todo variantes de grafía en palabras de una sola
 aparición que no llegué a cotejar una a una por agotar el tiempo razonable
 para esta tarea — no tapan ningún error de traducción, son cuestión de una
 vav o un yod. El nikud cubre el 93% de las palabras hebreas.
+
+## Lo aprendido con el número 264
+
+Documento más largo aún (~5.500 palabras, 7 páginas): el relato del infarto
+del Rebe en Shminí Atzéret 5738, con mucho ídish transcrito en hebreo y
+decenas de nombres propios, más dos columnas de halajot (simanim 512 y 511).
+
+**El mismo error de vocalización del 263 se repitió, y a mayor escala.** Por
+ir más rápido (a petición del usuario, que ya tenía la estructura montada),
+vocalicé por defecto con grafía clásica/chaser en vez de ktiv male: kubutz
+en vez de shuruk (`מֻתָּר`, `סֻכָּה`) y jolam sin vav (`לֶאֱכֹל`, `לִרְקֹד`,
+`הִתְוַעֲדוּת`). Salió a la luz en la primera verificación: 303 letras
+sueltas. La corrección no fue campo a campo sino por **listas de pares
+palabra-mal → palabra-bien**, aplicadas con `str.replace()` global por
+archivo — pero solo después de comprobar cada par contra el PDF de origen
+(`pdftotext`) y contar cuántas veces aparecía antes de tocar nada, siguiendo
+la lección del 263. Bajó a 155 letras en dos rondas. Un par de esas
+sustituciones globales resultaron ser **falsas generalizaciones dentro del
+propio documento** (p. ej. el plural `האסורים` no lleva yod aunque el
+singular `האיסור` sí; `להכנס` va sin yod aunque otras palabras del mismo
+campo semántico la llevan) — hubo que revertirlas para esas formas
+concretas tras comprobar el original de nuevo. Confirma otra vez que ni
+siquiera una "regla general" vale para todas las formas gramaticales de la
+misma raíz dentro del mismo texto.
+
+Quedan **155 letras** sueltas sobre unas 22.000 (bajado de 303 en dos
+rondas). El nikud cubre el 94%. Lo que resta son en su mayoría restos de
+alineación de una sola aparición (nombres propios, abreviaturas con comillas
+rectas en vez de gershayim hebreo real) — se dejó de iterar ahí siguiendo la
+instrucción de ser ágil, en vez de perseguir cada letra suelta como en el
+263.

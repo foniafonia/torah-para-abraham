@@ -1,0 +1,85 @@
+/* Reutiliza la base del boletín (fuentes, colores, la rejilla .par he/es,
+   .h-sec, .h-sub, listas) y añade encima los componentes propios de un
+   gilyón tipo revista: cabecera con franja de título, líneas de
+   dedicatoria, recuadros de relato, ítems de halajá con letra hebrea y
+   el pie de anuncios. */
+@import url('../../boletin/comun/estilo.css');
+
+/* ============ CABECERA ============ */
+.memoria{
+  text-align:center; font-family:'DavidLibre',serif; direction:rtl;
+  font-size:8.2pt; color:var(--gris); background:var(--crema2);
+  border:.6pt solid var(--linea); border-radius:1.5mm;
+  padding:1.3mm 3mm; margin-bottom:2mm;
+}
+.memoria .es{ font-family:'Garamond',serif; direction:ltr; font-style:italic;
+  font-size:7.6pt; margin-top:.5mm; }
+
+.cab-revista{
+  border:1.4pt solid var(--azul); border-radius:2mm; overflow:hidden;
+  margin-bottom:2.6mm;
+}
+.cab-revista .franja{
+  background:var(--azul); color:#fff; padding:2mm 4mm;
+  display:flex; justify-content:space-between; align-items:baseline; gap:3mm;
+}
+.cab-revista .titulos{ text-align:right; }
+.cab-revista .titulos .he{ font-family:'FrankRuhl',serif; font-weight:800;
+  font-size:20pt; direction:rtl; color:#fff; line-height:1; }
+.cab-revista .titulos .sub-he{ font-family:'DavidLibre',serif; direction:rtl;
+  font-size:10.5pt; color:var(--oro-claro); margin-top:.8mm; }
+.cab-revista .titulos-es{ text-align:left; }
+.cab-revista .titulos-es .es{ font-family:'Garamond',serif; font-weight:700;
+  font-size:14pt; font-style:italic; color:#fff; }
+.cab-revista .titulos-es .sub-es{ font-family:'Garamond',serif; font-size:8.6pt;
+  color:var(--oro-claro); margin-top:.8mm; }
+.cab-revista .datos{
+  display:grid; grid-template-columns:1fr 1fr; gap:0 6mm;
+  padding:1.6mm 4mm; background:var(--crema2); font-size:7.8pt;
+}
+.cab-revista .datos .he{ font-family:'DavidLibre',serif; direction:rtl; text-align:right; }
+.cab-revista .datos .es{ font-family:'Garamond',serif; direction:ltr; text-align:left; font-style:italic; color:var(--gris); }
+
+.dedicatorias{ background:var(--crema); border:.6pt solid var(--oro-claro);
+  border-radius:1.5mm; padding:1.8mm 3.5mm; margin-bottom:2.6mm; }
+.dedicatorias .linea{ display:grid; grid-template-columns:1fr 1fr; gap:0 6mm;
+  padding:.9mm 0; border-bottom:.4pt dotted var(--linea); }
+.dedicatorias .linea:last-child{ border-bottom:none; }
+.dedicatorias .he{ font-family:'DavidLibre',serif; direction:rtl; text-align:right;
+  font-size:8pt; line-height:1.3; }
+.dedicatorias .es{ font-family:'Garamond',serif; direction:ltr; text-align:left;
+  font-size:7.6pt; line-height:1.3; font-style:italic; color:var(--gris); }
+.dedicatorias .linea.verde{ background:var(--crema2); margin:.9mm -3.5mm; padding:1.4mm 3.5mm; border:none; }
+
+/* ============ SALUDO ============ */
+.saludo{ text-align:center; font-style:italic; color:var(--oro);
+  font-family:'Garamond',serif; font-size:8.6pt; margin:1mm 0 2.6mm;
+  border-top:.5pt solid var(--linea); border-bottom:.5pt solid var(--linea);
+  padding:1.3mm 0; }
+.saludo .he{ font-family:'DavidLibre',serif; direction:rtl; display:block;
+  color:var(--azul); font-size:9pt; font-style:normal; margin-bottom:.6mm; }
+
+/* ============ RECUADRO DE RELATO ============ */
+.caja{ background:var(--crema); border-inline-start:2.4pt solid var(--oro);
+  border-radius:0 1.5mm 1.5mm 0; padding:1.8mm 3.5mm; margin:0 0 1.7mm;
+  break-inside:avoid; }
+.caja .titulo-caja{ text-align:center; font-family:'Garamond',serif;
+  font-weight:700; font-style:italic; font-size:8pt; color:var(--oro);
+  margin-bottom:1.2mm; letter-spacing:.3pt; }
+.caja .titulo-caja .he{ font-family:'DavidLibre',serif; direction:rtl;
+  display:block; font-style:normal; color:var(--azul); font-size:9pt; margin-bottom:.4mm; }
+
+/* ============ ÍTEMS DE HALAJÁ ============ */
+/* Reutiliza la rejilla .par de siempre: la letra hebrea y el número van
+   como <span class="num"> al principio de cada columna, igual que en el
+   Rambam. .halaja solo pone la letra en oro y aprieta un poco la fila. */
+.halaja .num{ font-weight:700; color:var(--oro); }
+.halaja .he .num{ font-family:'FrankRuhl',serif; }
+.halaja{ font-size:8.6pt; }
+.halaja .he, .halaja .es{ font-size:calc(1em * var(--cuerpo)); line-height:1.32; }
+
+/* ============ PIE DE ANUNCIOS ============ */
+.pie-revista{ margin-top:2.6mm; padding-top:1.6mm; border-top:.7pt solid var(--linea); }
+.pie-revista .par{ margin-bottom:1mm; }
+.pie-revista .he{ font-size:7.2pt; color:var(--gris); line-height:1.28; }
+.pie-revista .es{ font-size:6.8pt; color:var(--gris); font-style:italic; line-height:1.28; }

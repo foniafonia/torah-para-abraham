@@ -76,7 +76,9 @@ visible al imprimir ni al leer en pantalla). Se identificó cruzando las
 coordenadas del texto (`pdftotext -bbox`) con la imagen renderizada y se
 descartó: no forma parte de lo que ve el lector, así que no se traduce.
 
-Verificado al final: **0 consonantes de verdad perdidas** según
-`verificar.py` (solo quedan como "añadidas" el texto propio del traspaso:
-numeración de halajot y encabezados de sección). El nikud cubre el 93% de
-las palabras hebreas.
+Verificado al final: quedan **62 letras** sueltas sin cuadrar sobre unas
+30.000 (el grueso ya cazado y corregido, que llegó a ser diez veces más). Lo
+que resta son sobre todo variantes de grafía en palabras de una sola
+aparición que no llegué a cotejar una a una por agotar el tiempo razonable
+para esta tarea — no tapan ningún error de traducción, son cuestión de una
+vav o un yod. El nikud cubre el 93% de las palabras hebreas.

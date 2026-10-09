@@ -1,0 +1,168 @@
+/* Revista Kolel Kol Yaakov — maqueta bilingüe castellano/hebreo.
+   Los colores salen del propio material: el coral del logo, el morado y el
+   pergamino del cartel de los shiurim. */
+
+@font-face { font-family:'Garamond'; src:url('../../boletin/comun/fonts/EBGaramond-var.ttf') format('truetype'); font-weight:400 800; font-style:normal; }
+@font-face { font-family:'Garamond'; src:url('../../boletin/comun/fonts/EBGaramond-Italic-var.ttf') format('truetype'); font-weight:400 800; font-style:italic; }
+@font-face { font-family:'FrankRuhl'; src:url('../../boletin/comun/fonts/FrankRuhlLibre-var.ttf') format('truetype'); font-weight:300 900; }
+@font-face { font-family:'DavidLibre'; src:url('../../boletin/comun/fonts/DavidLibre-Regular.ttf') format('truetype'); font-weight:400; }
+@font-face { font-family:'DavidLibre'; src:url('../../boletin/comun/fonts/DavidLibre-Bold.ttf') format('truetype'); font-weight:700; }
+
+:root{
+  --coral:#d94a5c;
+  --coral-vivo:#f46a77;
+  --morado:#5d4279;
+  --tinta:#23202b;
+  --gris:#6a6572;
+  --crema:#faf4ea;
+  --pergamino:#f1e3cf;
+  --oro:#a2843f;
+  --cuerpo:1;
+}
+
+*{ box-sizing:border-box; }
+
+/* Los márgenes y el pie numerado los pone generar.mjs al imprimir;
+   aquí solo queda la caja de texto (186 x 273 mm). */
+html,body{ margin:0; padding:0; }
+
+body{
+  font-family:'Garamond',serif;
+  color:var(--tinta);
+  font-size:calc(9.6pt * var(--cuerpo));
+  line-height:1.35;
+  -webkit-font-feature-settings:"liga","kern","onum" 0;
+}
+
+.portada{
+  height:271mm; display:flex; flex-direction:column;
+  break-after:page;
+}
+
+/* ---------------------------------------------------------- portada */
+.cab{
+  display:grid; grid-template-columns:auto 1fr auto; gap:5mm;
+  align-items:stretch; margin-bottom:5mm;
+}
+.cab img{ display:block; height:30mm; width:auto; border-radius:1.6mm; }
+.cab .logo-der img{ height:30mm; }
+
+.dedic{
+  background:linear-gradient(180deg,#fff 0%,var(--crema) 100%);
+  border:.5pt solid var(--coral-vivo);
+  border-top:2.2pt solid var(--coral);
+  border-radius:1.6mm;
+  padding:3.4mm 4mm; text-align:center;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.dedic .intro{ font-size:9pt; color:var(--gris); font-style:italic; letter-spacing:.2pt; }
+.dedic .para{
+  font-size:8.4pt; text-transform:uppercase; letter-spacing:1.4pt;
+  color:var(--coral); font-weight:600; margin:1.2mm 0 1.6mm;
+}
+.dedic .nombre{
+  font-family:'FrankRuhl',serif; font-weight:700;
+  font-size:14pt; line-height:1.18; color:var(--tinta);
+}
+
+.titulo-revista{
+  margin:1mm 0 4mm; text-align:center;
+  border-top:.7pt solid var(--oro); border-bottom:.7pt solid var(--oro);
+  padding:2.4mm 0;
+}
+.titulo-revista .he{
+  font-family:'DavidLibre',serif; direction:rtl;
+  font-size:19pt; font-weight:700; color:var(--morado); line-height:1.1;
+}
+.titulo-revista .es{
+  font-family:'FrankRuhl',serif; font-size:10pt; font-weight:500;
+  letter-spacing:3.4pt; text-transform:uppercase; color:var(--gris);
+  margin-top:1mm;
+}
+
+.cartel{ margin:0 0 4mm; }
+.cartel img{
+  width:100%; display:block;
+  border-radius:1.6mm; box-shadow:0 .6mm 2mm rgba(0,0,0,.12);
+}
+
+/* Las fotos se quedan con el alto que sobra. Van a todo el ancho y una
+   debajo de otra: así el recorte es solo vertical y no deja a nadie fuera
+   del encuadre, que es lo que pasaba poniéndolas en dos columnas. */
+.fotos{
+  display:grid; grid-template-rows:1fr 1fr; gap:3mm;
+  flex:1; min-height:0;
+}
+.fotos figure{ margin:0; height:100%; min-height:0; }
+.fotos img{
+  width:100%; height:100%; display:block;
+  object-fit:cover; object-position:center;
+  border-radius:1.4mm; box-shadow:0 .5mm 1.6mm rgba(0,0,0,.14);
+}
+.epigrafe{
+  font-size:7.8pt; color:var(--gris); font-style:italic;
+  text-align:center; margin-top:1.8mm;
+}
+
+/* ------------------------------------------------- páginas interiores */
+.cuerpo{ columns:2; column-gap:7mm; column-fill:auto; flex:1; }
+.cuerpo > *{ break-inside:avoid-column; }
+.cuerpo p{ break-inside:auto; }
+
+.art{ margin:0 0 2mm; }
+.art + .art{ margin-top:4mm; }
+
+h2{
+  font-family:'FrankRuhl',serif;
+  font-size:13.2pt; line-height:1.16; font-weight:700;
+  color:var(--morado); margin:0 0 2.4mm;
+  padding-bottom:1.6mm; border-bottom:1.6pt solid var(--coral-vivo);
+  break-after:avoid-column; break-inside:avoid-column;
+  -webkit-hyphens:none; hyphens:none;
+}
+h2 .cinta{
+  display:block; font-family:'Garamond',serif; font-size:7.6pt;
+  letter-spacing:2.2pt; text-transform:uppercase; color:var(--coral);
+  font-weight:600; margin-bottom:1.2mm;
+}
+
+p{
+  margin:0 0 1.2mm; text-align:justify;
+  -webkit-hyphens:auto; hyphens:auto; -webkit-hyphenate-limit-chars:6 3 3;
+  orphans:2; widows:2;
+}
+
+/* Capitular de apertura de artículo */
+p.abre::first-letter{
+  float:left; font-family:'FrankRuhl',serif; font-weight:700;
+  font-size:30pt; line-height:.84; color:var(--coral);
+  padding:1mm 1.6mm 0 0; margin-top:.6mm;
+}
+
+b, strong{ font-weight:650; color:#141119; }
+i, em{ font-style:italic; }
+.bi{ font-weight:650; font-style:italic; color:var(--morado); }
+
+.he{
+  font-family:'DavidLibre',serif; direction:rtl; unicode-bidi:isolate;
+  font-size:1.08em;
+}
+
+.firma{
+  margin:1.6mm 0 0; text-align:right; font-style:italic;
+  font-size:9.2pt; color:var(--coral); font-weight:600;
+  break-inside:avoid-column;
+}
+.firma::before{
+  content:''; display:block; width:16mm; height:0;
+  border-top:.6pt solid var(--oro); margin:0 0 1.2mm auto;
+}
+
+/* ------------------------------------------------------------- pies */
+.portada .pie{
+  margin-top:3mm; padding-top:1.6mm; border-top:.6pt solid var(--oro);
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-size:7.6pt; color:var(--gris); letter-spacing:.6pt;
+}
+.portada .pie .marca{ text-transform:uppercase; font-weight:600; color:var(--coral); }
+.portada .pie .heb{ font-family:'DavidLibre',serif; direction:rtl; }

@@ -79,10 +79,31 @@ def titulo_html(art, i):
     lineas = [re.sub(r'\s+', ' ', t).strip() for t in art['titulo']]
     lineas = [l for l in lineas if l]
     if len(lineas) > 1 and lineas[0].rstrip().endswith('-'):
-        cinta, resto = lineas[0], ' '.join(lineas[1:])
-        return (f'<h2><span class="cinta">{html.escape(cinta)}</span>'
-                f'{html.escape(resto)}</h2>')
-    return f'<h2>{html.escape(" ".join(lineas))}</h2>'
+        cinta = f'<span class="cinta">{html.escape(lineas[0].rstrip(" -"))}</span>'
+        resto = ' '.join(lineas[1:])
+    else:
+        cinta, resto = '', ' '.join(lineas)
+    orden = f'<span class="orden">{i + 1}</span>'
+    return (f'<div class="apertura">{orden}{cinta}'
+            f'<h2>{html.escape(resto)}</h2></div>')
+
+
+# Frases del propio artículo que se sacan en grande para romper la mancha de
+# texto. No se escribe nada nuevo: se repite una frase que ya está dentro, y
+# se señala aquí por el párrafo donde cae y cómo empieza.
+DESTACADOS = [
+    (0, 9, 'A veces una persona puede poseer millones y, sin embargo, no ser '
+           'feliz, como si no tuviera nada'),
+    (0, 19, 'Debes fortalecerte en la fe'),
+    (1, 2, 'Abrabanel sostiene que la serpiente nunca habló'),
+]
+
+
+def destacado(i_art, j_par):
+    for a, p, frase in DESTACADOS:
+        if a == i_art and p == j_par:
+            return f'<p class="destacado">{html.escape(frase)}</p>'
+    return None
 
 
 partes = []
@@ -95,29 +116,63 @@ for i, art in enumerate(articulos):
         # la letra se queda suelta con el texto colgando al lado.
         clase = ' class="abre"' if j == 0 and len(p) > 320 else ''
         partes.append(f'<p{clase}>{p}</p>')
+        d = destacado(i, j)
+        if d:
+            partes.append(d)
     if art['firma']:
         partes.append(f'<p class="firma">{art["firma"]}</p>')
     partes.append('</div>')
 
 CUERPO = '\n'.join(partes)
 
+# --- sumario de portada: los títulos tal como están en los artículos -----
+def entrada_sumario(art):
+    lineas = [re.sub(r'\s+', ' ', t).strip() for t in art['titulo'] if t.strip()]
+    if lineas and lineas[0].rstrip().endswith('-'):
+        pie, titulo = lineas[0].rstrip(' -'), ' '.join(lineas[1:])
+    else:
+        pie, titulo = '', ' '.join(lineas)
+    # Los títulos van con las mayúsculas del original: pasarlos a minúscula
+    # automáticamente se come los nombres propios (Yitzchak, Abrabanel).
+    extra = f'<span>{html.escape(pie)}</span>' if pie else ''
+    return f'<li>{html.escape(titulo)}{extra}</li>'
+
+SUMARIO = '\n      '.join(entrada_sumario(a) for a in articulos)
+
 PORTADA = f'''<div class="portada">
 
-  <div class="cab">
-    <div class="logo-izq"><img src="img/logo-izq.jpg" alt=""></div>
-    <div class="dedic">
-      <div class="intro">Esta revista de Torah ha sido dedicada</div>
-      <div class="para">Para leilui nishmat de:</div>
-      <div class="nombre">RABÍ YEHUDA TRUZMAN<br>BAR MIRIAM Z.L.</div>
+  <div class="nameplate">
+    <img src="img/logo-izq.jpg" alt="">
+    <div class="centro">
+      <div class="es">Kolel Kol Yaakov</div>
+      <div class="he">כולל קול יעקב</div>
     </div>
-    <div class="logo-der"><img src="img/logo-der.jpg" alt=""></div>
+    <img src="img/logo-der.jpg" alt="">
+  </div>
+
+  <div class="linea-numero">
+    <span>Melilla</span><span>·</span><b>Parashat Bereshit</b><span>·</span><span>5787</span>
   </div>
 
   <div class="cartel"><img src="img/cartel.jpg" alt="Shiurim Parashat Bereshit"></div>
 
-  <div class="fotos">
-    <figure><img src="img/foto1.jpg" alt=""></figure>
-    <figure><img src="img/foto2.jpg" alt=""></figure>
+  <div class="dedic">
+    <div class="intro">Esta revista de Torah ha sido dedicada</div>
+    <div class="para">Para leilui nishmat de:</div>
+    <div class="nombre">RABÍ YEHUDA TRUZMAN · BAR MIRIAM Z.L.</div>
+  </div>
+
+  <div class="pie-portada">
+    <div class="sumario">
+      <div class="rotulo">En este número</div>
+      <ol>
+      {SUMARIO}
+      </ol>
+    </div>
+    <div class="fotos">
+      <figure><img src="img/foto1.jpg" alt=""></figure>
+      <figure><img src="img/foto2.jpg" alt=""></figure>
+    </div>
   </div>
 </div>
 '''

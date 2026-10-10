@@ -65,6 +65,17 @@ El PDF nuevo tiene **exactamente los mismos caracteres** que el original:
 quitar espacios, guiones de partición y pies de página, y normalizando las
 formas precompuestas del hebreo.
 
-No se añadió ni una palabra: los titulares van con las palabras del original
-(cuando viene partido en dos líneas acabando en guion, la primera se pinta
-como antetítulo) y la portada no lleva rótulos ni pies de foto inventados.
+Del texto de los artículos no se cambió nada. Lo único que se añade es
+mobiliario de revista, y es todo lo que hay:
+
+* el nombre de la cabecera, **Kolel Kol Yaakov / כולל קול יעקב**, y la línea
+  de número **Melilla · Parashat Bereshit · 5787** (palabras que ya estaban
+  en el logo, en el cartel y en el pie del original);
+* el rótulo **«En este número»** del sumario —las tres únicas palabras
+  nuevas de toda la revista—, con los títulos tal cual;
+* los numerales **1, 2, 3** que abren cada artículo;
+* tres **destacados**, que no escriben nada: repiten en grande una frase que
+  ya está dentro del propio artículo.
+
+Al comparar los dos PDF, descontando los destacados, lo único que sobra son
+esos tres numerales.

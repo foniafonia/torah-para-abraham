@@ -32,7 +32,6 @@ const pie = `<div style="${est}width:100%;padding:0 12mm;box-sizing:border-box;d
   <span style="${est}">P&aacute;g. <span class="pageNumber" style="${est}"></span> de <span class="totalPages" style="${est}"></span></span>
   <span style="${est}direction:rtl;">&#1499;&#1493;&#1500;&#1500; &#1511;&#1493;&#1500; &#1497;&#1506;&#1511;&#1489;</span>
 </div>`;
-
 const chrome = spawn(CHROME, [
   '--headless', '--disable-gpu', '--no-sandbox', '--allow-file-access-from-files',
   `--remote-debugging-port=${PUERTO}`, `--user-data-dir=${mkdtempSync(join(tmpdir(), 'chr-'))}`,

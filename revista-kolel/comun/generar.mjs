@@ -21,6 +21,9 @@ const SALIDA = process.argv[3]
   : join(dirname(HTML), basename(HTML).replace(/\.html?$/i, '') + '.pdf');
 const CHROME = process.env.CHROME || '/opt/pw-browsers/chromium';
 const PUERTO = Number(process.env.PUERTO || 9333);
+// MARGEN en mm (0 = a sangre, sin margen). PIE=0 quita el folio.
+const MARGEN = Number(process.env.MARGEN ?? 16);
+const CON_PIE = process.env.PIE !== '0';
 
 const mm = v => v / 25.4; // mm -> pulgadas
 
@@ -96,8 +99,8 @@ try {
   const imprimir = () => s.enviar('Page.printToPDF', {
     printBackground: true,
     paperWidth: mm(210), paperHeight: mm(297),
-    marginTop: mm(12), marginBottom: mm(12), marginLeft: mm(12), marginRight: mm(12),
-    displayHeaderFooter: true,
+    marginTop: mm(MARGEN), marginBottom: mm(MARGEN), marginLeft: mm(MARGEN), marginRight: mm(MARGEN),
+    displayHeaderFooter: CON_PIE,
     headerTemplate: '<span></span>',
     footerTemplate: pie,
   }, sessionId);

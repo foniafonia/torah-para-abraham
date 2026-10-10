@@ -106,94 +106,101 @@ def destacado(i_art, j_par):
     return None
 
 
-partes = []
+
+
+# `encabeza` va antes del multicolumna, a todo el ancho de la página: es la
+# apertura del artículo principal (titular y entradilla). El resto del texto,
+# y los otros dos artículos, van ya dentro de las dos columnas.
+encabeza, partes = [], []
 for i, art in enumerate(articulos):
-    partes.append('<div class="art">')
-    if art['titulo']:
-        partes.append(titulo_html(art, i))
-    for j, p in enumerate(art['cuerpo']):
-        # La capitular solo cuando hay párrafo bastante para arroparla; si no,
-        # la letra se queda suelta con el texto colgando al lado.
-        clase = ' class="abre"' if j == 0 and len(p) > 320 else ''
-        partes.append(f'<p{clase}>{p}</p>')
-        d = destacado(i, j)
+    # Solo el artículo principal abre en grande; en los cortos la entradilla
+    # se come media columna y encadena dos capitulares seguidas.
+    cuerpo_art = art['cuerpo']
+    abre_grande = i == 0 and cuerpo_art and len(cuerpo_art[0]) > 240
+
+    if abre_grande:
+        encabeza.append(titulo_html(art, i))
+        encabeza.append(f'<p class="entradilla">{cuerpo_art[0]}</p>')
+        resto, desfase = cuerpo_art[1:], 1
+        partes.append('<div class="art">')
+    else:
+        partes.append(f'<div class="art{" menor" if i else ""}">')
+        if art['titulo']:
+            partes.append(titulo_html(art, i))
+        resto, desfase = cuerpo_art, 0
+
+    for j, p in enumerate(resto):
+        capitular = j == 0 and not abre_grande and len(p) > 300
+        partes.append(f'<p{" class=\"abre\"" if capitular else ""}>{p}</p>')
+        d = destacado(i, j + desfase)
         if d:
             partes.append(d)
     if art['firma']:
         partes.append(f'<p class="firma">{art["firma"]}</p>')
     partes.append('</div>')
 
+ENCABEZA = '\n'.join(encabeza)
 CUERPO = '\n'.join(partes)
 
-# --- sumario de portada: los títulos tal como están en los artículos -----
-def entrada_sumario(art):
-    lineas = [re.sub(r'\s+', ' ', t).strip() for t in art['titulo'] if t.strip()]
-    if lineas and lineas[0].rstrip().endswith('-'):
-        pie, titulo = lineas[0].rstrip(' -'), ' '.join(lineas[1:])
-    else:
-        pie, titulo = '', ' '.join(lineas)
-    # Los títulos van con las mayúsculas del original: pasarlos a minúscula
-    # automáticamente se come los nombres propios (Yitzchak, Abrabanel).
-    extra = f'<span>{html.escape(pie)}</span>' if pie else ''
-    return f'<li>{html.escape(titulo)}{extra}</li>'
+PORTADA = '''<div class="portada">
 
-SUMARIO = '\n      '.join(entrada_sumario(a) for a in articulos)
-
-PORTADA = f'''<div class="portada">
-
-  <div class="nameplate">
-    <img src="img/logo-izq.jpg" alt="">
-    <div class="centro">
-      <div class="es">Kolel Kol Yaakov</div>
-      <div class="he">כולל קול יעקב</div>
+  <div class="franja">
+    <div class="marca">
+      <img src="img/logo-izq.jpg" alt="">
+      <div class="nombre">
+        <div class="es">Kolel Kol Yaakov</div>
+        <div class="he">כולל קול יעקב</div>
+      </div>
+      <img src="img/logo-der.jpg" alt="">
     </div>
-    <img src="img/logo-der.jpg" alt="">
+    <div class="numero">
+      <span>Melilla</span><b>Parashat Bereshit</b><span>5787</span>
+    </div>
   </div>
 
-  <div class="linea-numero">
-    <span>Melilla</span><span>·</span><b>Parashat Bereshit</b><span>·</span><span>5787</span>
+  <div class="centro">
+    <div class="cartel"><img src="img/cartel.jpg" alt="Shiurim Parashat Bereshit"></div>
+    <div class="dedic">
+      <div class="intro">Esta revista de Torah ha sido dedicada</div>
+      <div class="para">Para leilui nishmat de:</div>
+      <div class="nombre">RABÍ YEHUDA TRUZMAN · BAR MIRIAM Z.L.</div>
+    </div>
   </div>
 
-  <div class="cartel"><img src="img/cartel.jpg" alt="Shiurim Parashat Bereshit"></div>
-
-  <div class="dedic">
-    <div class="intro">Esta revista de Torah ha sido dedicada</div>
-    <div class="para">Para leilui nishmat de:</div>
-    <div class="nombre">RABÍ YEHUDA TRUZMAN · BAR MIRIAM Z.L.</div>
-  </div>
-
-  <div class="pie-portada">
-    <div class="sumario">
-      <div class="rotulo">En este número</div>
-      <ol>
-      {SUMARIO}
-      </ol>
-    </div>
-    <div class="fotos">
-      <figure><img src="img/foto1.jpg" alt=""></figure>
-      <figure><img src="img/foto2.jpg" alt=""></figure>
-    </div>
+  <div class="tira">
+    <img src="img/foto1.jpg" alt="">
+    <img src="img/foto2.jpg" alt="">
   </div>
 </div>
 '''
 
-CABEZA = '''<!DOCTYPE html>
+
+def pagina(titulo, contenido, cuerpo):
+    return f'''<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>Revista Kolel Kol Yaakov · Parashat Bereshit 5787</title>
+<title>{titulo}</title>
 <link rel="stylesheet" href="../comun/estilo.css">
-<style>:root{ --cuerpo:CUERPO; }</style>
+<style>:root{{ --cuerpo:{cuerpo}; }}</style>
 </head>
 <body>
+{contenido}
+</body>
+</html>
 '''
 
-cuerpo = sys.argv[1] if len(sys.argv) > 1 else '1'
-salida = sys.argv[2] if len(sys.argv) > 2 else f'{S}/../revista-bereshit-5787.html'
 
-doc = (CABEZA.replace('CUERPO', cuerpo) + PORTADA
-       + f'<div class="cuerpo">\n{CUERPO}\n</div>\n'
-       + '</body>\n</html>\n')
-open(os.path.abspath(salida), 'w', encoding='utf-8').write(doc)
-print(f'escrito {os.path.abspath(salida)} · {len(articulos)} artículos · '
+cuerpo = sys.argv[1] if len(sys.argv) > 1 else '1'
+base = f'{S}/..'
+
+open(f'{base}/portada.html', 'w', encoding='utf-8').write(
+    pagina('Kolel Kol Yaakov · Parashat Bereshit 5787', PORTADA, cuerpo))
+open(f'{base}/interior.html', 'w', encoding='utf-8').write(
+    pagina('Kolel Kol Yaakov · interior',
+           '<div class="blanca"></div>\n'
+           f'<div class="apertura-ancha">\n{ENCABEZA}\n</div>\n'
+           f'<div class="cuerpo">\n{CUERPO}\n</div>', cuerpo))
+
+print(f'portada.html + interior.html · {len(articulos)} artículos · '
       f'{sum(len(a["cuerpo"]) for a in articulos)} párrafos')

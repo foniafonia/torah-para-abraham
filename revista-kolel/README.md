@@ -22,16 +22,36 @@ bereshit-5787/
 
 ## Rehacer el número
 
+La portada va **a sangre** (la imagen llega al borde del papel) y el interior
+con márgenes, así que son dos pasadas de impresión y luego se unen:
+
 ```sh
-python3 revista-kolel/bereshit-5787/fuente/extraer.py     # desde fuente/
-python3 revista-kolel/bereshit-5787/fuente/construir.py 0.97
-CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  node revista-kolel/comun/generar.mjs \
-  revista-kolel/bereshit-5787/revista-bereshit-5787.html
+cd revista-kolel/bereshit-5787
+python3 fuente/extraer.py          # solo si cambia el PDF de origen
+python3 fuente/construir.py 0.95   # -> portada.html + interior.html
+CH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+CHROME="$CH" MARGEN=0  PIE=0 node ../comun/generar.mjs portada.html  /tmp/p.pdf
+CHROME="$CH" MARGEN=14       node ../comun/generar.mjs interior.html /tmp/i.pdf
+python3 ../comun/unir.py /tmp/p.pdf /tmp/i.pdf revista-bereshit-5787.pdf
 ```
 
-El argumento de `construir.py` es el cuerpo de texto: con 0.97 entra en 4
-páginas y con 0.99 se va a 5.
+El argumento de `construir.py` es el cuerpo de texto: con 0.95 el interior
+entra en 3 páginas y con 0.97 se va a 4.
+
+**Al imprimir hay que marcar «tamaño real», no «ajustar a la página»**, o la
+sangre de la portada se queda con un filo blanco.
+
+### Dos trampas de la maqueta
+
+`column-span:all` para abrir los artículos a todo el ancho **forzaba un salto
+de página por cada apertura** (de 3 páginas a 8). Y `break-inside:avoid-column`
+aplicado al contenedor del artículo obligaba a meterlo entero en una columna,
+con lo que se perdía media hoja por artículo. Por eso la apertura del artículo
+principal va en un bloque aparte, antes del multicolumna, y el «no partir»
+solo se aplica a aperturas, destacados y firmas.
+
+El interior se imprime con **una página en blanco delante**, para que Chromium
+numere los folios 2, 3 y 4 de 4; `unir.py` la descarta al juntar.
 
 ## Lo que hay que saber del PDF de origen
 
